@@ -321,16 +321,18 @@ for sid, start, dur in SCENES:
         clips[key] = [round(at, 3), _n[key]]
         voice.append(f'      <audio id="vo-{key}" class="clip" src="assets/voice/{key}.wav" data-start="{round(at, 2)}" data-duration="{_n[key]}" data-volume="1" data-track-index="2"></audio>')
         at += _n[key] + THINK
-# Music: the same calm piano track opens and closes the lesson. It plays on its own, then sits
-# under the voice (about 18 dB down) and fades; at the end it rises again after the last line.
+# Music standard for every lesson video (see video/STANDARDS.md):
+#  Opening: the track plays at full level, starts fading at 3 s and is silent by 4 s.
+#  Closing: it enters softly under the final scene, rises after the last line, then fades out.
 BED, SOLO = 0.12, 0.5
+INTRO_FADE_START, INTRO_SILENT = 3.0, 4.0
 s1 = next(x for x in SCENES if x[0] == 's1-open')
 s8 = next(x for x in SCENES if x[0] == 's8-wrap')
-intro_lane = {"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": SOLO}, {"t": INTRO - 0.6, "v": SOLO}, {"t": INTRO, "v": BED}]}]}
+intro_lane = {"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": SOLO}, {"t": INTRO_FADE_START, "v": SOLO}, {"t": INTRO_SILENT, "v": 0}]}]}
 voice_end = LEAD + _n['s8']
 outro_lane = {"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": BED}, {"t": voice_end, "v": BED}, {"t": voice_end + 1.0, "v": SOLO}]}]}
 music = [
-    f"""      <audio id="music-intro" class="clip" src="assets/bgm/track.mp3" data-start="0" data-duration="{s1[2]}" data-volume="1" data-fade-in="0.6" data-fade-out="3" data-track-index="3" data-automation='{json.dumps(intro_lane)}'></audio>""",
+    f"""      <audio id="music-intro" class="clip" src="assets/bgm/track.mp3" data-start="0" data-duration="{INTRO_SILENT}" data-volume="1" data-fade-in="0.6" data-track-index="3" data-automation='{json.dumps(intro_lane)}'></audio>""",
     f"""      <audio id="music-outro" class="clip" src="assets/bgm/track.mp3" data-start="{s8[1]}" data-duration="{s8[2]}" data-volume="1" data-fade-in="2" data-fade-out="3.5" data-track-index="3" data-automation='{json.dumps(outro_lane)}'></audio>""",
 ]
 hosts = "\n".join(
