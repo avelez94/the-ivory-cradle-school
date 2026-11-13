@@ -156,7 +156,7 @@ S1 = [
     Say('r3', 'Third, its handling history. When was the milk expressed, or the formula prepared? Has it been frozen, thawed, warmed, or offered at a feed? Those events decide whether it’s still usable.'),
     Say('n1', 'The parent’s sentence tells you where the bottle is. It doesn’t tell you whether it’s safe to offer. In this workshop you’ll learn to read a bottle the way you’d read a chart: what’s in it, what has happened to it, and which deadline applies.'),
     Say('n2', 'We use CDC as our standard for storage times, with guidance from the American Academy of Pediatrics. This guidance is for routine care of healthy babies at home in the United States. For a baby born prematurely, a baby in the hospital, or a baby with medical needs, follow the plan from the baby’s care team. Whenever formula is involved, follow the directions on the product.'),
-    Say('n3', 'Keep your Milk Handling Decision Sheet nearby. The examples in this workshop are fictional teaching examples, and you’ll use the sheet for a 2:00 a.m. decision at the end.'),
+    Say('n3', 'Keep the Milk Handling on Shift quick reference nearby. The examples in this workshop are fictional teaching examples, and at the end you’ll make a 2:00 a.m. bottle decision.'),
 ]
 
 
@@ -230,7 +230,7 @@ S2 = [
     Say('s4', 'In the freezer, at 0°F or colder, about 6 months is best, and up to 12 months is acceptable.'),
     Say('b', 'Store milk toward the back of the refrigerator or freezer, not in the door. Further inside, it’s protected from temperature changes when the door opens and closes.'),
     Say('f', 'If you don’t think the milk will be used within 4 days, CDC says to freeze it right away. And when you take milk out, use the oldest first: first in, first out.'),
-    Say('a', 'You may see different numbers in AAP materials, such as up to 9 months in a standard freezer. This course teaches the CDC times, so every answer in the video, the worksheet, and the quiz matches. If the family’s pediatrician gives different instructions, follow the family’s plan.'),
+    Say('a', 'You may see different numbers in AAP materials, such as up to 9 months in a standard freezer. This course teaches the CDC times, so every answer in the video, the quick reference, and the quiz matches. If the family’s pediatrician gives different instructions, follow the family’s plan.'),
 ]
 
 
@@ -596,7 +596,7 @@ S7 = [
     Say('a', 'Container A is a bag expressed Sunday, frozen, then moved to the fridge Monday night. The label says it was completely thawed Tuesday at 4:00 p.m.'),
     Say('b', 'Container B is a bottle warmed at 11:20 p.m. The baby fed from it until 11:45 p.m. It has been on the nightstand since.'),
     Say('c', 'Container C is a bottle of milk in the fridge door, with no label.'),
-    Say('t', 'For each one, choose use, discard, or set aside and verify. Name the rule you used. Then write one sentence you’d say to the parent in the morning. Pause the video if you need more time.'),
+    Say('t', 'For each one, choose use, discard, or set aside and verify. Name the rule you used. Then decide on one sentence you’d say to the parent in the morning. Jot your answers down if it helps, and pause the video if you need more time.'),
     Hold('h', 90),
     Say('ra', 'Container A: use it. It was completely thawed Tuesday at 4:00 p.m., so it can be used until Wednesday at 4:00 p.m., 24 hours from complete thaw. Once you warm it, the 2 hour clock starts.'),
     Say('rb', 'Container B: discard it. The warming clock ended at 1:20 a.m., and the leftover clock ended at 1:45 a.m. Both have passed.'),
@@ -606,7 +606,7 @@ S7 = [
     Say('pm', 'Here’s one way to say it.'),
     Say('pc', 'At 2:00 a.m. I used the bag that thawed Tuesday afternoon. I threw out the bottle from the 11:20 p.m. feed because it was past 2 hours. There’s an unlabeled bottle in the fridge door. I set it aside so you can check it.', CAREGIVER),
     Say('e1', 'That’s the skill: what’s in it, what has happened to it, and which deadline applies.'),
-    Say('e2', 'Keep the decision sheet with you on shift. When you’ve completed the required viewing, take the untimed five question quiz. Four correct answers earn your Certificate of Completion. Clickable sources are in the course resources.'),
+    Say('e2', 'Keep the quick reference with you on shift. When you’ve completed the required viewing, take the untimed five question quiz. Four correct answers earn your Certificate of Completion. Clickable sources are in the course resources.'),
     Gap(6),
 ]
 
@@ -643,7 +643,7 @@ def v7(T):
           <div id="m7-quiz" style="margin-top:40px;font:500 38px/1.4 'DM Sans'">Next: the untimed five question quiz. Four correct earns your Certificate of Completion. Clickable sources are in the course resources.</div>
         </div>
       </div>'''
-    cd, cdt = countdown('m7-cd', T('h'), 90, 'Worksheet time')
+    cd, cdt = countdown('m7-cd', T('h'), 90, 'Pause and decide')
     cd2, cdt2 = countdown('m7-cd2', T('ph'), 15, 'Say it out loud')
     m += cd + cd2
     tw = panel('#m7-case', 0.2, T('ra'))

@@ -128,14 +128,14 @@ export const MILK_HANDLING = {
   sortOrder: 20,
   priceCents: 2500,
   media: 'course-media/milk-handling-on-shift',
-  worksheetFile: 'milk-handling-decision-sheet.pdf',
+  worksheetFile: 'milk-handling-on-shift-reference.pdf',
   draft: {
     title: 'Milk Handling on Shift',
     category: 'Feeding & Lactation',
     summary:
       'Decide whether a bottle is safe to offer based on what it contains, how it was handled, and which deadline applies. Practice storing, thawing, warming, and combining breast milk, preparing formula safely, and making a 2 a.m. bottle decision.',
     description:
-      'You arrive for an overnight shift and the parent says, “There’s a bottle in the fridge if you need it.” This workshop teaches you to read that bottle: which baby it is for, what it contains, and what has happened to it. You will label and store fresh milk, freeze, thaw, and transport it, swirl, combine, and warm it, prepare formula safely, and compare the two milk clocks before a 2 a.m. decision with three containers. Plan on about 20 minutes of video and guided practice, a printable decision sheet, and an untimed five question quiz.',
+      'You arrive for an overnight shift and the parent says, “There’s a bottle in the fridge if you need it.” This workshop teaches you to read that bottle: which baby it is for, what it contains, and what has happened to it. You will label and store fresh milk, freeze, thaw, and transport it, swirl, combine, and warm it, prepare formula safely, and compare the two milk clocks before a 2 a.m. decision with three containers. Plan on about 20 minutes of video and guided practice, a printable quick reference, and an untimed five question quiz.',
     scope:
       'Routine care of healthy babies at home in the United States. Storage times follow CDC, with clinical guidance from the American Academy of Pediatrics. For a premature, hospitalized, or medically vulnerable baby, follow the care team’s plan, and always follow the directions on formula products. Cases are fictional teaching examples.',
     audience: [
@@ -151,11 +151,11 @@ export const MILK_HANDLING = {
     ],
     included: [
       'A video workshop of about 20 minutes with captions and guided practice',
-      'A printable one page Milk Handling Decision Sheet with clickable sources',
+      'A printable one page quick reference with clickable sources',
       'An untimed five question quiz',
       'A Certificate of Completion when you score at least 4 out of 5',
     ],
-    worksheetLabel: 'Milk Handling Decision Sheet',
+    worksheetLabel: 'Milk Handling on Shift Quick Reference',
     estimatedMinutes: 35,
     image: '/images/feeding-support-on-shift.jpg',
     imageAlt: 'A mother in an orange top holds her baby close and supports the bottle while the baby feeds and looks up at her.',
