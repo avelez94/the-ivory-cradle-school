@@ -11,18 +11,27 @@ from pathlib import Path
 OUT = Path(__file__).parent / 'first-overnight-shift'
 (OUT / 'compositions').mkdir(parents=True, exist_ok=True)
 
-SCENES = [
-    # id, start, duration, title
-    ('s1-open', 0, 25),
-    ('s2-ask', 25, 55),
-    ('s3-unclear', 80, 45),
-    ('s4-sleep', 125, 54),
-    ('s5-feeding', 179, 66),
-    ('s6-escalate', 245, 57),
-    ('s7-log', 302, 66),
-    ('s8-wrap', 368, 38),
-]
-TOTAL = 406
+# Script edit targets (seconds). The film is retimed to the recorded narration in narration.json.
+TARGET = {'s1-open': 25, 's2-ask': 55, 's3-unclear': 45, 's4-sleep': 54, 's5-feeding': 66, 's6-escalate': 57, 's7-log': 66, 's8-wrap': 38}
+LEAD, TAIL, THINK = 0.8, 1.6, 3.0  # silence before each scene's voice, after it, and the scene 3 thinking beat
+_n = json.loads((OUT / 'narration.json').read_text())['lengths']
+DUR = {
+    's1-open': LEAD + _n['s1'] + TAIL,
+    's2-ask': LEAD + _n['s2'] + TAIL,
+    's3-unclear': LEAD + _n['s3a'] + THINK + _n['s3b'] + TAIL,
+    's4-sleep': LEAD + _n['s4'] + TAIL,
+    's5-feeding': LEAD + _n['s5'] + TAIL,
+    's6-escalate': LEAD + _n['s6'] + TAIL,
+    's7-log': LEAD + _n['s7'] + TAIL,
+    's8-wrap': LEAD + _n['s8'] + TAIL,
+}
+DUR = {k: round(v, 2) for k, v in DUR.items()}
+SCENES, _t = [], 0.0
+for sid in TARGET:
+    SCENES.append((sid, round(_t, 2), DUR[sid]))
+    _t += DUR[sid]
+TOTAL = round(_t, 2)
+PAUSE = round(LEAD + _n['s3a'], 2)  # scene 3: the thinking beat starts here
 
 BASE_CSS = """
 @font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
@@ -42,7 +51,16 @@ BASE_CSS = """
 .src { position: absolute; left: 96px; top: 792px; font: 500 28px 'DM Sans'; color: #69554A; letter-spacing: 0.02em; }
 """
 
-def scene(sid, dur, markup, tweens, extra_css=''):
+import re as _re
+
+def _scale(tweens, k):
+    tweens = _re.sub(r'(\},\s*)(\d+(?:\.\d+)?)\);', lambda m: f"{m.group(1)}{round(float(m.group(2)) * k, 2)});", tweens)
+    return _re.sub(r'stagger: (\d+(?:\.\d+)?)', lambda m: f"stagger: {round(float(m.group(1)) * k, 2)}", tweens)
+
+def scene(sid, _target, markup, tweens, extra_css=''):
+    dur = DUR[sid]
+    if sid != 's3-unclear':
+        tweens = _scale(tweens, dur / TARGET[sid])
     first_opacity = 1 if sid == 's1-open' else 0
     return f"""<template>
   <style>{BASE_CSS}{extra_css}
@@ -149,14 +167,14 @@ files['s3-unclear'] = scene('s3-unclear', 45, MARK + """
       </div>
       <div id="s3-readback" style="position:absolute;left:0;right:0;top:780px;text-align:center;font:500 34px 'DM Sans';color:#69554A">Record an estimate as an estimate. Read the plan back.</div>""", "\n".join([
     "    tl.fromTo('.s3-note', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 2.2 }, 1);",
-    blur_in('#s3-ask', 9),
+    blur_in('#s3-ask', round(PAUSE - 3.2, 2)),
     # three second thinking beat (12 s to 15 s), then the answer
-    fade('#s3-beat', 12, 0.4, 0),
-    out('#s3-beat', 15, 0.25),
-    out('#s3-ask', 15.2, 0.3),
+    fade('#s3-beat', PAUSE, 0.4, 0),
+    out('#s3-beat', round(PAUSE + THINK, 2), 0.25),
+    out('#s3-ask', round(PAUSE + THINK + 0.2, 2), 0.3),
     "    tl.set('#s3-answer', { opacity: 0 }, 0);",
-    blur_in('#s3-answer', 15.6),
-    fade('#s3-readback', 33),
+    blur_in('#s3-answer', round(PAUSE + THINK + 0.6, 2)),
+    fade('#s3-readback', round(PAUSE + THINK + _n['s3b'] * 0.72, 2)),
 ]))
 
 # 4 · Check the sleep space (2:05 to 2:59): overhead view of an empty bassinet with a mannequin
@@ -305,6 +323,14 @@ files['s8-wrap'] = scene('s8-wrap', 38, MARK + """
 for sid, body in files.items():
     (OUT / 'compositions' / f'{sid}.html').write_text(body)
 
+voice, clips = [], {}
+for sid, start, dur in SCENES:
+    keys = ['s3a', 's3b'] if sid == 's3-unclear' else [sid.split('-')[0]]
+    at = start + LEAD
+    for key in keys:
+        clips[key] = [round(at, 3), _n[key]]
+        voice.append(f'      <audio id="vo-{key}" class="clip" src="assets/voice/{key}.wav" data-start="{round(at, 2)}" data-duration="{_n[key]}" data-volume="1" data-track-index="2"></audio>')
+        at += _n[key] + THINK
 hosts = "\n".join(
     f'      <div id="{sid}" data-composition-id="{sid}" data-composition-src="compositions/{sid}.html" data-start="{start}" data-duration="{dur}" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>'
     for sid, start, dur in SCENES
@@ -323,11 +349,12 @@ hosts = "\n".join(
     </style>
   </head>
   <body>
-    <!-- The First Overnight Shift: eight scenes timed to the approved script (6:46).
-         Narration is not recorded yet: add it as an <audio id="narration"> clip and resync the scene starts. -->
+    <!-- The First Overnight Shift: eight scenes from the approved script.
+         Narrated with the Kokoro Heart voice (af_heart). Scenes are timed to the voice clips. -->
     <div id="root" data-composition-id="main" data-start="0" data-duration="{TOTAL}" data-width="1920" data-height="1080" data-fps="30">
       <div id="ground"></div>
 {hosts}
+{chr(10).join(voice)}
     </div>
     <script>
       window.__timelines = window.__timelines || {{}};
@@ -336,4 +363,5 @@ hosts = "\n".join(
   </body>
 </html>
 """)
-print('wrote', len(files), 'scenes')
+(OUT / 'timeline.json').write_text(json.dumps({'total': TOTAL, 'scenes': SCENES, 'voice': clips}, indent=2) + '\n')
+print('wrote', len(files), 'scenes;', TOTAL, 'seconds')

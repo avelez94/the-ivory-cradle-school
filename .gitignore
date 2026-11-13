@@ -24,3 +24,5 @@ next-env.d.ts
 /video/render
 /video/render.log
 /video/first-overnight-shift/.hyperframes
+/video/narration.log
+/video/first-overnight-shift/assets/voice/test.wav

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Builds the WebVTT caption track for The First Overnight Shift from the approved narration.
 
-Cues are timed to the scene edit targets. When the narration is recorded, retime these cues
-to the audio (or export captions from the final narration) and re-check every number and unit.
+Cues are timed inside each recorded voice clip (timeline.json, written by build-scenes.py),
+spread by length across the clip. Numbers and units are written as figures.
 """
+import json
 import re
 from pathlib import Path
 
@@ -51,14 +52,15 @@ def place(pieces, start, end):
     return cues
 
 
+timeline = json.loads((Path(__file__).parent / 'first-overnight-shift' / 'timeline.json').read_text())
+clips = timeline['voice']
+keys = ['s1', 's2', ['s3a', 's3b'], 's4', 's5', 's6', 's7', 's8']
 cues = []
-for start, end, text in SCENES:
+for (_, _, text), key in zip(SCENES, keys):
     parts = text.split('||')
-    if len(parts) == 2:  # scene 3: speak until 12 s, hold three seconds, resume at 15 s
-        cues += place(chunks(parts[0]), start + 0.5, start + 12)
-        cues += place(chunks(parts[1]), start + 15, end - 0.8)
-    else:
-        cues += place(chunks(text), start + 0.5, end - 0.8)
+    for part, k in zip(parts, key if isinstance(key, list) else [key]):
+        start, length = clips[k]
+        cues += place(chunks(part), start, start + length)
 
 lines = ['WEBVTT', '', 'NOTE The First Overnight Shift. Captions from the approved narration script.', '']
 for i, (a, b, text) in enumerate(cues, 1):
