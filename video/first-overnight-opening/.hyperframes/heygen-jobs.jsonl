@@ -1,0 +1,5 @@
+{"at":"2026-11-13T15:36:07.200Z","what":"generate image heygen/parent-doorway.png","route":"/v3/images","id":"tpi_6fcebb49034cc529ebdb7c91deedb61afd76b77c426954ac3ce53f1902183706","key":"hf-051564db16ad646314f81029031603bd5663d3d3","status":"completed","credits":56}
+{"at":"2026-11-13T15:36:26.298Z","what":"generate voice heygen/parent-line.mp3","route":"/v3/voices/speech","id":"","key":"hf-95ed813b84c7a6923c2b2ec940f600d0d68af41f","status":"completed","credits":5}
+{"at":"2026-11-13T15:36:50.062Z","what":"generate video heygen/parent-clip-raw.mp4","route":"/v3/models/videos","id":"8336d6b5f88541bbbb74ba0fdc7e2a63","key":"hf-2d0c50869702f50f68d60a4ce548b044dbd4d831","status":"pending","credits":300}
+{"at":"2026-11-13T15:36:51.526Z","what":"generate voice heygen/specialist-response.mp3","route":"/v3/voices/speech","id":"","key":"hf-9257922a4237536c9fd9d118d7008cdc444216a4","status":"completed","credits":13}
+{"at":"2026-11-13T15:37:06.539Z","what":"generate video heygen/parent-clip-raw.mp4","route":"/v3/models/videos","id":"8336d6b5f88541bbbb74ba0fdc7e2a63","key":"hf-2d0c50869702f50f68d60a4ce548b044dbd4d831","status":"completed","credits":300}

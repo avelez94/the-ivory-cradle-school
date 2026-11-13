@@ -17,7 +17,7 @@ VOICE = 'af_heart'
 
 # Spoken form of the approved narration (numbers written as they should be said).
 NARRATION = {
-    's1': "It's nine at night. You're arriving for your first overnight shift, and the parents are ready to go to bed. Before you take over, you need a few details that will guide the rest of the night. In this lesson, you'll practice the arrival conversation, the safety checks, and the morning handoff.",
+    # Scene 1 has no narration: it opens on the HeyGen parent clip and the specialist's model response.
     's2': "Start by asking when and how the baby last fed, how much they took if measured, and what the plan is for the next feed. Ask how the parents want to handle direct nursing, bottles, or both, and which instructions came from the baby's clinician. Ask when to wake a parent and how to reach them. Confirm the home's address and the pediatrician's after-hours number. Locate the sleep space, clean feeding supplies, and diaper supplies before you need them. If the baby has a clinician-directed plan, ask where it's written and clarify anything you can't confidently follow before accepting responsibility for that task.",
     's3a': "One parent thinks the baby last fed at seven thirty. The other thinks it was closer to eight. What would you clarify before they head to bed?",
     's3b': "Ask for their best estimate, then confirm what to do if the timing is uncertain. You could say, \"If we aren't sure about the last feed, when should I wake you, and what's the plan if the baby cues sooner?\" Record an estimate as an estimate. Read the plan back so everyone knows what you agreed to.",

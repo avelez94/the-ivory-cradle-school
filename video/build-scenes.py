@@ -16,8 +16,21 @@ TARGET = {'s1-open': 25, 's2-ask': 55, 's3-unclear': 45, 's4-sleep': 54, 's5-fee
 LEAD, TAIL, THINK = 0.8, 1.6, 3.0  # silence before each scene's voice, after it, and the scene 3 thinking beat
 INTRO, OUTRO = 3.5, 5.0  # music on its own before the first line and after the last one
 _n = json.loads((OUT / 'narration.json').read_text())['lengths']
+
+# Opening (scene 1): title card while the opening music plays, the parent at the nursery door (HeyGen),
+# an 8 second freeze frame exercise, then the specialist's model response (HeyGen voice Deirdre).
+import wave
+with wave.open(str(OUT / 'assets' / 'voice' / 's1-response.wav')) as _w:
+    OPEN_VO_LEN = round(_w.getnframes() / _w.getframerate(), 3)
+OPEN_CLIP_AT, OPEN_CLIP_LEN = 3.5, 5.1      # the clip ends on his last natural expression
+OPEN_PARENT_SPEECH = (0.61, 3.48)            # the line inside the clip
+OPEN_FREEZE_AT, OPEN_FREEZE_LEN = OPEN_CLIP_AT + OPEN_CLIP_LEN, 8.0
+OPEN_REVEAL_AT = OPEN_FREEZE_AT + OPEN_FREEZE_LEN
+OPEN_VO_AT = OPEN_REVEAL_AT + 0.4
+OPEN_VO_SPEECH = (0.34, 10.5)                # speech inside s1-response.wav
+OPEN_TAKEAWAYS = (1.5, 6.8, 8.0)             # feeding plan, sleep setup, when to wake a parent (seconds into the response)
 DUR = {
-    's1-open': INTRO + _n['s1'] + TAIL,
+    's1-open': OPEN_VO_AT + OPEN_VO_LEN + TAIL,
     's2-ask': LEAD + _n['s2'] + TAIL,
     's3-unclear': LEAD + _n['s3a'] + THINK + _n['s3b'] + TAIL,
     's4-sleep': LEAD + _n['s4'] + TAIL,
@@ -60,7 +73,7 @@ def _scale(tweens, k):
 
 def scene(sid, _target, markup, tweens, extra_css=''):
     dur = DUR[sid]
-    if sid != 's3-unclear':
+    if sid not in ('s1-open', 's3-unclear'):  # these two are timed in seconds, not stretched from targets
         tweens = _scale(tweens, dur / TARGET[sid])
     first_opacity = 1 if sid == 's1-open' else 0
     return f"""<template>
@@ -88,46 +101,64 @@ def blur_in(sel, at):
     return f"    tl.fromTo('{sel}', {{ opacity: 0, filter: 'blur(8px)' }}, {{ opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }}, {at});"
 
 def out(sel, at, dur=0.35):
+    if isinstance(sel, list):
+        sel = '[' + ', '.join(f"'{x}'" for x in sel) + ']'
+        return f"    tl.to({sel}, {{ opacity: 0, duration: {dur}, ease: 'power2.in' }}, {at});"
     return f"    tl.to('{sel}', {{ opacity: 0, duration: {dur}, ease: 'power2.in' }}, {at});"
 
 MARK = '      <img class="mark" src="assets/wordmark.png" alt="">'
 files = {}
 
-# 1 · Open the lesson (0:00 to 0:25)
-files['s1-open'] = scene('s1-open', 25, """
-      <img id="s1-logo" src="assets/wordmark.png" alt="The Ivory Cradle School" style="position:absolute;left:660px;top:330px;width:600px">
-      <div id="s1-clock" style="position:absolute;left:0;right:0;top:250px;text-align:center">
-        <svg width="380" height="380" viewBox="0 0 200 200" aria-label="A clock at nine o'clock">
-          <circle cx="100" cy="100" r="92" fill="#FFFAF1" stroke="#30241F" stroke-width="6"/>
-          <g stroke="#8E3C2E" stroke-width="4" stroke-linecap="round">
-            <line x1="100" y1="16" x2="100" y2="30"/><line x1="184" y1="100" x2="170" y2="100"/><line x1="100" y1="184" x2="100" y2="170"/><line x1="16" y1="100" x2="30" y2="100"/>
-          </g>
-          <g id="s1-hour"><line x1="100" y1="100" x2="100" y2="54" stroke="#30241F" stroke-width="9" stroke-linecap="round"/></g>
-          <g id="s1-min"><line x1="100" y1="100" x2="100" y2="30" stroke="#30241F" stroke-width="5" stroke-linecap="round"/></g>
-          <circle cx="100" cy="100" r="7" fill="#8E3C2E"/>
-        </svg>
-        <div class="h" style="font-size:96px;margin-top:20px">9:00 p.m.</div>
+# 1 · Open the lesson: the parent at the nursery door (HeyGen clip), a freeze frame exercise, then a
+# model response with the three things to confirm. Times are seconds into the scene.
+files['s1-open'] = scene('s1-open', 25, f"""
+      <div id="s1-title" style="position:absolute;left:96px;right:96px;top:300px;text-align:center">
+        <img src="assets/wordmark.png" alt="" style="width:360px;display:block;margin:0 auto">
+        <h1 class="h" style="font-size:132px;margin-top:40px">The First Overnight Shift</h1>
       </div>
-      <div id="s1-title" style="position:absolute;left:96px;right:96px;top:230px;text-align:center">
-        <div style="font:700 28px 'DM Sans';letter-spacing:.13em;text-transform:uppercase;color:#8E3C2E">The Ivory Cradle School · Mini course</div>
-        <h1 class="h" style="font-size:150px;margin-top:28px">The First Overnight Shift</h1>
-        <div id="s1-steps" style="display:flex;justify-content:center;gap:22px;margin-top:64px">
-          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#30241F;color:#FFFAF1">Arrive</span>
-          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#8E3C2E;color:#FFFAF1">Care</span>
-          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#79533F;color:#FFFAF1">Document</span>
-          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#49362E;color:#FFFAF1">Hand off</span>
+      <video id="s1-clip" src="assets/opening/parent-doorway.mp4" data-start="{OPEN_CLIP_AT}" data-duration="{OPEN_CLIP_LEN}" data-media-start="0" data-has-audio="true" data-track-index="0" style="position:absolute;left:0;top:0;width:1920px;height:1080px"></video>
+      <img id="s1-freeze" src="assets/opening/parent-freeze.png" alt="" data-start="{OPEN_FREEZE_AT}" data-duration="{OPEN_FREEZE_LEN}" data-track-index="0" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
+      <div id="s1-dim" style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(30,22,19,0.9) 0%, rgba(30,22,19,0.84) 38%, rgba(30,22,19,0.38) 56%, rgba(30,22,19,0.28) 100%)"></div>
+      <div id="s1-time" style="position:absolute;left:96px;top:72px;padding:12px 22px;background:rgba(30,22,19,0.72);font:700 30px 'DM Sans';letter-spacing:.1em;color:#FFFAF1">9:00 P.M.</div>
+      <div id="s1-ask" data-hold style="position:absolute;left:96px;top:200px;width:800px">
+        <div style="display:inline-block;font:700 30px 'DM Sans';letter-spacing:.12em;text-transform:uppercase;padding:12px 22px;background:#8E3C2E;color:#FFFAF1">Pause and practice</div>
+        <div style="margin-top:30px;font:800 80px/1.06 'Bricolage Grotesque';letter-spacing:-0.035em;color:#FFFAF1">What would you confirm before taking over the shift?</div>
+      </div>
+      <div id="s1-cue" style="position:absolute;left:96px;top:690px;width:780px;font:500 46px/1.3 'DM Sans';color:#F3E7CF">Pause here and name three things you’d ask.</div>
+      <div id="s1-reveal" style="position:absolute;inset:0;background:#F8F1E6">
+{MARK}
+        <div class="kicker">One way to ask</div>
+        <div id="s1-quote" style="position:absolute;left:96px;top:190px;width:1060px;font:500 52px/1.36 'DM Sans';color:#30241F">
+          “Before you go, can we review <span id="s1-ph1">when the baby last fed and what you’d like me to do for the next feed</span>? Can you show me <span id="s1-ph2">where the baby sleeps</span> and tell me <span id="s1-ph3">when and how you’d like me to wake you</span>?”
+        </div>
+        <div style="position:absolute;left:1240px;top:200px;width:584px">
+          <div class="h" style="font-size:52px">Confirm before you take over</div>
+          <div style="margin-top:30px;display:flex;flex-direction:column;gap:22px">
+            <div class="s1-take" id="s1-t1" style="font:700 46px 'DM Sans';padding:24px 30px;border:3px solid #30241F">1 Feeding plan</div>
+            <div class="s1-take" id="s1-t2" style="font:700 46px 'DM Sans';padding:24px 30px;border:3px solid #30241F">2 Sleep setup</div>
+            <div class="s1-take" id="s1-t3" style="font:700 46px 'DM Sans';padding:24px 30px;border:3px solid #30241F">3 When to wake a parent</div>
+          </div>
         </div>
       </div>""", "\n".join([
-    out('#s1-logo', 3.6),
-    "    tl.set('#s1-clock', { opacity: 0 }, 0);",
-    fade('#s1-clock', 4.1, 0.7, 0),
-    # the minute hand sweeps the final five minutes to nine o'clock, then holds
-    "    tl.fromTo('#s1-min', { rotation: -30, svgOrigin: '100 100' }, { rotation: 0, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 4.3);",
-    "    tl.fromTo('#s1-hour', { rotation: -92.5, svgOrigin: '100 100' }, { rotation: -90, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 4.3);",
-    out('#s1-clock', 12),
-    "    tl.set('#s1-title', { opacity: 0 }, 0);",
-    blur_in('#s1-title', 12.5),
-    "    tl.fromTo('.s1-step', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', stagger: 0.9 }, 15.5);",
+    out('#s1-title', OPEN_CLIP_AT - 0.3, 0.3),
+    "    tl.set(['#s1-dim', '#s1-ask', '#s1-cue', '#s1-reveal'], { opacity: 0 }, 0);",
+    "    tl.set('#s1-time', { opacity: 0 }, 0);",
+    fade('#s1-time', OPEN_CLIP_AT + 0.3, 0.5, 0),
+    # freeze frame exercise: dim the last frame, then the question and the cue; answers stay hidden
+    f"    tl.fromTo('#s1-dim', {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: 'power2.out' }}, {OPEN_FREEZE_AT});",
+    fade('#s1-ask', OPEN_FREEZE_AT + 0.4),
+    fade('#s1-cue', OPEN_FREEZE_AT + 1.2, 0.6, 16),
+    out(['#s1-time'], OPEN_REVEAL_AT - 0.4),
+    # the reveal: the specialist's words on screen while they are spoken, each takeaway lit as it is said
+    f"    tl.fromTo('#s1-reveal', {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: 'power2.out' }}, {OPEN_REVEAL_AT});",
+    out(['#s1-ask', '#s1-cue', '#s1-dim'], OPEN_REVEAL_AT + 0.6, 0.2),
+    fade('#s1-quote', OPEN_VO_AT - 0.2, 0.6, 16),
+    f"    tl.fromTo('.s1-take', {{ opacity: 0, x: 24 }}, {{ opacity: 0.35, x: 0, duration: 0.5, ease: 'expo.out', stagger: 0.12 }}, {OPEN_REVEAL_AT + 0.3});",
+] + [
+    line for i, at in enumerate(OPEN_TAKEAWAYS, 1) for line in (
+        f"    tl.to('#s1-ph{i}', {{ color: '#8E3C2E', duration: 0.3 }}, {round(OPEN_VO_AT + at, 2)});",
+        f"    tl.to('#s1-t{i}', {{ opacity: 1, backgroundColor: '#8E3C2E', borderColor: '#8E3C2E', color: '#FFFAF1', duration: 0.4, ease: 'power2.out' }}, {round(OPEN_VO_AT + at, 2)});",
+    )
 ]))
 
 # 2 · Ask before the parents go to sleep (0:25 to 1:20)
@@ -315,6 +346,12 @@ for sid, body in files.items():
 
 voice, clips = [], {}
 for sid, start, dur in SCENES:
+    if sid == 's1-open':
+        # the parent's line plays from the clip itself; the model response is a separate voice track
+        clips['p1'] = [round(start + OPEN_CLIP_AT + OPEN_PARENT_SPEECH[0], 3), round(OPEN_PARENT_SPEECH[1] - OPEN_PARENT_SPEECH[0], 3)]
+        clips['s1r'] = [round(start + OPEN_VO_AT + OPEN_VO_SPEECH[0], 3), round(OPEN_VO_SPEECH[1] - OPEN_VO_SPEECH[0], 3)]
+        voice.append(f'      <audio id="vo-s1r" class="clip" src="assets/voice/s1-response.wav" data-start="{round(start + OPEN_VO_AT, 2)}" data-duration="{OPEN_VO_LEN}" data-volume="1" data-track-index="2"></audio>')
+        continue
     keys = ['s3a', 's3b'] if sid == 's3-unclear' else [sid.split('-')[0]]
     at = start + (INTRO if sid == 's1-open' else LEAD)
     for key in keys:
@@ -354,7 +391,8 @@ hosts = "\n".join(
   </head>
   <body>
     <!-- The First Overnight Shift: eight scenes from the approved script.
-         Narrated with the Kokoro Heart voice (af_heart). Scenes are timed to the voice clips. -->
+         Opens on a HeyGen clip of the parent at the nursery door (voice Brodie), a freeze frame exercise and
+         the specialist's model response (HeyGen voice Deirdre); the rest is narrated with Kokoro Heart (af_heart). -->
     <div id="root" data-composition-id="main" data-start="0" data-duration="{TOTAL}" data-width="1920" data-height="1080" data-fps="30">
       <div id="ground"></div>
 {hosts}
