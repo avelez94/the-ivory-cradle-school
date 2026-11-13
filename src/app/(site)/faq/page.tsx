@@ -71,7 +71,7 @@ const FAQS: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: 'How much do mini courses cost?',
-    a: 'The First Overnight Shift is $25. The price includes the video lesson, the worksheet, the quiz, and your Certificate of Completion. Each course page lists its price.',
+    a: 'The First Overnight Shift is $10. The price includes the video lesson, the worksheet, the quiz, and your Certificate of Completion. Each course page lists its price.',
   },
 ]
 
