@@ -32,3 +32,13 @@ To change the student download, replace the quick reference PDF and publish a ne
 7. The 2:00 a.m. bottle decision: containers A (use), B (discard), C (set aside and verify), 90 seconds to decide with chimes, a say it out loud practice, and the close.
 
 Quiz answer key (staff only): 1 C, 2 B, 3 D, 4 A, 5 B. Explanations and citations are in `db/seed/courses.mjs`.
+
+## Test results (2026-11-13)
+
+Full student journey against Milk Handling on Shift on a fresh, seeded database, desktop and phone (`COURSE=milk-handling-on-shift node tests/e2e/student-journey.mjs`), playing the 20:18 lesson in real time: **46 of 46 checks passed.**
+
+- Viewing: progress saved and resumed on another device; forward seeking, faster playback, forged progress and a fake "ended" report are all refused by the server.
+- Quiz: 4 of 5 passes; answer key never sent to the browser; double clicks and duplicate submissions never add attempts or certificates; three failures lock the quiz until a full rewatch, then three fresh attempts.
+- Certificate: one per enrollment, prints "Milk Handling on Shift" and the confirmed name; the QR code opens verification with the serial filled in; the same file and serial after signing out and back in.
+- Access control, public verification states (Valid, Expired, Revoked, Replaced, Not valid), rate limiting, and staff tools all pass.
+- The old Feeding Support on Shift link returns a permanent redirect to this course.
