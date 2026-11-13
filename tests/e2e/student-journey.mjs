@@ -39,7 +39,17 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex')
 const shot = (page, name, full = true) => page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: full })
 
-const CORRECT = [1, 3, 0, 2, 1] // answer key for The First Overnight Shift (server side only)
+// Which course to run against: COURSE=feeding-support-on-shift node tests/e2e/student-journey.mjs
+// Answer keys live on the server only; the test needs them to choose right and wrong answers.
+const COURSES = {
+  'the-first-overnight-shift': { title: 'The First Overnight Shift', key: [1, 3, 0, 2, 1] },
+  'feeding-support-on-shift': { title: 'Feeding Support on Shift', key: [1, 2, 0, 1, 3] },
+}
+const SLUG = process.env.COURSE || 'the-first-overnight-shift'
+const COURSE = COURSES[SLUG]
+if (!COURSE) throw new Error(`unknown COURSE ${SLUG}`)
+const CORRECT = COURSE.key
+const LESSON_SECONDS = Number(JSON.parse(fs.readFileSync(path.join(process.cwd(), 'private-assets', 'course-media', SLUG, 'manifest.json'), 'utf8')).durationSeconds)
 
 async function register(page, name, email) {
   await page.goto(`${BASE}/register`)
@@ -59,7 +69,7 @@ async function signIn(page, email, password = PASSWORD) {
 }
 
 async function enroll(page) {
-  await page.goto(`${BASE}/courses/the-first-overnight-shift`)
+  await page.goto(`${BASE}/courses/${SLUG}`)
   await page.getByRole('button', { name: 'Enroll now' }).click()
   await page.waitForURL(/\/learn\/[0-9a-f-]{36}$/)
   return page.url().split('/').pop()
@@ -84,7 +94,7 @@ async function pause(page) {
 }
 async function watchToEnd(page) {
   await play(page)
-  await page.getByText('Lesson complete. The quiz is unlocked.').waitFor({ timeout: 600000 })
+  await page.getByText('Lesson complete. The quiz is unlocked.').waitFor({ timeout: (LESSON_SECONDS + 120) * 1000 })
 }
 
 async function confirmName(page, enrollmentId, name) {
@@ -262,6 +272,14 @@ async function studentA() {
   await shot(p1, 'student-dashboard-desktop')
   const first = await downloadPdf(p1, `/api/certificates/${cert.id}/pdf`)
   A.certSha = sha(first)
+  await check(`A certificate names the course "${COURSE.title}" and the student`, async () => {
+    fs.writeFileSync(path.join(OUT, 'student-certificate-text.pdf'), first)
+    const text = execFileSync('pdftotext', ['-layout', path.join(OUT, 'student-certificate-text.pdf'), '-']).toString()
+    assert.match(text, new RegExp(COURSE.title))
+    assert.match(text, new RegExp(A.name))
+    const [row] = await sql`select course_title from certificates where id = ${cert.id}`
+    assert.equal(row.course_title, COURSE.title)
+  })
   await check('A certificate QR code scans and opens verification with the serial filled in', async () => {
     const url = qrFromPdf(first, 'student-certificate')
     assert.equal(url, `${BASE}/v/${cert.serial}`)

@@ -1,0 +1,253 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.panel { position: absolute; inset: 0; opacity: 0; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.04; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 5px solid #8E3C2E; }
+.lbl { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #8E3C2E; }
+.body { font: 500 38px/1.35 'DM Sans'; color: #30241F; }
+.muted { color: #69554A; }
+.quote { font: 500 46px/1.3 'DM Sans'; }
+.who { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #69554A; margin-bottom: 12px; }
+.chip { display: inline-block; font: 700 34px 'DM Sans'; padding: 16px 28px; border: 3px solid #30241F; background: #FFFAF1; }
+.chip.on { background: #8E3C2E; border-color: #8E3C2E; color: #FFFAF1; }
+.pp { position: absolute; left: 96px; right: 96px; top: 792px; display: flex; align-items: center; gap: 28px; }
+.pp-label { font: 700 30px 'DM Sans'; letter-spacing: 0.1em; text-transform: uppercase; color: #8E3C2E; white-space: nowrap; }
+.pp-bar { flex: 1; height: 14px; background: #EDDFCB; position: relative; overflow: hidden; }
+.pp-bar span { position: absolute; inset: 0; background: #8E3C2E; transform-origin: left center; }
+.pp-sec { font: 700 30px 'DM Sans'; color: #30241F; white-space: nowrap; }
+
+.photo { position: absolute; object-fit: cover; box-shadow: 0 20px 50px rgba(48,36,31,.18); }
+.stack { position: absolute; display: flex; flex-direction: column; gap: 26px; }
+.bub { background: #FFFAF1; border: 2px solid #D6C4B4; border-left: 8px solid #8E3C2E; padding: 24px 34px 28px; }
+.bub.parent { border-left-color: #30241F; }
+.bub .t { font: 500 40px/1.32 'DM Sans'; }
+.field { padding: 14px 0 16px; border-bottom: 2px solid #E4D6C6; }
+.field:last-child { border-bottom: 0; }
+.field .k { font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; color: #8E3C2E; }
+.field .v { font: 500 31px/1.3 'DM Sans'; margin-top: 6px; }
+.item { display: flex; gap: 24px; align-items: baseline; font: 500 36px/1.3 'DM Sans'; padding: 16px 20px; border-bottom: 2px solid #E4D6C6; }
+.item b { font: 800 34px 'Bricolage Grotesque'; color: #8E3C2E; width: 44px; flex: none; }
+.note { font: 500 34px/1.35 'DM Sans'; color: #69554A; }
+.big { font: 500 50px/1.3 'DM Sans'; }
+.tag { display: inline-block; font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; padding: 10px 18px; background: #8E3C2E; color: #FFFAF1; }
+.tl { position: absolute; left: 140px; right: 140px; height: 6px; background: #30241F; }
+.stop { position: absolute; width: 380px; text-align: center; }
+.stop .dot { width: 34px; height: 34px; border-radius: 50%; background: #FFFAF1; border: 6px solid #30241F; margin: 0 auto 18px; }
+.stop .time { font: 800 64px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.stop .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.ask { position: absolute; left: 96px; right: 96px; text-align: center; font: 800 64px/1.1 'Bricolage Grotesque'; letter-spacing: -0.03em; color: #8E3C2E; }
+.answer { position: absolute; left: 96px; right: 96px; padding: 28px 40px; font: 700 50px/1.2 'DM Sans'; text-align: center; background: #8E3C2E; color: #FFFAF1; }
+.grid2 { position: absolute; left: 96px; right: 96px; display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; row-gap: 34px; }
+.cell { background: #FFFAF1; border: 3px solid #30241F; padding: 26px 34px; }
+.cell .time { font: 800 66px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.cell .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.arrow { font: 800 70px 'Bricolage Grotesque'; color: #8E3C2E; text-align: center; }
+.rule { font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border-left: 6px solid #D6C4B4; }
+.rule b { font-weight: 700; }
+.col { position: absolute; top: 200px; width: 540px; }
+.col .lbl { margin-bottom: 14px; }
+.strike { position: relative; display: inline-block; }
+.strike i { position: absolute; left: -10px; right: -10px; top: 52%; height: 8px; background: #8E3C2E; transform-origin: left center; }
+.task { display: flex; gap: 24px; align-items: baseline; font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border: 3px solid transparent; }
+.task b { font: 800 36px 'Bricolage Grotesque'; color: #8E3C2E; flex: none; width: 40px; }
+
+  </style>
+  <div id="root" data-composition-id="f4-clocks" data-width="1920" data-height="1080">
+    <div class="wrap" id="f4-clocks-wrap" data-hold>
+      <img class="mark" src="assets/wordmark.png" alt="">
+      <div class="kicker" id="f4-clocks-kicker">Part 4 · Compare the two milk clocks</div>
+
+      <div class="panel" id="f4-o">
+        <div style="position:absolute;left:0;right:0;top:150px;display:flex;justify-content:center;gap:260px">
+          <div id="f4-o1" style="text-align:center"><svg id="bo1" width="300" height="512" viewBox="0 0 240 410" aria-hidden="true">
+  <rect x="74" y="0" width="92" height="74" rx="18" fill="#8E3C2E"/>
+  <rect x="58" y="64" width="124" height="40" rx="8" fill="#30241F"/>
+  <rect x="16" y="104" width="208" height="300" rx="36" fill="#FFFFFF" stroke="#30241F" stroke-width="6"/>
+  <clipPath id="bo1-clip"><rect x="19" y="107" width="202" height="294" rx="33"/></clipPath>
+  <rect x="16" y="245" width="208" height="300" fill="#F3E7CF" clip-path="url(#bo1-clip)"/>
+  <line x1="196" y1="130" x2="218" y2="130" stroke="#30241F" stroke-width="3"/><line x1="196" y1="160" x2="218" y2="160" stroke="#30241F" stroke-width="3"/><line x1="196" y1="190" x2="218" y2="190" stroke="#30241F" stroke-width="3"/><line x1="196" y1="380" x2="218" y2="380" stroke="#30241F" stroke-width="3"/>
+  <rect x="28" y="226" width="184" height="128" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/><text x="120" y="284" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Prepared</text><text x="120" y="316" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Formula</text>
+</svg></div>
+          <div id="f4-o2" style="text-align:center"><svg id="bo2" width="300" height="512" viewBox="0 0 240 410" aria-hidden="true">
+  <rect x="74" y="0" width="92" height="74" rx="18" fill="#8E3C2E"/>
+  <rect x="58" y="64" width="124" height="40" rx="8" fill="#30241F"/>
+  <rect x="16" y="104" width="208" height="300" rx="36" fill="#FFFFFF" stroke="#30241F" stroke-width="6"/>
+  <clipPath id="bo2-clip"><rect x="19" y="107" width="202" height="294" rx="33"/></clipPath>
+  <rect x="16" y="245" width="208" height="300" fill="#F3E7CF" clip-path="url(#bo2-clip)"/>
+  <line x1="196" y1="130" x2="218" y2="130" stroke="#30241F" stroke-width="3"/><line x1="196" y1="160" x2="218" y2="160" stroke="#30241F" stroke-width="3"/><line x1="196" y1="190" x2="218" y2="190" stroke="#30241F" stroke-width="3"/><line x1="196" y1="380" x2="218" y2="380" stroke="#30241F" stroke-width="3"/>
+  <rect x="28" y="226" width="184" height="128" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/><text x="120" y="284" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Expressed</text><text x="120" y="316" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Breast Milk</text>
+</svg></div>
+        </div>
+        <div class="ask" id="f4-oq" style="top:710px;color:#30241F">Which event started the clock?</div>
+      </div>
+      <div class="panel" id="f4-fr">
+        <div style="position:absolute;left:120px;top:190px"><svg id="bf" width="280" height="478" viewBox="0 0 240 410" aria-hidden="true">
+  <rect x="74" y="0" width="92" height="74" rx="18" fill="#8E3C2E"/>
+  <rect x="58" y="64" width="124" height="40" rx="8" fill="#30241F"/>
+  <rect x="16" y="104" width="208" height="300" rx="36" fill="#FFFFFF" stroke="#30241F" stroke-width="6"/>
+  <clipPath id="bf-clip"><rect x="19" y="107" width="202" height="294" rx="33"/></clipPath>
+  <rect x="16" y="245" width="208" height="300" fill="#F3E7CF" clip-path="url(#bf-clip)"/>
+  <line x1="196" y1="130" x2="218" y2="130" stroke="#30241F" stroke-width="3"/><line x1="196" y1="160" x2="218" y2="160" stroke="#30241F" stroke-width="3"/><line x1="196" y1="190" x2="218" y2="190" stroke="#30241F" stroke-width="3"/><line x1="196" y1="380" x2="218" y2="380" stroke="#30241F" stroke-width="3"/>
+  <rect x="28" y="226" width="184" height="128" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/><text x="120" y="284" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Prepared</text><text x="120" y="316" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Formula</text>
+</svg></div>
+        <div style="position:absolute;left:520px;top:160px;width:1304px">
+          <div class="lbl">Prepared formula at room temperature</div>
+          <div class="stack" style="position:relative;margin-top:22px;gap:18px">
+            <div class="rule" id="f4-r1">Use within <b>2 hours of preparation</b></div>
+            <div class="rule" id="f4-r2">and within <b>1 hour of starting the feed</b></div>
+            <div class="rule" id="f4-r3">Not used promptly? <b>Refrigerate right away</b>, use within 24 hours</div>
+            <div class="rule" id="f4-r4">Feed ended? <b>Discard what is left</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="f4-a">
+        <div class="lbl" style="position:absolute;left:96px;top:150px">Case A · Prepared Formula</div>
+        <div class="tl" id="f4-atl" style="top:330px"></div>
+        <div class="stop" id="f4-s1" style="left:110px;top:312px"><div class="dot"></div><div class="time">10:00 p.m.</div><div class="ev">Prepared</div></div>
+        <div class="stop" id="f4-s2" style="left:770px;top:312px"><div class="dot"></div><div class="time">10:30 p.m.</div><div class="ev">Feed starts</div></div>
+        <div class="stop" id="f4-s3" style="left:1430px;top:312px"><div class="dot" id="f4-s3d"></div><div class="time">10:45 p.m.</div><div class="ev">Feed ends</div></div>
+        <div class="tag" id="f4-disc" style="position:absolute;left:1545px;top:220px">Discard</div>
+        <div class="ask" id="f4-aq" style="top:600px">When should you discard what’s left?</div>
+        <div class="answer" id="f4-aa" style="top:580px">✓ 10:45 p.m. Discard leftovers when the feed ends</div>
+        <div class="note" id="f4-an" style="position:absolute;left:96px;right:96px;top:730px;text-align:center">The one hour window does not make leftovers a bottle for later.</div>
+      </div>
+      <div class="panel" id="f4-er">
+        <div style="position:absolute;left:120px;top:190px"><svg id="be" width="280" height="478" viewBox="0 0 240 410" aria-hidden="true">
+  <rect x="74" y="0" width="92" height="74" rx="18" fill="#8E3C2E"/>
+  <rect x="58" y="64" width="124" height="40" rx="8" fill="#30241F"/>
+  <rect x="16" y="104" width="208" height="300" rx="36" fill="#FFFFFF" stroke="#30241F" stroke-width="6"/>
+  <clipPath id="be-clip"><rect x="19" y="107" width="202" height="294" rx="33"/></clipPath>
+  <rect x="16" y="245" width="208" height="300" fill="#F3E7CF" clip-path="url(#be-clip)"/>
+  <line x1="196" y1="130" x2="218" y2="130" stroke="#30241F" stroke-width="3"/><line x1="196" y1="160" x2="218" y2="160" stroke="#30241F" stroke-width="3"/><line x1="196" y1="190" x2="218" y2="190" stroke="#30241F" stroke-width="3"/><line x1="196" y1="380" x2="218" y2="380" stroke="#30241F" stroke-width="3"/>
+  <rect x="28" y="226" width="184" height="128" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/><text x="120" y="284" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Expressed</text><text x="120" y="316" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Breast Milk</text>
+</svg></div>
+        <div style="position:absolute;left:520px;top:160px;width:1304px">
+          <div class="lbl">Expressed breast milk</div>
+          <div class="stack" style="position:relative;margin-top:22px;gap:18px">
+            <div class="rule" id="f4-e1">Use within <b>2 hours after warming</b> or reaching room temperature</div>
+            <div class="rule" id="f4-e2">Leftovers: use within <b>2 hours after the feed ends</b></div>
+            <div class="rule" id="f4-e3">Respect <b>any earlier limit</b> that applies</div>
+            <div class="rule" id="f4-e4">Warming or feeding <b>never restarts</b> a deadline</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="f4-b">
+        <div class="lbl" style="position:absolute;left:96px;top:150px">Case B · Expressed Breast Milk</div>
+        <div class="grid2" style="top:220px">
+          <div class="cell" id="f4-b11"><div class="time">11:00 p.m.</div><div class="ev">Warmed</div></div>
+          <div class="arrow" id="f4-b12">→</div>
+          <div class="cell" id="f4-b13"><div class="time">1:00 a.m.</div><div class="ev">Warming limit</div></div>
+          <div class="cell" id="f4-b21"><div class="time">11:30 p.m.</div><div class="ev">Feed ends</div></div>
+          <div class="arrow" id="f4-b22">→</div>
+          <div class="cell" id="f4-b23"><div class="time">1:30 a.m.</div><div class="ev">Leftover limit</div></div>
+        </div>
+        <div class="ask" id="f4-bq" style="top:640px">Which deadline comes first?</div>
+        <div class="note" id="f4-bn" style="position:absolute;left:96px;right:96px;top:730px;text-align:center">No earlier storage limit is assumed in this case.</div>
+        <div class="tag" id="f4-bg" style="position:absolute;left:1640px;top:196px">✓ Governs</div>
+        <div class="answer" id="f4-ba" style="top:640px">✓ 1:00 a.m. The warming limit comes first</div>
+      </div>
+      <div class="panel" id="f4-c">
+        <div class="lbl" style="position:absolute;left:96px;top:150px">Case C · A missing label</div>
+        <div style="position:absolute;left:0;right:0;top:170px;display:flex;justify-content:center;gap:200px">
+          <div><svg id="bc1" width="280" height="478" viewBox="0 0 240 410" aria-hidden="true">
+  <rect x="74" y="0" width="92" height="74" rx="18" fill="#8E3C2E"/>
+  <rect x="58" y="64" width="124" height="40" rx="8" fill="#30241F"/>
+  <rect x="16" y="104" width="208" height="300" rx="36" fill="#FFFFFF" stroke="#30241F" stroke-width="6"/>
+  <clipPath id="bc1-clip"><rect x="19" y="107" width="202" height="294" rx="33"/></clipPath>
+  <rect x="16" y="245" width="208" height="300" fill="#F3E7CF" clip-path="url(#bc1-clip)"/>
+  <line x1="196" y1="130" x2="218" y2="130" stroke="#30241F" stroke-width="3"/><line x1="196" y1="160" x2="218" y2="160" stroke="#30241F" stroke-width="3"/><line x1="196" y1="190" x2="218" y2="190" stroke="#30241F" stroke-width="3"/><line x1="196" y1="380" x2="218" y2="380" stroke="#30241F" stroke-width="3"/>
+  <rect x="28" y="226" width="184" height="128" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/><text x="120" y="284" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Expressed</text><text x="120" y="316" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="25" fill="#30241F">Breast Milk</text>
+</svg></div>
+          <div><svg id="bc2" width="280" height="478" viewBox="0 0 240 410" aria-hidden="true">
+  <rect x="74" y="0" width="92" height="74" rx="18" fill="#8E3C2E"/>
+  <rect x="58" y="64" width="124" height="40" rx="8" fill="#30241F"/>
+  <rect x="16" y="104" width="208" height="300" rx="36" fill="#FFFFFF" stroke="#30241F" stroke-width="6"/>
+  <clipPath id="bc2-clip"><rect x="19" y="107" width="202" height="294" rx="33"/></clipPath>
+  <rect x="16" y="245" width="208" height="300" fill="#F3E7CF" clip-path="url(#bc2-clip)"/>
+  <line x1="196" y1="130" x2="218" y2="130" stroke="#30241F" stroke-width="3"/><line x1="196" y1="160" x2="218" y2="160" stroke="#30241F" stroke-width="3"/><line x1="196" y1="190" x2="218" y2="190" stroke="#30241F" stroke-width="3"/><line x1="196" y1="380" x2="218" y2="380" stroke="#30241F" stroke-width="3"/>
+  <rect x="34" y="226" width="172" height="128" fill="none" stroke="#69554A" stroke-width="4" stroke-dasharray="10 9"/><text x="120" y="312" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="800" font-size="64" fill="#69554A">?</text>
+</svg></div>
+        </div>
+        <div class="answer" id="f4-ca" style="top:690px;font-size:40px">Set it aside. Check with the parent. Use a verified bottle from the agreed plan.</div>
+      </div><div class="pp" id="f4-cda"><div class="pp-label">Pause and decide</div><div class="pp-bar"><span id="f4-cda-fill"></span></div><div class="pp-sec">25 seconds</div></div><div class="pp" id="f4-cdb"><div class="pp-label">Write both deadlines</div><div class="pp-bar"><span id="f4-cdb-fill"></span></div><div class="pp-sec">30 seconds</div></div><div class="pp" id="f4-cdc"><div class="pp-label">What would you do?</div><div class="pp-bar"><span id="f4-cdc-fill"></span></div><div class="pp-sec">15 seconds</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#f4-clocks-wrap', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0);
+    tl.fromTo('#f4-o', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.2);
+    tl.to('#f4-o', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 13.12);
+    tl.fromTo('#f4-o1', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 3.04);
+    tl.fromTo('#f4-o2', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 5.43);
+    tl.fromTo('#f4-oq', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 10.33);
+    tl.fromTo('#f4-fr', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 13.32);
+    tl.to('#f4-fr', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 40.37);
+    tl.fromTo('#f4-r1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 13.52);
+    tl.fromTo('#f4-r2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 16.72);
+    tl.fromTo('#f4-r3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 24.54);
+    tl.fromTo('#f4-r4', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 35.64);
+    tl.fromTo('#f4-r1', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 22.29);
+    tl.to('#f4-r1', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 24.54);
+    tl.fromTo('#f4-r2', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 22.29);
+    tl.to('#f4-r2', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 24.54);
+    tl.fromTo('#f4-r4', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 36.04);
+    tl.fromTo('#f4-a', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 40.57);
+    tl.to('#f4-a', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 95.6);
+    tl.fromTo('#f4-atl', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 40.77);
+    tl.fromTo('#f4-s1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 42.97);
+    tl.fromTo('#f4-s2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 45.77);
+    tl.fromTo('#f4-s3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 48.87);
+    tl.fromTo('#f4-aq', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 54.26);
+    tl.fromTo('#f4-cda', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 56.22);
+    tl.fromTo('#f4-cda-fill', { scaleX: 1 }, { scaleX: 0, duration: 25, ease: 'none' }, 56.22);
+    tl.to('#f4-cda', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 81.22);
+    tl.to('#f4-aq', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 81.02);
+    tl.fromTo('#f4-aa', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 81.22);
+    tl.fromTo('#f4-disc', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 81.52);
+    tl.to('#f4-s3d', { backgroundColor: '#8E3C2E', borderColor: '#8E3C2E', duration: 0.4 }, 81.22);
+    tl.fromTo('#f4-an', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 85.25);
+    tl.fromTo('#f4-er', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 95.8);
+    tl.to('#f4-er', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 119.95);
+    tl.fromTo('#f4-e1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 99.51);
+    tl.fromTo('#f4-e2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 106.12);
+    tl.fromTo('#f4-e3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 110.62);
+    tl.fromTo('#f4-e4', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 115.07);
+    tl.fromTo('#f4-b', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 120.15);
+    tl.to('#f4-b', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 178.99);
+    tl.fromTo('#f4-b11', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 120.35);
+    tl.fromTo('#f4-b12', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 123.38);
+    tl.fromTo('#f4-b13', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 123.68);
+    tl.fromTo('#f4-b21', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 126.72);
+    tl.fromTo('#f4-b22', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 129.75);
+    tl.fromTo('#f4-b23', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 130.05);
+    tl.fromTo('#f4-bq', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 133.61);
+    tl.fromTo('#f4-bn', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 136.26);
+    tl.fromTo('#f4-cdb', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 139.56);
+    tl.fromTo('#f4-cdb-fill', { scaleX: 1 }, { scaleX: 0, duration: 30, ease: 'none' }, 139.56);
+    tl.to('#f4-cdb', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 169.56);
+    tl.to('#f4-bq', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 169.36);
+    tl.to('#f4-bn', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 169.36);
+    tl.fromTo('#f4-ba', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 169.56);
+    tl.fromTo('#f4-bg', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 169.86);
+    tl.to('#f4-b13', { backgroundColor: '#8E3C2E', borderColor: '#8E3C2E', color: '#FFFAF1', duration: 0.45 }, 169.56);
+    tl.to('#f4-b13 .ev', { color: '#FFFAF1', duration: 0.45 }, 169.56);
+    tl.fromTo('#f4-c', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 179.19);
+    tl.to('#f4-c', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 212.13);
+    tl.fromTo('#f4-cdc', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 184.11);
+    tl.fromTo('#f4-cdc-fill', { scaleX: 1 }, { scaleX: 0, duration: 15, ease: 'none' }, 184.11);
+    tl.to('#f4-cdc', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 199.11);
+    tl.fromTo('#f4-ca', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 203.27);
+    tl.to('#f4-clocks-wrap', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 212.03);
+    window.__timelines['f4-clocks'] = tl;
+  </script>
+</template>

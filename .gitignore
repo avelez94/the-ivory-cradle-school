@@ -26,3 +26,7 @@ next-env.d.ts
 /video/first-overnight-shift/.hyperframes
 /video/narration.log
 /video/first-overnight-shift/assets/voice/test.wav
+/video/feeding-support-on-shift/.hyperframes
+/video/feeding-support-on-shift/assets/voice/lines/
+/video/render-feeding.log
+/video/lib/__pycache__/

@@ -5,7 +5,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import postgres from 'postgres'
-import { FIRST_OVERNIGHT_SHIFT, PREVIEW_COURSES } from '../db/seed/courses.mjs'
+import { COURSES } from '../db/seed/courses.mjs'
 
 const url = process.env.DATABASE_URL
 if (!url) { console.error('DATABASE_URL is required'); process.exit(1) }
@@ -59,38 +59,45 @@ if (!sigSet && haveArtwork) {
   console.log('signature set v1 created')
 }
 
-// Courses.
-const media = 'course-media/first-overnight-shift'
-const manifest = JSON.parse(fs.readFileSync(path.join(root, 'private-assets', media, 'manifest.json'), 'utf8'))
-const videoId = await bundledFile('video', `${media}/lesson.mp4`, 'video/mp4')
-const captionsId = await bundledFile('captions', `${media}/lesson.en.vtt`, 'text/vtt')
-const worksheetId = await bundledFile('worksheet', `${media}/first-overnight-shift-worksheet.pdf`, 'application/pdf')
-
-async function upsertCourse(c, files) {
-  const [existing] = await sql`select id, published_version_id from courses where slug = ${c.slug}`
-  if (existing) return existing
-  const draft = { ...c.draft, ...(files || {}) }
-  const [course] = await sql`
-    insert into courses (slug, status, sort_order, price_cents, draft)
-    values (${c.slug}, ${c.status}, ${c.sortOrder}, ${c.priceCents ?? null}, ${sql.json(draft)}) returning id, published_version_id`
-  console.log('course created', c.slug)
+// Courses. A course with lesson media is created and published as version 1; later changes go
+// through the staff course editor so issued versions are never rewritten.
+async function publishCourse(c) {
+  const files = {}
+  if (c.media) {
+    const manifest = JSON.parse(fs.readFileSync(path.join(root, 'private-assets', c.media, 'manifest.json'), 'utf8'))
+    files.videoFileId = await bundledFile('video', `${c.media}/lesson.mp4`, 'video/mp4')
+    files.videoDurationSeconds = manifest.durationSeconds
+    files.captionsFileId = await bundledFile('captions', `${c.media}/lesson.en.vtt`, 'text/vtt')
+    files.worksheetFileId = await bundledFile('worksheet', `${c.media}/${c.worksheetFile}`, 'application/pdf')
+  }
+  const draft = { ...c.draft, ...files }
+  let [course] = await sql`select id, status, published_version_id from courses where slug = ${c.slug}`
+  if (!course) {
+    ;[course] = await sql`
+      insert into courses (slug, status, sort_order, price_cents, draft)
+      values (${c.slug}, ${c.status}, ${c.sortOrder}, ${c.priceCents ?? null}, ${sql.json(draft)})
+      returning id, status, published_version_id`
+    console.log('course created', c.slug)
+  } else if (c.media && !course.published_version_id) {
+    // A catalog preview that now has its materials.
+    await sql`update courses set status = ${c.status}, price_cents = ${c.priceCents ?? null}, draft = ${sql.json(draft)} where id = ${course.id}`
+  }
+  if (c.media && !course.published_version_id) {
+    const [v] = await sql`
+      insert into course_versions (course_id, version_no, title, content, video_file_id, video_duration_seconds, captions_file_id, worksheet_file_id)
+      values (${course.id}, 1, ${draft.title}, ${sql.json(draft)}, ${files.videoFileId}, ${files.videoDurationSeconds}, ${files.captionsFileId}, ${files.worksheetFileId})
+      returning id`
+    await sql`update courses set published_version_id = ${v.id}, status = ${c.status} where id = ${course.id}`
+    course.published_version_id = v.id
+    console.log('published version 1 of', c.slug)
+  }
   return course
 }
 
-const fosFiles = { videoFileId: videoId, videoDurationSeconds: manifest.durationSeconds, captionsFileId: captionsId, worksheetFileId: worksheetId }
-const fos = await upsertCourse(FIRST_OVERNIGHT_SHIFT, fosFiles)
-let versionId = fos.published_version_id
-if (!versionId) {
-  const content = { ...FIRST_OVERNIGHT_SHIFT.draft, ...fosFiles }
-  const [v] = await sql`
-    insert into course_versions (course_id, version_no, title, content, video_file_id, video_duration_seconds, captions_file_id, worksheet_file_id)
-    values (${fos.id}, 1, ${content.title}, ${sql.json(content)}, ${videoId}, ${manifest.durationSeconds}, ${captionsId}, ${worksheetId})
-    returning id`
-  versionId = v.id
-  await sql`update courses set published_version_id = ${versionId} where id = ${fos.id}`
-  console.log('published version 1 of', FIRST_OVERNIGHT_SHIFT.slug)
-}
-for (const c of PREVIEW_COURSES) await upsertCourse(c)
+const published = {}
+for (const c of COURSES) published[c.slug] = await publishCourse(c)
+const fos = { id: published['the-first-overnight-shift'].id }
+const versionId = published['the-first-overnight-shift'].published_version_id
 
 // Sample credentials for testing public verification. Fixed serials so they can be shared.
 const samples = [

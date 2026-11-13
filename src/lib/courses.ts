@@ -1,6 +1,6 @@
 import 'server-only'
 import { db, hasDatabase } from './db'
-import { FIRST_OVERNIGHT_SHIFT, PREVIEW_COURSES } from '../../db/seed/courses.mjs'
+import { COURSES } from '../../db/seed/courses.mjs'
 
 export type Question = { id: string; prompt: string; options: string[]; correctIndex: number; explanation?: string }
 
@@ -55,7 +55,7 @@ function toCatalog(row: Record<string, unknown>): CatalogCourse {
 
 /** Built in catalog used before a database is connected, so the public pages still render. */
 function fallbackCatalog(): CatalogCourse[] {
-  return [FIRST_OVERNIGHT_SHIFT, ...PREVIEW_COURSES].map((c) => ({
+  return COURSES.map((c) => ({
     id: c.slug,
     slug: c.slug,
     status: c.status as CatalogCourse['status'],

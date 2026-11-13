@@ -1,5 +1,5 @@
-// Starting catalog for staging. The First Overnight Shift is the complete working course.
-// The other two appear in the catalog as previews until their materials are ready.
+// The school's catalog. Courses with `media` are published with their lesson video, captions and
+// worksheet from private-assets/<media>. Courses without it appear as catalog previews.
 // Visible copy avoids dashes by request.
 
 export const FIRST_OVERNIGHT_SHIFT = {
@@ -7,6 +7,8 @@ export const FIRST_OVERNIGHT_SHIFT = {
   status: 'published',
   sortOrder: 10,
   priceCents: 1000,
+  media: 'course-media/first-overnight-shift',
+  worksheetFile: 'first-overnight-shift-worksheet.pdf',
   draft: {
     title: 'The First Overnight Shift',
     category: 'Overnight care',
@@ -109,25 +111,113 @@ export const FIRST_OVERNIGHT_SHIFT = {
   },
 }
 
-export const PREVIEW_COURSES = [
-  {
-    slug: 'feeding-support-on-shift',
-    status: 'preview',
-    sortOrder: 20,
-    draft: {
-      title: 'Feeding Support on Shift',
-      category: 'Feeding & lactation',
-      summary: 'Clarify the family’s feeding plan and practice communicating changes.',
-      description:
-        'Feeding plans change quickly in the newborn weeks. Learn how to confirm the current plan at the start of every shift and how to share changes clearly with parents.',
-      audience: ['Caregivers who support breastfed, bottle fed, or combination fed newborns'],
-      objectives: ['Confirm the family’s current feeding plan', 'Communicate changes clearly and calmly'],
-      included: ['One video lesson with captions', 'A one page conversation guide', 'A five question quiz', 'A Certificate of Completion'],
-      worksheetLabel: 'Feeding plan conversation guide',
-      estimatedMinutes: 15,
-      questions: [],
-    },
+const SRC = {
+  bottle: { label: 'CDC: About Feeding From a Bottle', url: 'https://www.cdc.gov/infant-toddler-nutrition/bottle-feeding/' },
+  formula: { label: 'CDC: Infant Formula Preparation and Storage', url: 'https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/preparation-and-storage.html' },
+  milk: { label: 'CDC: Breast Milk Storage and Preparation', url: 'https://www.cdc.gov/breastfeeding/breast-milk-preparation-and-storage/handling-breastmilk.html' },
+  warning: { label: 'American Academy of Pediatrics: Warning Signs of Breastfeeding Problems', url: 'https://www.healthychildren.org/English/ages-stages/baby/breastfeeding/Pages/Warning-Signs-of-Breastfeeding-Problems.aspx' },
+  ems: { label: 'American Academy of Pediatrics: When to Call Emergency Medical Services', url: 'https://www.healthychildren.org/english/health-issues/injuries-emergencies/pages/when-to-call-emergency-medical-services-ems.aspx' },
+}
+
+export const FEEDING_SUPPORT = {
+  slug: 'feeding-support-on-shift',
+  status: 'published',
+  sortOrder: 20,
+  priceCents: 2500,
+  media: 'course-media/feeding-support-on-shift',
+  worksheetFile: 'feeding-support-on-shift-worksheet.pdf',
+  draft: {
+    title: 'Feeding Support on Shift',
+    category: 'Feeding & Lactation',
+    summary:
+      'Practice clarifying a family’s feeding plan, responding to a baby’s bottle feeding cues, applying formula and expressed breast milk handling guidance, and communicating when a feed goes differently than planned.',
+    description:
+      'You arrive for an overnight shift and the parent says, “There’s a bottle in the fridge if you need it.” This workshop follows that shift from arrival to morning handoff: making the feeding plan explicit, a responsive bottle feeding demonstration, two milk clocks that look alike but follow different rules, and a clear update when a feed goes differently than planned. Plan on about 18 minutes of video practice, with pauses to write on your worksheet, and an untimed five question quiz.',
+    scope:
+      'Examples concern routine support for healthy, full term newborns during nonmedical, in home shifts. For a baby with special feeding needs, follow the clinician directed plan and work within your role and training.',
+    audience: [
+      'Newborn Care Specialists providing nonmedical support during in home shifts',
+      'Postpartum doulas supporting families at home in the United States',
+    ],
+    objectives: [
+      'Read back an actionable feeding plan before you take over',
+      'Recognize responsive bottle feeding: holding the baby close, pausing, and stopping at fullness cues',
+      'Apply the correct milk handling deadline for prepared formula and expressed breast milk',
+      'Report observed changes and know when to involve a parent, the pediatrician, or emergency services',
+    ],
+    included: [
+      'A video workshop of about 18 minutes with captions',
+      'A printable one page field guide and practice worksheet',
+      'An untimed five question quiz',
+      'A Certificate of Completion when you score at least 4 out of 5',
+    ],
+    worksheetLabel: 'Feeding Plan Field Guide & Workshop Practice',
+    estimatedMinutes: 30,
+    image: '/images/feeding-support-on-shift.jpg',
+    imageAlt: 'A parent opens the fridge and points to a bottle of milk while a caregiver in sage green scrubs listens in a softly lit kitchen.',
+    resources: [SRC.bottle, SRC.formula, SRC.milk, SRC.warning, SRC.ems],
+    // Explanations are staff only grading notes. Students see their score, never the key.
+    questions: [
+      {
+        id: 'q1',
+        prompt: 'Which read back gives you enough information to act on “There’s a bottle if you need it”?',
+        options: [
+          '“I’ll use the bottle at the next feed.”',
+          '“I’ll bring baby to you to nurse first, use the confirmed backup only if you ask, and knock if a feed is smaller than usual. Is that right?”',
+          '“I’ll handle feeding the way I usually do.”',
+          '“I’ll make a note and ask you in the morning.”',
+        ],
+        correctIndex: 1,
+        explanation: 'The read back confirms the next action, bottle use, and when and how to involve the parent. ICS handoff practice.',
+      },
+      {
+        id: 'q2',
+        prompt: 'After a pause, baby turns away again and keeps their mouth closed during a routine bottle feed. What is the best response?',
+        options: [
+          'Tip the bottle more vertically.',
+          'Keep offering the bottle until the planned amount is gone.',
+          'Stop and document the observed cues and measured intake.',
+          'Set up the bottle so baby can finish independently.',
+        ],
+        correctIndex: 2,
+        explanation: 'Respond to fullness cues and record the observation. Source: CDC Bottle Feeding.',
+      },
+      {
+        id: 'q3',
+        prompt: 'Formula was prepared at 10:00 p.m. Feeding started at 10:30 and ended at 10:45. What should you do with the formula left in the bottle?',
+        options: [
+          'Discard it when the feed ends.',
+          'Refrigerate it for use by 10:00 p.m. tomorrow.',
+          'Save it until 11:30 because that is one hour after feeding began.',
+          'Save it until midnight because that is two hours after preparation.',
+        ],
+        correctIndex: 0,
+        explanation: 'Discard formula remaining after the feed ends. The other time limits do not make a used bottle safe for later. Source: CDC Formula Preparation and Storage.',
+      },
+      {
+        id: 'q4',
+        prompt: 'Expressed breast milk was warmed at 11:20 p.m. and the feed ended at midnight. Assuming no other earlier limit applies, which deadline governs the leftover milk?',
+        options: ['2:00 a.m.', '1:20 a.m.', '12:20 a.m.', '11:20 a.m.'],
+        correctIndex: 1,
+        explanation: 'The warming deadline is 1:20 a.m. and the leftover deadline is 2:00 a.m. The earlier deadline governs. Source: CDC Breast Milk Storage and Preparation.',
+      },
+      {
+        id: 'q5',
+        prompt: 'At 12:10 a.m. a baby takes 1 oz of 2 oz expressed milk offered, turns away twice, and stops feeding. This is less than usual, and the parent asked to be woken. What should you do?',
+        options: [
+          'Tell the parent in the morning that baby is a poor feeder.',
+          'Change the overnight plan without consulting the parent.',
+          'Keep trying until the baby finishes the bottle.',
+          'Log the time, measured intake, and cues. Wake the parent as agreed and report what happened.',
+        ],
+        correctIndex: 3,
+        explanation: 'Document observations and follow the agreed notification plan. ICS shift documentation practice.',
+      },
+    ],
   },
+}
+
+export const PREVIEW_COURSES = [
   {
     slug: 'working-with-newborn-twins',
     status: 'preview',
@@ -147,3 +237,5 @@ export const PREVIEW_COURSES = [
     },
   },
 ]
+
+export const COURSES = [FIRST_OVERNIGHT_SHIFT, FEEDING_SUPPORT, ...PREVIEW_COURSES]

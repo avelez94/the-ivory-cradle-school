@@ -1,0 +1,201 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.panel { position: absolute; inset: 0; opacity: 0; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.04; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 5px solid #8E3C2E; }
+.lbl { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #8E3C2E; }
+.body { font: 500 38px/1.35 'DM Sans'; color: #30241F; }
+.muted { color: #69554A; }
+.quote { font: 500 46px/1.3 'DM Sans'; }
+.who { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #69554A; margin-bottom: 12px; }
+.chip { display: inline-block; font: 700 34px 'DM Sans'; padding: 16px 28px; border: 3px solid #30241F; background: #FFFAF1; }
+.chip.on { background: #8E3C2E; border-color: #8E3C2E; color: #FFFAF1; }
+.pp { position: absolute; left: 96px; right: 96px; top: 792px; display: flex; align-items: center; gap: 28px; }
+.pp-label { font: 700 30px 'DM Sans'; letter-spacing: 0.1em; text-transform: uppercase; color: #8E3C2E; white-space: nowrap; }
+.pp-bar { flex: 1; height: 14px; background: #EDDFCB; position: relative; overflow: hidden; }
+.pp-bar span { position: absolute; inset: 0; background: #8E3C2E; transform-origin: left center; }
+.pp-sec { font: 700 30px 'DM Sans'; color: #30241F; white-space: nowrap; }
+
+.photo { position: absolute; object-fit: cover; box-shadow: 0 20px 50px rgba(48,36,31,.18); }
+.stack { position: absolute; display: flex; flex-direction: column; gap: 26px; }
+.bub { background: #FFFAF1; border: 2px solid #D6C4B4; border-left: 8px solid #8E3C2E; padding: 24px 34px 28px; }
+.bub.parent { border-left-color: #30241F; }
+.bub .t { font: 500 40px/1.32 'DM Sans'; }
+.field { padding: 14px 0 16px; border-bottom: 2px solid #E4D6C6; }
+.field:last-child { border-bottom: 0; }
+.field .k { font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; color: #8E3C2E; }
+.field .v { font: 500 31px/1.3 'DM Sans'; margin-top: 6px; }
+.item { display: flex; gap: 24px; align-items: baseline; font: 500 36px/1.3 'DM Sans'; padding: 16px 20px; border-bottom: 2px solid #E4D6C6; }
+.item b { font: 800 34px 'Bricolage Grotesque'; color: #8E3C2E; width: 44px; flex: none; }
+.note { font: 500 34px/1.35 'DM Sans'; color: #69554A; }
+.big { font: 500 50px/1.3 'DM Sans'; }
+.tag { display: inline-block; font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; padding: 10px 18px; background: #8E3C2E; color: #FFFAF1; }
+.tl { position: absolute; left: 140px; right: 140px; height: 6px; background: #30241F; }
+.stop { position: absolute; width: 380px; text-align: center; }
+.stop .dot { width: 34px; height: 34px; border-radius: 50%; background: #FFFAF1; border: 6px solid #30241F; margin: 0 auto 18px; }
+.stop .time { font: 800 64px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.stop .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.ask { position: absolute; left: 96px; right: 96px; text-align: center; font: 800 64px/1.1 'Bricolage Grotesque'; letter-spacing: -0.03em; color: #8E3C2E; }
+.answer { position: absolute; left: 96px; right: 96px; padding: 28px 40px; font: 700 50px/1.2 'DM Sans'; text-align: center; background: #8E3C2E; color: #FFFAF1; }
+.grid2 { position: absolute; left: 96px; right: 96px; display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; row-gap: 34px; }
+.cell { background: #FFFAF1; border: 3px solid #30241F; padding: 26px 34px; }
+.cell .time { font: 800 66px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.cell .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.arrow { font: 800 70px 'Bricolage Grotesque'; color: #8E3C2E; text-align: center; }
+.rule { font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border-left: 6px solid #D6C4B4; }
+.rule b { font-weight: 700; }
+.col { position: absolute; top: 200px; width: 540px; }
+.col .lbl { margin-bottom: 14px; }
+.strike { position: relative; display: inline-block; }
+.strike i { position: absolute; left: -10px; right: -10px; top: 52%; height: 8px; background: #8E3C2E; transform-origin: left center; }
+.task { display: flex; gap: 24px; align-items: baseline; font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border: 3px solid transparent; }
+.task b { font: 800 36px 'Bricolage Grotesque'; color: #8E3C2E; flex: none; width: 40px; }
+
+  </style>
+  <div id="root" data-composition-id="f3-demo" data-width="1920" data-height="1080">
+    <div class="wrap" id="f3-demo-wrap" data-hold>
+      <img class="mark" src="assets/wordmark.png" alt="">
+      <div class="kicker" id="f3-demo-kicker">Part 3 · Responsive bottle feeding</div>
+
+      <div class="panel" id="f3-a">
+        <img class="photo" src="assets/holding.jpg" alt="" style="left:96px;top:150px;width:900px;height:640px">
+        <div style="position:absolute;left:1060px;top:160px;width:764px">
+          <div class="item" id="f3-a1"><b>1</b><span>Clean hands, clean supplies</span></div>
+<div class="item" id="f3-a2"><b>2</b><span>Check the label against the plan</span></div>
+<div class="item" id="f3-a3"><b>3</b><span>Hold baby close, with support</span></div>
+<div class="item" id="f3-a4"><b>4</b><span>Keep hold of the bottle</span></div>
+<div class="item" id="f3-a5"><b>5</b><span>Angle it; never hold it vertical</span></div>
+          <div class="note" id="f3-cl" style="margin-top:26px">Routine responsive feeding. A clinician directed plan comes first.</div>
+        </div>
+      </div>
+      <div class="panel" id="f3-b">
+        <img class="photo" src="assets/baby.jpg" alt="" style="left:96px;top:150px;width:640px;height:640px;object-position:50% 30%">
+        <div style="position:absolute;left:820px;top:160px;width:1004px">
+          <div class="h" style="font-size:66px">Let the baby set the pace</div>
+          <div class="note" id="f3-b1" style="margin-top:24px">Make room for a pause. Watch the baby throughout.</div>
+          <div class="lbl" id="f3-b2" style="margin-top:46px">Signs the baby is done</div>
+          <div id="f3-b3" style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap"><span class="chip">Closes mouth</span><span class="chip">Turns away</span><span class="chip">Keeps signaling done</span></div>
+          <div class="card rule" id="f3-b4" style="position:relative;margin-top:44px;padding:22px 30px"><div class="body">What is left in the bottle is information for the log, not a reason to keep feeding.</div></div>
+        </div>
+      </div>
+      
+      <div class="panel" id="f3-g1">
+        <img class="photo" src="assets/holding.jpg" alt="" style="left:96px;top:150px;width:960px;height:640px;">
+        <div style="position:absolute;left:1120px;top:160px;width:704px">
+          <div class="lbl">Demonstration 1 of 3</div>
+          <div class="h" style="font-size:66px;margin:12px 0 26px">Label check and setup</div>
+          <div class="item" id="f3-g1p1"><span>Label matches the plan</span></div>
+<div class="item" id="f3-g1p2"><span>Clean hands and supplies</span></div>
+<div class="item" id="f3-g1p3"><span>Baby held close, with support</span></div>
+<div class="item" id="f3-g1p4"><span>Caregiver stays for the whole feed</span></div>
+        </div>
+      </div>
+      <div class="panel" id="f3-g2">
+        <img class="photo" src="assets/baby.jpg" alt="" style="left:96px;top:150px;width:960px;height:640px;object-position:50% 30%">
+        <div style="position:absolute;left:1120px;top:160px;width:704px">
+          <div class="lbl">Demonstration 2 of 3</div>
+          <div class="h" style="font-size:66px;margin:12px 0 26px">The pause</div>
+          <div class="item" id="f3-g2p1"><span>Eyes on the baby’s face</span></div>
+<div class="item" id="f3-g2p2"><span>Bottle eased back for a break</span></div>
+<div class="item" id="f3-g2p3"><span>Baby sets the pace</span></div>
+        </div>
+      </div>
+      <div class="panel" id="f3-g3">
+        <img class="photo" src="assets/handoff.jpg" alt="" style="left:96px;top:150px;width:960px;height:640px;">
+        <div style="position:absolute;left:1120px;top:160px;width:704px">
+          <div class="lbl">Demonstration 3 of 3</div>
+          <div class="h" style="font-size:66px;margin:12px 0 26px">End of the feed</div>
+          <div class="item" id="f3-g3p1"><span>Amount recorded, if measured</span></div>
+<div class="item" id="f3-g3p2"><span>Correct rule for what is left</span></div>
+<div class="item" id="f3-g3p3"><span>No pressure to finish</span></div>
+        </div>
+      </div>
+      <div class="panel" id="f3-p">
+        <div class="tag" style="position:absolute;left:96px;top:150px">Practice</div>
+        <div class="card rule" style="left:96px;top:240px;width:1728px;padding:36px 48px"><div class="h" style="font-size:66px">Baby turns away twice and keeps their mouth closed.</div></div>
+        <div style="position:absolute;left:96px;top:520px;display:flex;gap:30px">
+          <span class="chip" id="f3-c1">Pause</span><span class="chip" id="f3-c2">Stop</span><span class="chip" id="f3-c3">Continue</span>
+        </div>
+        <div class="note" id="f3-pn" style="position:absolute;left:96px;top:650px;width:1728px">Record what you observed. Use the agreed call back plan. Never prop the bottle or pressure the baby to finish.</div>
+      </div><div class="pp" id="f3-cd"><div class="pp-label">Pause and choose</div><div class="pp-bar"><span id="f3-cd-fill"></span></div><div class="pp-sec">20 seconds</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#f3-demo-wrap', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0);
+    tl.fromTo('#f3-a', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.2);
+    tl.to('#f3-a', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 35.27);
+    tl.fromTo('#f3-a1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 0.8);
+    tl.fromTo('#f3-a2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 4.39);
+    tl.fromTo('#f3-a3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 13.94);
+    tl.fromTo('#f3-a4', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 16.14);
+    tl.fromTo('#f3-a5', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 18.88);
+    tl.fromTo('#f3-cl', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 26.14);
+    tl.fromTo('#f3-b', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 35.47);
+    tl.to('#f3-b', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 58.62);
+    tl.fromTo('#f3-b1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 38.34);
+    tl.fromTo('#f3-b2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 45.9);
+    tl.fromTo('#f3-b3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 46.2);
+    tl.fromTo('#f3-b4', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 51.99);
+    tl.fromTo('#f3-g1', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 58.82);
+    tl.to('#f3-g1', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 82.16);
+    tl.fromTo('#f3-g1p1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 60.02);
+    tl.fromTo('#f3-g1p1', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 60.02);
+    tl.to('#f3-g1p1', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 62.22);
+    tl.fromTo('#f3-g1p2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 66.63);
+    tl.fromTo('#f3-g1p2', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 66.63);
+    tl.to('#f3-g1p2', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 68.83);
+    tl.fromTo('#f3-g1p3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 73.25);
+    tl.fromTo('#f3-g1p3', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 73.25);
+    tl.to('#f3-g1p3', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 75.45);
+    tl.fromTo('#f3-g1p4', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 79.86);
+    tl.fromTo('#f3-g1p4', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 79.86);
+    tl.to('#f3-g1p4', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 82.06);
+    tl.fromTo('#f3-g2', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 82.16);
+    tl.to('#f3-g2', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 104.78);
+    tl.fromTo('#f3-g2p1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 83.36);
+    tl.fromTo('#f3-g2p1', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 83.36);
+    tl.to('#f3-g2p1', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 85.56);
+    tl.fromTo('#f3-g2p2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 92.92);
+    tl.fromTo('#f3-g2p2', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 92.92);
+    tl.to('#f3-g2p2', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 95.12);
+    tl.fromTo('#f3-g2p3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 102.48);
+    tl.fromTo('#f3-g2p3', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 102.48);
+    tl.to('#f3-g2p3', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 104.68);
+    tl.fromTo('#f3-g3', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 104.78);
+    tl.to('#f3-g3', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 128.74);
+    tl.fromTo('#f3-g3p1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 105.98);
+    tl.fromTo('#f3-g3p1', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 105.98);
+    tl.to('#f3-g3p1', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 108.18);
+    tl.fromTo('#f3-g3p2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 116.21);
+    tl.fromTo('#f3-g3p2', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 116.21);
+    tl.to('#f3-g3p2', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 118.41);
+    tl.fromTo('#f3-g3p3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 126.44);
+    tl.fromTo('#f3-g3p3', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 126.44);
+    tl.to('#f3-g3p3', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 128.64);
+    tl.fromTo('#f3-p', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 128.74);
+    tl.to('#f3-p', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 171.35);
+    tl.fromTo('#f3-c1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 134.43);
+    tl.fromTo('#f3-c2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 134.83);
+    tl.fromTo('#f3-c3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 135.23);
+    tl.fromTo('#f3-cd', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 136.28);
+    tl.fromTo('#f3-cd-fill', { scaleX: 1 }, { scaleX: 0, duration: 20, ease: 'none' }, 136.28);
+    tl.to('#f3-cd', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 156.28);
+    tl.fromTo('#f3-c2', { backgroundColor: 'rgba(142,60,46,0)', color: '#30241F' }, { backgroundColor: 'rgba(142,60,46,1)', color: '#FFFAF1', duration: 0.45, ease: 'power2.out' }, 156.28);
+    tl.to('#f3-c1', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 156.28);
+    tl.to('#f3-c3', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 156.28);
+    tl.fromTo('#f3-pn', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 159.72);
+    tl.to('#f3-demo-wrap', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 171.25);
+    window.__timelines['f3-demo'] = tl;
+  </script>
+</template>

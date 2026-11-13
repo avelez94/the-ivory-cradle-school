@@ -1,0 +1,164 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.panel { position: absolute; inset: 0; opacity: 0; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.04; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 5px solid #8E3C2E; }
+.lbl { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #8E3C2E; }
+.body { font: 500 38px/1.35 'DM Sans'; color: #30241F; }
+.muted { color: #69554A; }
+.quote { font: 500 46px/1.3 'DM Sans'; }
+.who { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #69554A; margin-bottom: 12px; }
+.chip { display: inline-block; font: 700 34px 'DM Sans'; padding: 16px 28px; border: 3px solid #30241F; background: #FFFAF1; }
+.chip.on { background: #8E3C2E; border-color: #8E3C2E; color: #FFFAF1; }
+.pp { position: absolute; left: 96px; right: 96px; top: 792px; display: flex; align-items: center; gap: 28px; }
+.pp-label { font: 700 30px 'DM Sans'; letter-spacing: 0.1em; text-transform: uppercase; color: #8E3C2E; white-space: nowrap; }
+.pp-bar { flex: 1; height: 14px; background: #EDDFCB; position: relative; overflow: hidden; }
+.pp-bar span { position: absolute; inset: 0; background: #8E3C2E; transform-origin: left center; }
+.pp-sec { font: 700 30px 'DM Sans'; color: #30241F; white-space: nowrap; }
+
+.photo { position: absolute; object-fit: cover; box-shadow: 0 20px 50px rgba(48,36,31,.18); }
+.stack { position: absolute; display: flex; flex-direction: column; gap: 26px; }
+.bub { background: #FFFAF1; border: 2px solid #D6C4B4; border-left: 8px solid #8E3C2E; padding: 24px 34px 28px; }
+.bub.parent { border-left-color: #30241F; }
+.bub .t { font: 500 40px/1.32 'DM Sans'; }
+.field { padding: 14px 0 16px; border-bottom: 2px solid #E4D6C6; }
+.field:last-child { border-bottom: 0; }
+.field .k { font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; color: #8E3C2E; }
+.field .v { font: 500 31px/1.3 'DM Sans'; margin-top: 6px; }
+.item { display: flex; gap: 24px; align-items: baseline; font: 500 36px/1.3 'DM Sans'; padding: 16px 20px; border-bottom: 2px solid #E4D6C6; }
+.item b { font: 800 34px 'Bricolage Grotesque'; color: #8E3C2E; width: 44px; flex: none; }
+.note { font: 500 34px/1.35 'DM Sans'; color: #69554A; }
+.big { font: 500 50px/1.3 'DM Sans'; }
+.tag { display: inline-block; font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; padding: 10px 18px; background: #8E3C2E; color: #FFFAF1; }
+.tl { position: absolute; left: 140px; right: 140px; height: 6px; background: #30241F; }
+.stop { position: absolute; width: 380px; text-align: center; }
+.stop .dot { width: 34px; height: 34px; border-radius: 50%; background: #FFFAF1; border: 6px solid #30241F; margin: 0 auto 18px; }
+.stop .time { font: 800 64px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.stop .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.ask { position: absolute; left: 96px; right: 96px; text-align: center; font: 800 64px/1.1 'Bricolage Grotesque'; letter-spacing: -0.03em; color: #8E3C2E; }
+.answer { position: absolute; left: 96px; right: 96px; padding: 28px 40px; font: 700 50px/1.2 'DM Sans'; text-align: center; background: #8E3C2E; color: #FFFAF1; }
+.grid2 { position: absolute; left: 96px; right: 96px; display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; row-gap: 34px; }
+.cell { background: #FFFAF1; border: 3px solid #30241F; padding: 26px 34px; }
+.cell .time { font: 800 66px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.cell .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.arrow { font: 800 70px 'Bricolage Grotesque'; color: #8E3C2E; text-align: center; }
+.rule { font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border-left: 6px solid #D6C4B4; }
+.rule b { font-weight: 700; }
+.col { position: absolute; top: 200px; width: 540px; }
+.col .lbl { margin-bottom: 14px; }
+.strike { position: relative; display: inline-block; }
+.strike i { position: absolute; left: -10px; right: -10px; top: 52%; height: 8px; background: #8E3C2E; transform-origin: left center; }
+.task { display: flex; gap: 24px; align-items: baseline; font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border: 3px solid transparent; }
+.task b { font: 800 36px 'Bricolage Grotesque'; color: #8E3C2E; flex: none; width: 40px; }
+
+  </style>
+  <div id="root" data-composition-id="f5-report" data-width="1920" data-height="1080">
+    <div class="wrap" id="f5-report-wrap" data-hold>
+      <img class="mark" src="assets/wordmark.png" alt="">
+      <div class="kicker" id="f5-report-kicker">Part 5 · Support the parent and report</div>
+
+      <div class="panel" id="f5-a">
+        <img class="photo" src="assets/handoff.jpg" alt="" style="left:96px;top:150px;width:820px;height:640px">
+        <div style="position:absolute;left:980px;top:150px;width:844px">
+          <div class="lbl">Nursing support</div>
+          <div class="item" id="f5-a1"><span>Bring baby to the parent when agreed</span></div>
+<div class="item" id="f5-a2"><span>Help with a burp cloth or diaper change</span></div>
+<div class="item" id="f5-a3"><span>Record the session as observed</span></div>
+<div class="item" id="f5-a4"><span>No ounce estimates from nursing</span></div>
+<div class="item" id="f5-a5"><span>Latch or transfer: lactation professional</span></div>
+<div class="item" id="f5-a6"><span>Intake or hydration: pediatric team</span></div>
+        </div>
+      </div>
+      <div class="panel" id="f5-u">
+        <div class="card rule" id="f5-log" style="left:96px;top:150px;width:840px;padding:26px 36px 18px">
+          <div class="lbl">Shift log</div>
+          <div class="field" id="f5-l1"><div class="k">Time</div><div class="v">2:40 a.m.</div></div>
+          <div class="field" id="f5-l2"><div class="k">Milk type</div><div class="v">Prepared formula</div></div>
+          <div class="field" id="f5-l3"><div class="k">Amount</div><div class="v">3 oz offered, 3 oz taken</div></div>
+          <div class="field" id="f5-l4"><div class="k">Response</div><div class="v">One pause, burped, settled</div></div>
+          <div class="field" id="f5-l5"><div class="k">Action</div><div class="v">Logged; no call needed per plan</div></div>
+        </div>
+        <div class="card" id="f5-upd" style="left:984px;top:150px;width:840px;padding:26px 36px">
+          <div class="lbl">Parent update</div>
+          <div class="t body" style="margin-top:14px">“Baby took all 3 oz at 2:40 with one pause, then burped and settled. Anything you’d like me to do differently next feed?”</div>
+          <div style="margin-top:34px" id="f5-bad"><span class="strike note" style="font-size:40px">“Bad feeder”<i id="f5-badx"></i></span></div>
+        </div>
+        <div class="card rule" id="f5-am" style="left:984px;top:640px;width:840px;padding:20px 36px"><div class="note" style="color:#30241F">Morning: carry forward open questions, who was contacted, and follow up due.</div></div>
+      </div>
+      <div class="panel" id="f5-e">
+        <div class="card rule" id="f5-e1" style="left:96px;top:150px;width:840px;padding:30px 40px">
+          <div class="h" style="font-size:50px">Tell the parent promptly</div>
+          <div class="note" style="margin:10px 0 18px">and help them reach the pediatrician</div>
+          <div class="item" id="f5-e11"><span>Feeding repeatedly differs from usual</span></div>
+<div class="item" id="f5-e12"><span>Trouble feeding</span></div>
+<div class="item" id="f5-e13"><span>Fewer wet diapers than expected</span></div>
+        </div>
+        <div class="card" id="f5-e2" style="left:984px;top:150px;width:840px;padding:30px 40px;background:#8E3C2E;border-color:#8E3C2E;color:#FFFAF1">
+          <div class="h" style="font-size:50px;color:#FFFAF1">Call 911 immediately</div>
+          <div style="font:500 34px 'DM Sans';margin:10px 0 18px">and follow dispatcher instructions</div>
+          <div style="font:500 36px/1.6 'DM Sans'">Severe trouble breathing<br>Unresponsive<br>Blue or gray lips or face</div>
+        </div>
+      </div>
+      <div class="panel" id="f5-p">
+        <div class="tag" style="position:absolute;left:96px;top:150px">Practice</div>
+        <div class="card" style="left:96px;top:240px;width:1728px;padding:32px 48px"><div class="lbl">Shift note</div><div class="h" style="font-size:72px;margin-top:10px"><span class="strike">Baby barely ate.<i id="f5-px"></i></span></div></div>
+        <div class="h" id="f5-pp" style="position:absolute;left:96px;top:540px;width:1600px;font-size:60px">Rewrite it using measured observations.</div>
+        <div class="card rule" id="f5-pr" style="left:96px;top:500px;width:1728px;padding:30px 48px"><div class="lbl">Factual version</div><div class="big" style="margin-top:12px">12:10 a.m. Expressed milk, 2 oz offered, 1 oz taken. Turned away twice. Stopped and notified parent as agreed.</div></div>
+      </div><div class="pp" id="f5-cd"><div class="pp-label">Pause and rewrite</div><div class="pp-bar"><span id="f5-cd-fill"></span></div><div class="pp-sec">25 seconds</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#f5-report-wrap', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0);
+    tl.fromTo('#f5-a', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.2);
+    tl.to('#f5-a', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 30.88);
+    tl.fromTo('#f5-a1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 0.8);
+    tl.fromTo('#f5-a2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 5.69);
+    tl.fromTo('#f5-a3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 11.95);
+    tl.fromTo('#f5-a4', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 14.47);
+    tl.fromTo('#f5-a5', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 18.11);
+    tl.fromTo('#f5-a6', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 22.61);
+    tl.fromTo('#f5-u', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 31.08);
+    tl.to('#f5-u', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 56.59);
+    tl.fromTo('#f5-log', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 31.28);
+    tl.fromTo('#f5-l1', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 34.72);
+    tl.to('#f5-l1', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 36.32);
+    tl.fromTo('#f5-l2', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 36.02);
+    tl.to('#f5-l2', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 37.62);
+    tl.fromTo('#f5-l3', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 37.12);
+    tl.to('#f5-l3', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 38.72);
+    tl.fromTo('#f5-l4', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 38.72);
+    tl.to('#f5-l4', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 40.32);
+    tl.fromTo('#f5-l5', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 40.32);
+    tl.to('#f5-l5', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 41.92);
+    tl.fromTo('#f5-upd', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 40.94);
+    tl.fromTo('#f5-bad', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 45.25);
+    tl.fromTo('#f5-badx', { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: 'power2.out' }, 46.25);
+    tl.fromTo('#f5-am', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 48.46);
+    tl.fromTo('#f5-e', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 56.79);
+    tl.to('#f5-e', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 83.32);
+    tl.fromTo('#f5-e1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 56.99);
+    tl.fromTo('#f5-e2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 71.57);
+    tl.fromTo('#f5-p', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 83.52);
+    tl.to('#f5-p', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 140.48);
+    tl.fromTo('#f5-px', { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: 'power2.out' }, 88.46);
+    tl.fromTo('#f5-pp', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 88.46);
+    tl.fromTo('#f5-cd', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 90.95);
+    tl.fromTo('#f5-cd-fill', { scaleX: 1 }, { scaleX: 0, duration: 25, ease: 'none' }, 90.95);
+    tl.to('#f5-cd', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 115.95);
+    tl.to('#f5-pp', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 115.95);
+    tl.fromTo('#f5-pr', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 115.95);
+    tl.to('#f5-report-wrap', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 140.38);
+    window.__timelines['f5-report'] = tl;
+  </script>
+</template>
