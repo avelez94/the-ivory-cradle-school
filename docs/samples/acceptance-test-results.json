@@ -1,0 +1,186 @@
+{
+  "base": "http://localhost:3100",
+  "at": "2026-11-13T01:46:50.486Z",
+  "results": [
+    {
+      "name": "A1 worksheet downloads right after enrolling",
+      "ok": true
+    },
+    {
+      "name": "A1 partial viewing is saved on the server (about 22 seconds)",
+      "ok": true
+    },
+    {
+      "name": "A2 forward seeking past the watched point is blocked",
+      "ok": true
+    },
+    {
+      "name": "A2 faster playback is reset to normal speed",
+      "ok": true
+    },
+    {
+      "name": "A2 replaying an already watched section is allowed",
+      "ok": true
+    },
+    {
+      "name": "A2 a burst of forged progress reports cannot jump ahead (server enforced)",
+      "ok": true
+    },
+    {
+      "name": "A2 steady forged reports never credit faster than real time",
+      "ok": true
+    },
+    {
+      "name": "A2 a fake \"video ended\" report cannot unlock the quiz",
+      "ok": true
+    },
+    {
+      "name": "A2 the quiz page explains why it is locked and how much remains",
+      "ok": true
+    },
+    {
+      "name": "A1 resume on another device starts at the furthest watched point",
+      "ok": true
+    },
+    {
+      "name": "B4 failed attempt 1 shows the score and \"You have 2 attempts left\"",
+      "ok": true
+    },
+    {
+      "name": "B4 failed attempt 2 shows \"You have 1 attempt left\"",
+      "ok": true
+    },
+    {
+      "name": "B4 two devices submitting the last attempt at once use only one attempt",
+      "ok": true
+    },
+    {
+      "name": "B4 quiz locks with \"Rewatch the lesson to unlock 3 new attempts.\"",
+      "ok": true
+    },
+    {
+      "name": "A3 completing the video on the server unlocks the quiz",
+      "ok": true
+    },
+    {
+      "name": "A3 quiz page never contains the answer key or explanations",
+      "ok": true
+    },
+    {
+      "name": "B4 rewatch starts a new viewing from the beginning and keeps history",
+      "ok": true
+    },
+    {
+      "name": "B4 quiz stays locked during the rewatch, and seeking ahead is blocked again",
+      "ok": true
+    },
+    {
+      "name": "A3 4 out of 5 passes and issues a certificate (double click on Submit)",
+      "ok": true
+    },
+    {
+      "name": "A duplicate submissions (same key, other device, other keys) never add attempts or certificates",
+      "ok": true
+    },
+    {
+      "name": "A certificate QR code scans and opens verification with the serial filled in",
+      "ok": true
+    },
+    {
+      "name": "A5 sign out, sign back in, same certificate file and serial",
+      "ok": true
+    },
+    {
+      "name": "B4 after the full rewatch, three fresh attempts are available",
+      "ok": true
+    },
+    {
+      "name": "B passes on the new viewing with 5 out of 5",
+      "ok": true
+    },
+    {
+      "name": "S one student cannot open another student’s lesson, quiz or files",
+      "ok": true
+    },
+    {
+      "name": "S one student cannot download another student’s certificate",
+      "ok": true
+    },
+    {
+      "name": "S signed out visitors cannot download certificates or open the dashboard",
+      "ok": true
+    },
+    {
+      "name": "S cross site requests to change progress are rejected",
+      "ok": true
+    },
+    {
+      "name": "S students cannot reach staff pages or signature artwork; the blank template is not public",
+      "ok": true
+    },
+    {
+      "name": "V valid, typed in lowercase with spaces, does not expire",
+      "ok": true
+    },
+    {
+      "name": "V a student’s real certificate verifies as Valid",
+      "ok": true
+    },
+    {
+      "name": "V mistyped serial shows Not valid",
+      "ok": true
+    },
+    {
+      "name": "V malformed serial shows Not valid",
+      "ok": true
+    },
+    {
+      "name": "V partial serial is not accepted",
+      "ok": true
+    },
+    {
+      "name": "V expired credential shows Expired",
+      "ok": true
+    },
+    {
+      "name": "V revoked credential shows Revoked",
+      "ok": true
+    },
+    {
+      "name": "V replaced credential shows Replaced",
+      "ok": true
+    },
+    {
+      "name": "V replacement shows completion date separately from issue date",
+      "ok": true
+    },
+    {
+      "name": "V results are excluded from search indexing",
+      "ok": true
+    },
+    {
+      "name": "T later edits (profile, signature set, expiration policy) never rewrite an issued certificate",
+      "ok": true
+    },
+    {
+      "name": "T admin corrects a certificate: new serial, original Replaced, audit trail records who",
+      "ok": true
+    },
+    {
+      "name": "T admin revokes a certificate; verification shows Revoked without the private reason",
+      "ok": true
+    },
+    {
+      "name": "T course editor: draft edits stay private until published as a new version",
+      "ok": true
+    },
+    {
+      "name": "T staff can grant an accessible alternative that unlocks the quiz (logged)",
+      "ok": true
+    },
+    {
+      "name": "V verification requests are rate limited",
+      "ok": true
+    }
+  ]
+}
