@@ -71,8 +71,8 @@ async function upsertCourse(c, files) {
   if (existing) return existing
   const draft = { ...c.draft, ...(files || {}) }
   const [course] = await sql`
-    insert into courses (slug, status, sort_order, draft)
-    values (${c.slug}, ${c.status}, ${c.sortOrder}, ${sql.json(draft)}) returning id, published_version_id`
+    insert into courses (slug, status, sort_order, price_cents, draft)
+    values (${c.slug}, ${c.status}, ${c.sortOrder}, ${c.priceCents ?? null}, ${sql.json(draft)}) returning id, published_version_id`
   console.log('course created', c.slug)
   return course
 }

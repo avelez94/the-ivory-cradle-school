@@ -12,7 +12,7 @@ export async function joinInterestList(_prev: FormState, formData: FormData): Pr
   const email = String(formData.get('email') || '').trim()
   const name = String(formData.get('name') || '').trim().slice(0, 120)
   if (!EMAIL.test(email) || email.length > 200) return { error: 'Enter a valid email address.' }
-  if (!hasDatabase()) return { error: 'The update list opens once the staging database is connected.' }
+  if (!hasDatabase()) return { error: 'The update list is opening soon.' }
   if (!(await rateLimit(`interest:${await clientIpHash()}`, 10, 3600))) return { error: 'Too many requests. Try again later.' }
   await db()`insert into interest_signups (program, name, email) values ('newborn_care_specialist', ${name || null}, ${email.toLowerCase()})
     on conflict (program, email) do nothing`
@@ -29,7 +29,7 @@ export async function sendContactMessage(_prev: FormState, formData: FormData): 
   if (!name) return { error: 'Enter your name.' }
   if (!EMAIL.test(email)) return { error: 'Enter a valid email address.' }
   if (!TOPICS.includes(topic)) return { error: 'Choose a topic.' }
-  if (!hasDatabase()) return { error: 'The contact form opens once the staging database is connected.' }
+  if (!hasDatabase()) return { error: 'The contact form is opening soon.' }
   if (message.length < 5 || message.length > 5000) return { error: 'Enter a message (up to 5,000 characters).' }
   if (!(await rateLimit(`contact:${await clientIpHash()}`, 8, 3600))) return { error: 'Too many messages. Try again later.' }
   const user = await getCurrentUser()

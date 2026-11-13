@@ -6,6 +6,7 @@ export const FIRST_OVERNIGHT_SHIFT = {
   slug: 'the-first-overnight-shift',
   status: 'published',
   sortOrder: 10,
+  priceCents: 2500,
   draft: {
     title: 'The First Overnight Shift',
     category: 'Overnight care',

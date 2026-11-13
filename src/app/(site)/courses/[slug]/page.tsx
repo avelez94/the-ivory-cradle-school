@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation'
 import { enrollmentOpen, getCourseBySlug } from '@/lib/courses'
 import { getCurrentUser, isStaff } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { isStaging } from '@/lib/config'
 import { enrollAction } from './actions'
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ preview?: string }> }
@@ -124,7 +123,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
                   style={{ border: '1px solid var(--border)' }}
                 />
                 <figcaption className="muted small" style={{ marginTop: 8 }}>
-                  A frame from the lesson. Create a free student account to watch the full lesson.
+                  A frame from the lesson. Enroll to watch the full lesson.
                 </figcaption>
               </figure>
             )}
@@ -181,7 +180,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
               <>
                 <span className="label terra">Mini course</span>
                 <p className="price" style={{ marginTop: 10 }}>
-                  {course.priceCents ? `$${(course.priceCents / 100).toFixed(0)}` : isStaging() ? 'Free in staging' : 'Free'}
+                  {course.priceCents ? `$${(course.priceCents / 100).toFixed(0)}` : 'Free'}
                 </p>
                 <p className="muted small" style={{ marginTop: 4 }}>
                   About {c.estimatedMinutes ?? 15} minutes · Video, worksheet, quiz, certificate
@@ -201,7 +200,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
                   ) : (
                     <p className="notice">
                       {gate.reason === 'database_pending'
-                        ? 'Student accounts and enrollment open once the staging database is connected.'
+                        ? 'Enrollment opens soon.'
                         : 'Enrollment for this course opens soon.'}
                     </p>
                   )}

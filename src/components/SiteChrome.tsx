@@ -1,17 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getCurrentUser, isStaff } from '@/lib/auth'
-import { isStaging } from '@/lib/config'
-
-export function StagingBar() {
-  if (!isStaging()) return null
-  return (
-    <div className="staging-bar" role="note">
-      <strong>Staging</strong>
-      Test site. Enrollment is free for testing and every certificate is labeled Sample.
-    </div>
-  )
-}
 
 export async function SiteHeader() {
   const user = await getCurrentUser()

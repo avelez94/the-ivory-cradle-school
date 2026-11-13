@@ -60,7 +60,7 @@ function fallbackCatalog(): CatalogCourse[] {
     slug: c.slug,
     status: c.status as CatalogCourse['status'],
     sortOrder: c.sortOrder,
-    priceCents: null,
+    priceCents: (c as { priceCents?: number }).priceCents ?? null,
     content: c.draft as CourseContent,
     publishedVersionId: null,
   }))
@@ -102,7 +102,7 @@ export async function enrollmentOpen(course: CatalogCourse) {
   if (!hasDatabase()) return { open: false, reason: 'database_pending' as const }
   if (course.status !== 'published' || !course.publishedVersionId) return { open: false, reason: 'not_published' as const }
   const free = !course.priceCents
-  // Staging enrollment lets testers enroll without payment. Live payments arrive in a later phase.
+  // Until checkout is built, the staging_enrollment_enabled setting lets testers enroll without paying.
   const staging = await getSetting('staging_enrollment_enabled', true)
   const payments = await getSetting('payments_enabled', false)
   if (free || staging) return { open: true, reason: null, mode: free ? ('free' as const) : ('staging' as const) }

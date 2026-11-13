@@ -87,7 +87,7 @@ export default async function CourseEditor({ params, searchParams }: { params: P
       <h2>Lesson video</h2>
       <div className="panel" style={{ marginTop: 12 }}>
         <p>
-          Current: {f(d.videoFileId) ? <><b>{f(d.videoFileId)!.filename}</b> ({f(d.videoFileId)!.storage === 'bundled' ? 'staging sample' : f(d.videoFileId)!.storage === 'blob' ? 'private upload' : 'linked'}) · {d.videoDurationSeconds ? duration(d.videoDurationSeconds) : 'length not set'}</> : 'none'}
+          Current: {f(d.videoFileId) ? <><b>{f(d.videoFileId)!.filename}</b> ({f(d.videoFileId)!.storage === 'bundled' ? 'included with the site' : f(d.videoFileId)!.storage === 'blob' ? 'private upload' : 'linked'}) · {d.videoDurationSeconds ? duration(d.videoDurationSeconds) : 'length not set'}</> : 'none'}
         </p>
         <div className="editor-grid" style={{ marginTop: 16 }}>
           <div>
@@ -146,7 +146,7 @@ export default async function CourseEditor({ params, searchParams }: { params: P
           <div>
             <div className="field"><label htmlFor="wl">Worksheet name</label><input id="wl" name="worksheetLabel" type="text" defaultValue={d.worksheetLabel} /></div>
             <div className="field" style={{ marginTop: 12 }}><label htmlFor="em">Estimated minutes</label><input id="em" name="estimatedMinutes" type="number" min="1" defaultValue={d.estimatedMinutes ?? 15} /></div>
-            <div className="field" style={{ marginTop: 12 }}><label htmlFor="pr">Price in USD (for the payment phase)</label><input id="pr" name="price" type="number" min="0" step="1" defaultValue={c.price_cents ? c.price_cents / 100 : ''} /><span className="hint">Shown on the course page. Live payments are not active; staging enrollment stays free.</span></div>
+            <div className="field" style={{ marginTop: 12 }}><label htmlFor="pr">Price in USD</label><input id="pr" name="price" type="number" min="0" step="1" defaultValue={c.price_cents ? c.price_cents / 100 : ''} /><span className="hint">Shown on the course page. Online payment is switched on in Policies &amp; settings once checkout is connected.</span></div>
             <div className="field" style={{ marginTop: 12 }}><label htmlFor="so">Catalog order</label><input id="so" name="sortOrder" type="number" defaultValue={c.sort_order} /></div>
           </div>
         </div>

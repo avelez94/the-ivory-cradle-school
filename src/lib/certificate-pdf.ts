@@ -148,7 +148,7 @@ export async function renderCertificatePdf(input: CertificateRender): Promise<Bu
       page.drawRectangle({ x, y: 553, width: lw + 12, height: 19, borderColor: C.terracotta, borderWidth: 0.9 })
       tracked(page, label, x + 6, 559.5, bold, 10, 2.2, C.terracotta)
     }
-    centered(page, 'Sample certificate issued by the staging site for testing', 563, sans, 6.5, C.terracotta, 396)
+    centered(page, 'Sample certificate', 563, sans, 6.5, C.terracotta, 396)
   }
 
   const bytes = await pdf.save({ useObjectStreams: false })

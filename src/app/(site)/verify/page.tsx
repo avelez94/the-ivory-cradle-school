@@ -53,7 +53,7 @@ function ResultPanel({ result, serial }: { result: VerificationResult; serial: s
           </dl>
           <p className="explain">
             {s.explain}
-            {result.sample && ' This is a sample credential from the staging site.'}
+            {result.sample && ' This is a sample credential.'}
           </p>
         </>
       )}
@@ -105,7 +105,7 @@ export default async function VerifyPage({ searchParams }: Props) {
         </form>
         {pending && (
           <p className="notice warn" role="status" style={{ marginTop: 24 }}>
-            Certificate verification opens once the staging database is connected.
+            Certificate verification is opening soon.
           </p>
         )}
         {limited && (

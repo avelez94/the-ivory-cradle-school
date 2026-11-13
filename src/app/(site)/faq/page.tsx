@@ -71,7 +71,7 @@ const FAQS: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: 'How much do mini courses cost?',
-    a: 'Pricing will be announced before launch. On this staging site, enrollment is free so the full student experience can be tested.',
+    a: 'The First Overnight Shift is $25. The price includes the video lesson, the worksheet, the quiz, and your Certificate of Completion. Each course page lists its price.',
   },
 ]
 

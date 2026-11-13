@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { requireStaff, isAdmin } from '@/lib/auth'
-import { SiteHeader, StagingBar } from '@/components/SiteChrome'
+import { SiteHeader } from '@/components/SiteChrome'
 
 export const metadata: Metadata = { title: 'School administration', robots: { index: false, follow: false } }
 
@@ -10,7 +10,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const admin = isAdmin(user)
   return (
     <>
-      <StagingBar />
       <SiteHeader />
       <div className="admin-shell">
         <nav className="admin-nav" aria-label="Administration">

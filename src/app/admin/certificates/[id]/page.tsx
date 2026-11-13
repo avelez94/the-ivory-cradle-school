@@ -41,7 +41,7 @@ export default async function CertificateAdmin({ params, searchParams }: { param
       <div className="table-wrap">
         <table className="data">
           <tbody>
-            <tr><th>Status</th><td>{c.status}{c.is_sample ? ' (staging sample)' : ''}</td></tr>
+            <tr><th>Status</th><td>{c.status}{c.is_sample ? ' (sample)' : ''}</td></tr>
             <tr><th>Recipient as printed</th><td>{c.recipient_name}</td></tr>
             <tr><th>Student account</th><td>{c.email ?? 'None (sample record)'}</td></tr>
             <tr><th>Course title as printed</th><td>{c.course_title}</td></tr>

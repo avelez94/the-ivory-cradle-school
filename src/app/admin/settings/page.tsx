@@ -40,7 +40,7 @@ export default async function SettingsAdmin({ searchParams }: { searchParams: Pr
 
       <h2>Enrollment and payments</h2>
       <form action={saveSettingsAction} className="panel form" style={{ marginTop: 12 }}>
-        <label className="check"><input type="checkbox" name="staging_enrollment_enabled" defaultChecked={staging} /><span><b>Staging enrollment</b>: students can enroll without paying, for testing.</span></label>
+        <label className="check"><input type="checkbox" name="staging_enrollment_enabled" defaultChecked={staging} /><span><b>Enrollment without payment</b>: students can enroll before online checkout is connected.</span></label>
         <label className="check"><input type="checkbox" name="payments_enabled" defaultChecked={payments} /><span><b>Payments</b>: reserved for the payment phase. Checkout is not built yet, so leave this off.</span></label>
         <label className="check"><input type="checkbox" name="flagship_enrollment_enabled" defaultChecked={flagship} /><span><b>Flagship enrollment</b>: reserved for Newborn Care Specialist Training. Keep off until the program is approved.</span></label>
         <div><button className="btn outline small" type="submit">Save settings</button></div>
