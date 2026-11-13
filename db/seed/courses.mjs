@@ -12,7 +12,7 @@ export const FIRST_OVERNIGHT_SHIFT = {
     category: 'Overnight care',
     summary: 'Practice what to ask at arrival and what to share in your morning handoff.',
     description:
-      'It’s nine at night, and the parents are ready for bed. This mini course walks through your first overnight shift in order: the arrival conversation, an unclear handoff, the sleep space, feeding and milk handling, when to escalate, and a factual log with a clear morning handoff. Plan on about 7 minutes of video, 5 minutes of worksheet practice, and an untimed five question quiz.',
+      'It’s nine at night, and the parents are ready for bed. This mini course walks through your first overnight shift in order: the arrival conversation, an unclear handoff, the sleep space, feeding and milk handling, when to escalate, and a factual log with a clear morning handoff. Plan on about 5 minutes of video, 5 minutes of worksheet practice, and an untimed five question quiz.',
     scope:
       'This lesson covers nonmedical newborn support: verifying the plan, observing, documenting, communicating, and escalating. Individual feeding instructions come from the family and the baby’s clinical team. It does not teach infant CPR, medical assessment, medication administration, or care for medically complex infants.',
     audience: [
@@ -26,7 +26,7 @@ export const FIRST_OVERNIGHT_SHIFT = {
       'Write an objective shift entry and deliver a morning handoff that highlights any follow up',
     ],
     included: [
-      'A 7 minute video lesson with captions',
+      'A 5 minute video lesson with captions',
       'A one page field reference and practice worksheet',
       'An untimed five question quiz',
       'A Certificate of Completion when you score at least 4 out of 5',
