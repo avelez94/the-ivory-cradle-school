@@ -180,18 +180,7 @@ files['s3-unclear'] = scene('s3-unclear', 45, MARK + """
 # 4 · Check the sleep space (2:05 to 2:59): overhead view of an empty bassinet with a mannequin
 files['s4-sleep'] = scene('s4-sleep', 54, MARK + """
       <div class="kicker">Check the sleep space</div>
-      <svg id="s4-bassinet" style="position:absolute;left:150px;top:170px" width="760" height="600" viewBox="0 0 760 600" aria-label="Overhead view of a bassinet with a fitted sheet and a practice mannequin on its back">
-        <rect x="20" y="20" width="720" height="560" rx="150" fill="#D9BC92" stroke="#B08A5C" stroke-width="10"/>
-        <rect x="70" y="70" width="620" height="460" rx="110" fill="#FFFAF1" stroke="#E7D8C2" stroke-width="6"/>
-        <g id="s4-mannequin">
-          <circle cx="250" cy="300" r="62" fill="#CDBBA6"/>
-          <rect x="300" y="248" width="230" height="104" rx="48" fill="#CDBBA6"/>
-          <rect x="330" y="222" width="140" height="34" rx="17" fill="#CDBBA6"/>
-          <rect x="330" y="344" width="140" height="34" rx="17" fill="#CDBBA6"/>
-          <rect x="510" y="262" width="120" height="34" rx="17" fill="#CDBBA6"/>
-          <rect x="510" y="304" width="120" height="34" rx="17" fill="#CDBBA6"/>
-        </g>
-      </svg>
+      <img id="s4-bassinet" src="assets/baby-swaddled.jpg" alt="A swaddled newborn asleep on their back on a smooth fitted sheet" style="position:absolute;left:120px;top:165px;width:800px;height:600px;object-fit:cover;object-position:50% 24%">
       <div style="position:absolute;left:1000px;top:190px;width:820px">
         <div class="row s4-label"><b>01</b>On the back</div>
         <div class="row s4-label"><b>02</b>Firm, flat, level surface</div>

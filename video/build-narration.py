@@ -4,10 +4,10 @@ approved script, one file per scene. Scene 3 is split around the three second th
 
 Writes first-overnight-shift/assets/voice/*.wav and narration.json (clip lengths), which
 build-scenes.py and build-captions.py use to time the film to the voice.
-Needs HYPERFRAMES_PYTHON pointing at a Python with kokoro-onnx and soundfile installed.
+Run it with a Python that has kokoro-onnx and soundfile installed; it uses the Kokoro model files
+that `npx hyperframes tts` downloads to ~/.cache/hyperframes/tts. Pass scene keys to redo only those.
 """
 import json
-import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -28,17 +28,38 @@ NARRATION = {
     's8': "Before you leave this lesson, open the First Overnight Shift worksheet. Write one question you'd ask when the last feed time is unclear, then practice recording the sample feed and diaper. The worksheet also gives you a quick reference for safe sleep, feeding, and urgent concerns. When the lesson is complete, take the five-question quiz. Four correct answers earn your Certificate of Completion.",
 }
 
+# Pronunciation fixes, applied to the phonemes Kokoro produces. Every "record" and "use" in this
+# script is a verb, and times say "PM" without a pause between the letters.
+TEXT_FIXES = [('p.m.', 'PM'), ('a.m.', 'AM')]
+PHONEME_FIXES = [
+    (r'ɹˈɛkɚd(?=[\s,.;:!?]|$)', 'ɹᵻkˈɔːɹd'),  # record (verb), not REH-kerd
+    (r'jˈuːs(?=[\s,.;:!?]|$)', 'jˈuːz'),  # use (verb), not the noun
+]
+
+import os
+import re
+import sys
+from kokoro_onnx import Kokoro  # run with the Python that has kokoro-onnx (see HYPERFRAMES_PYTHON)
+import soundfile as sf
+
+CACHE = Path(os.path.expanduser('~/.cache/hyperframes/tts'))
+kokoro = Kokoro(str(CACHE / 'models' / 'kokoro-v1.0.onnx'), str(CACHE / 'voices' / 'voices-v1.0.bin'))
+
 VOICE_DIR.mkdir(parents=True, exist_ok=True)
-lengths = {}
+only = set(sys.argv[1:])
+lengths = json.loads((PROJECT / 'narration.json').read_text())['lengths'] if (PROJECT / 'narration.json').exists() else {}
 for key, text in NARRATION.items():
-    out = VOICE_DIR / f'{key}.wav'
-    res = subprocess.run(
-        ['npx', 'hyperframes', 'tts', text, '-v', VOICE, '-o', str(out), '--json'],
-        cwd=PROJECT, capture_output=True, text=True, check=True,
-    )
-    line = [l for l in res.stdout.splitlines() if l.startswith('{')][-1]
-    lengths[key] = round(json.loads(line)['durationSeconds'], 3)
-    print(key, lengths[key], 's')
+    if only and key not in only:
+        continue
+    for a, b in TEXT_FIXES:
+        text = text.replace(a, b)
+    phonemes = kokoro.tokenizer.phonemize(text, 'en-us')
+    for pattern, repl in PHONEME_FIXES:
+        phonemes = re.sub(pattern, repl, phonemes)
+    samples, rate = kokoro.create(phonemes, voice=VOICE, speed=1.0, lang='en-us', is_phonemes=True)
+    sf.write(VOICE_DIR / f'{key}.wav', samples, rate)
+    lengths[key] = round(len(samples) / rate, 3)
+    print(key, lengths[key], 's', flush=True)
 
 (PROJECT / 'narration.json').write_text(json.dumps({'voice': VOICE, 'lengths': lengths}, indent=2) + '\n')
 print('total voice', round(sum(lengths.values()), 1), 's')
