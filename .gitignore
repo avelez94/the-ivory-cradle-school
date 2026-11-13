@@ -41,3 +41,4 @@ next-env.d.ts
 /video/milk-handling-on-shift/assets/voice/lines/
 /video/render-milk.log
 __pycache__/
+/video/render-fos-v3.log

@@ -11,7 +11,7 @@ from pathlib import Path
 # (scene start, scene end, narration). A "||" splits a scene's text across its voice clips: scene 1 is the
 # parent's line (in the HeyGen clip) and the specialist's response; scene 3 pauses three seconds to think.
 SCENES = [
-    (0, 29, "We’re heading to bed. Is there anything you need from us before we go? || Before you go, can we review when the baby last fed and what you’d like me to do for the next feed? Can you show me where the baby sleeps and tell me when and how you’d like me to wake you?"),
+    (0, 45, "We’re heading to bed. Is there anything you need from us before we go? || He’s heading to bed. Before you take over the shift, what would you confirm? Pause here, and name three things you’d ask. || Here’s one way to ask. || Before you go, can we review when the baby last fed and what you’d like me to do for the next feed? Can you show me where the baby sleeps and tell me when and how you’d like me to wake you? || That covers the three things to confirm before you take over: the feeding plan, the sleep setup, and when to wake a parent. Let’s build them into your arrival checklist."),
     (25, 80, "Start by asking when and how the baby last fed, how much they took if measured, and what the plan is for the next feed. Ask how the parents want to handle direct nursing, bottles, or both, and which instructions came from the baby's clinician. Ask when to wake a parent and how to reach them. Confirm the home's address and the pediatrician's after hours number. Locate the sleep space, clean feeding supplies, and diaper supplies before you need them. If the baby has a clinician directed plan, ask where it's written and clarify anything you can't confidently follow before accepting responsibility for that task."),
     (80, 125, "One parent thinks the baby last fed at 7:30. The other thinks it was closer to 8:00. What would you clarify before they head to bed? || Ask for their best estimate, then confirm what to do if the timing is uncertain. You could say, “If we aren't sure about the last feed, when should I wake you, and what's the plan if the baby cues sooner?” Record an estimate as an estimate. Read the plan back so everyone knows what you agreed to."),
     (125, 179, "The American Academy of Pediatrics recommends putting babies on their backs for every sleep. Use a separate, safety approved crib, bassinet, portable crib, or play yard with a firm, flat, level surface and a fitted sheet. Keep pillows, loose blankets, toys, and positioners out. If a baby falls asleep in a swing or car seat, move them to an appropriate sleep surface on their back as soon as possible. If you're getting drowsy while holding the baby, put them in the safe sleep space. If the setup isn't safe, raise it with the parents and agree on a safe alternative before using it."),
@@ -55,7 +55,7 @@ def place(pieces, start, end):
 
 timeline = json.loads((Path(__file__).parent / 'first-overnight-shift' / 'timeline.json').read_text())
 clips = timeline['voice']
-keys = [['p1', 's1r'], 's2', ['s3a', 's3b'], 's4', 's5', 's6', 's7', 's8']
+keys = [['p1', 's1a', 's1b', 's1r', 's1c'], 's2', ['s3a', 's3b'], 's4', 's5', 's6', 's7', 's8']
 cues = []
 for (_, _, text), key in zip(SCENES, keys):
     parts = text.split('||')

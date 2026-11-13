@@ -24,13 +24,19 @@ with wave.open(str(OUT / 'assets' / 'voice' / 's1-response.wav')) as _w:
     OPEN_VO_LEN = round(_w.getnframes() / _w.getframerate(), 3)
 OPEN_CLIP_AT, OPEN_CLIP_LEN = 3.5, 5.1      # the clip ends on his last natural expression
 OPEN_PARENT_SPEECH = (0.61, 3.48)            # the line inside the clip
-OPEN_FREEZE_AT, OPEN_FREEZE_LEN = OPEN_CLIP_AT + OPEN_CLIP_LEN, 8.0
+OPEN_THINK = 7.0                             # quiet thinking time after the narrator asks the question
+OPEN_FREEZE_AT = OPEN_CLIP_AT + OPEN_CLIP_LEN
+OPEN_N1_AT = OPEN_FREEZE_AT + 0.3            # narrator: "He's heading to bed... name three things you'd ask."
+OPEN_FREEZE_LEN = round(0.3 + _n['s1a'] + OPEN_THINK, 2)
 OPEN_REVEAL_AT = OPEN_FREEZE_AT + OPEN_FREEZE_LEN
-OPEN_VO_AT = OPEN_REVEAL_AT + 0.4
+OPEN_N2_AT = OPEN_REVEAL_AT + 0.4            # narrator: "Here's one way to ask."
+OPEN_VO_AT = round(OPEN_N2_AT + _n['s1b'] + 0.35, 2)
 OPEN_VO_SPEECH = (0.34, 10.5)                # speech inside s1-response.wav
 OPEN_TAKEAWAYS = (1.5, 6.8, 8.0)             # feeding plan, sleep setup, when to wake a parent (seconds into the response)
+OPEN_N3_AT = round(OPEN_VO_AT + OPEN_VO_SPEECH[1] + 0.6, 2)  # narrator names the three takeaways
+OPEN_N3_TAKEAWAYS = (4.1, 5.4, 6.7)          # where the narrator says each one (seconds into s1c)
 DUR = {
-    's1-open': OPEN_VO_AT + OPEN_VO_LEN + TAIL,
+    's1-open': OPEN_N3_AT + _n['s1c'] + TAIL,
     's2-ask': LEAD + _n['s2'] + TAIL,
     's3-unclear': LEAD + _n['s3a'] + THINK + _n['s3b'] + TAIL,
     's4-sleep': LEAD + _n['s4'] + TAIL,
@@ -147,7 +153,7 @@ files['s1-open'] = scene('s1-open', 25, f"""
     # freeze frame exercise: dim the last frame, then the question and the cue; answers stay hidden
     f"    tl.fromTo('#s1-dim', {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: 'power2.out' }}, {OPEN_FREEZE_AT});",
     fade('#s1-ask', OPEN_FREEZE_AT + 0.4),
-    fade('#s1-cue', OPEN_FREEZE_AT + 1.2, 0.6, 16),
+    fade('#s1-cue', OPEN_N1_AT + 3.6, 0.6, 16),
     out(['#s1-time'], OPEN_REVEAL_AT - 0.4),
     # the reveal: the specialist's words on screen while they are spoken, each takeaway lit as it is said
     f"    tl.fromTo('#s1-reveal', {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: 'power2.out' }}, {OPEN_REVEAL_AT});",
@@ -159,6 +165,9 @@ files['s1-open'] = scene('s1-open', 25, f"""
         f"    tl.to('#s1-ph{i}', {{ color: '#8E3C2E', duration: 0.3 }}, {round(OPEN_VO_AT + at, 2)});",
         f"    tl.to('#s1-t{i}', {{ opacity: 1, backgroundColor: '#8E3C2E', borderColor: '#8E3C2E', color: '#FFFAF1', duration: 0.4, ease: 'power2.out' }}, {round(OPEN_VO_AT + at, 2)});",
     )
+] + [
+    f"    tl.fromTo('#s1-t{i}', {{ scale: 1 }}, {{ scale: 1.05, duration: 0.25, ease: 'power2.out', yoyo: true, repeat: 1, transformOrigin: 'left center' }}, {round(OPEN_N3_AT + at, 2)});"
+    for i, at in enumerate(OPEN_N3_TAKEAWAYS, 1)
 ]))
 
 # 2 · Ask before the parents go to sleep (0:25 to 1:20)
@@ -350,6 +359,9 @@ for sid, start, dur in SCENES:
         # the parent's line plays from the clip itself; the model response is a separate voice track
         clips['p1'] = [round(start + OPEN_CLIP_AT + OPEN_PARENT_SPEECH[0], 3), round(OPEN_PARENT_SPEECH[1] - OPEN_PARENT_SPEECH[0], 3)]
         clips['s1r'] = [round(start + OPEN_VO_AT + OPEN_VO_SPEECH[0], 3), round(OPEN_VO_SPEECH[1] - OPEN_VO_SPEECH[0], 3)]
+        for key, at in (('s1a', OPEN_N1_AT), ('s1b', OPEN_N2_AT), ('s1c', OPEN_N3_AT)):
+            clips[key] = [round(start + at, 3), _n[key]]
+            voice.append(f'      <audio id="vo-{key}" class="clip" src="assets/voice/{key}.wav" data-start="{round(start + at, 2)}" data-duration="{_n[key]}" data-volume="1" data-track-index="2"></audio>')
         voice.append(f'      <audio id="vo-s1r" class="clip" src="assets/voice/s1-response.wav" data-start="{round(start + OPEN_VO_AT, 2)}" data-duration="{OPEN_VO_LEN}" data-volume="1" data-track-index="2"></audio>')
         continue
     keys = ['s3a', 's3b'] if sid == 's3-unclear' else [sid.split('-')[0]]

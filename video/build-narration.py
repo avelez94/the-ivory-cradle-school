@@ -17,7 +17,10 @@ VOICE = 'af_heart'
 
 # Spoken form of the approved narration (numbers written as they should be said).
 NARRATION = {
-    # Scene 1 has no narration: it opens on the HeyGen parent clip and the specialist's model response.
+    # Scene 1 opens on the HeyGen parent clip; the narrator frames the freeze frame and the specialist's model response.
+    's1a': "He's heading to bed. Before you take over the shift, what would you confirm? Pause here, and name three things you'd ask.",
+    's1b': "Here's one way to ask.",
+    's1c': "That covers the three things to confirm before you take over: the feeding plan, the sleep setup, and when to wake a parent. Let's build them into your arrival checklist.",
     's2': "Start by asking when and how the baby last fed, how much they took if measured, and what the plan is for the next feed. Ask how the parents want to handle direct nursing, bottles, or both, and which instructions came from the baby's clinician. Ask when to wake a parent and how to reach them. Confirm the home's address and the pediatrician's after-hours number. Locate the sleep space, clean feeding supplies, and diaper supplies before you need them. If the baby has a clinician-directed plan, ask where it's written and clarify anything you can't confidently follow before accepting responsibility for that task.",
     's3a': "One parent thinks the baby last fed at seven thirty. The other thinks it was closer to eight. What would you clarify before they head to bed?",
     's3b': "Ask for their best estimate, then confirm what to do if the timing is uncertain. You could say, \"If we aren't sure about the last feed, when should I wake you, and what's the plan if the baby cues sooner?\" Record an estimate as an estimate. Read the plan back so everyone knows what you agreed to.",
