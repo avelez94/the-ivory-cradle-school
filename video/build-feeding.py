@@ -281,7 +281,7 @@ S3 = [
 
 GUIDE = [
     ('holding.jpg', 'Label check and setup', ['Label matches the plan', 'Clean hands and supplies', 'Baby held close, with support', 'Caregiver stays for the whole feed']),
-    ('baby.jpg', 'The pause', ['Eyes on the baby’s face', 'Bottle eased back for a break', 'Baby sets the pace']),
+    ('baby.jpg', 'The pause', ['Eyes on the baby’s face', 'Room for a break when baby wants one', 'Baby sets the pace']),
     ('handoff.jpg', 'End of the feed', ['Amount recorded, if measured', 'Correct rule for what is left', 'No pressure to finish']),
 ]
 
@@ -303,7 +303,7 @@ def v3(T):
       <div class="panel" id="f3-a">
         <img class="photo" src="assets/holding.jpg" alt="" style="left:96px;top:150px;width:900px;height:640px">
         <div style="position:absolute;left:1060px;top:160px;width:764px">
-          {items('f3-a', ['Clean hands, clean supplies', 'Check the label against the plan', 'Hold baby close, with support', 'Keep hold of the bottle', 'Angle it; never hold it vertical'])}
+          {items('f3-a', ['Clean hands, clean supplies', 'Check the label against the plan', 'Hold baby close, with support', 'Keep hold of the bottle', 'Angle the bottle rather than holding it vertical'])}
           <div class="note" id="f3-cl" style="margin-top:26px">Routine responsive feeding. A clinician directed plan comes first.</div>
         </div>
       </div>
