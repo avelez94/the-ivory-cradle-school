@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Feeding Support on Shift · Opening</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+      @font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+      @font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #30241F; }
+      .full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
+      #dim { position: absolute; inset: 0; opacity: 0;
+             background: linear-gradient(90deg, rgba(30,22,19,0.88) 0%, rgba(30,22,19,0.72) 50%, rgba(30,22,19,0.28) 100%); }
+      #ask { position: absolute; left: 120px; top: 250px; width: 1080px; opacity: 0; }
+      #ask .tag { display: inline-block; font: 700 32px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase;
+                  padding: 12px 22px; background: #8E3C2E; color: #FFFAF1; }
+      #ask .q { margin-top: 34px; font: 800 92px/1.06 'Bricolage Grotesque'; letter-spacing: -0.035em; color: #FFFAF1; }
+      #cue { position: absolute; left: 120px; top: 690px; width: 1080px; opacity: 0;
+             font: 500 50px/1.3 'DM Sans'; color: #F3E7CF; }
+      .cap { position: absolute; left: 0; right: 0; bottom: 64px; margin: 0 auto; width: fit-content; max-width: 1640px; opacity: 0;
+             padding: 14px 30px; background: rgba(30,22,19,0.78); color: #FFFAF1; text-align: center;
+             font: 500 52px/1.3 'DM Sans'; }
+    </style>
+  </head>
+  <body>
+    <!-- Opening of Feeding Support on Shift. Clip 1 (mom, HeyGen, voice Leanne), an 8 second freeze frame
+         discussion, then clip 2 (specialist, HeyGen, voice Janet). Captions match the recorded lines. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.3" data-width="1920" data-height="1080" data-fps="30">
+      <video id="clip1" class="full" src="assets/clip1-mom.mp4" data-start="0" data-duration="4.0" data-media-start="0" data-has-audio="true" data-track-index="1"></video>
+      <img id="freeze" class="full" src="assets/freeze-mom.png" alt="" data-start="4.0" data-duration="8.0" data-track-index="1">
+      <video id="clip2" class="full" src="assets/clip2-specialist.mp4" data-start="12.0" data-duration="8.3" data-media-start="0" data-has-audio="true" data-track-index="1"></video>
+
+      <div id="dim"></div>
+      <div id="ask" data-hold>
+        <div class="tag">Pause and practice</div>
+        <div class="q">Before the parent goes to bed, what would you say back?</div>
+      </div>
+      <div id="cue">Pause here to think or say your response out loud.</div>
+
+      <div class="cap" id="cap1">There’s a bottle in the fridge if you need it.</div>
+      <div class="cap" id="cap2">When the baby is ready to feed, would you like me<br>to bring them to you to nurse first?</div>
+      <div class="cap" id="cap3">When would you like me to use the bottle?</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const cap = (id, a, b) => {
+        tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: 'none' }, a);
+        tl.to(id, { opacity: 0, duration: 0.15, ease: 'none' }, b);
+      };
+      cap('#cap1', 0.55, 3.85);
+      // Freeze frame discussion: dim the last clean frame, then the question and the cue.
+      tl.fromTo('#dim', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 4.0);
+      tl.fromTo('#ask', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 4.4);
+      tl.fromTo('#cue', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 5.2);
+      tl.to(['#ask', '#cue'], { opacity: 0, duration: 0.4, ease: 'power2.in' }, 11.45);
+      tl.to('#dim', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 11.6);
+      cap('#cap2', 12.6, 17.5);
+      cap('#cap3', 17.7, 20.15);
+      tl.set({}, {}, 20.3);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

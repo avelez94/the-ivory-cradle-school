@@ -32,3 +32,6 @@ next-env.d.ts
 /video/lib/__pycache__/
 /video/feeding-conversation-test/.hyperframes
 /video/feeding-conversation-test/assets/voice/
+/video/feeding-opening/.hyperframes
+/video/feeding-opening/deliver/
+/video/render-opening.log
