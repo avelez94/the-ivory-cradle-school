@@ -99,7 +99,7 @@ export default async function HomePage() {
             <div className="cert-frame">
               <Image
                 src="/samples/sample-certificate.png"
-                alt="Sample Certificate of Completion awarded to Jordan Taylor for The First Overnight Shift, signed by Alante Velez and Justine Akinlami, labeled Sample."
+                alt="Sample Certificate of Completion awarded to Jordan Taylor for The First Overnight Shift, signed by Alante Velez and Justine Akinlami."
                 width={1584}
                 height={1224}
                 unoptimized

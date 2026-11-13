@@ -84,6 +84,6 @@ Anyone with the full serial can check a credential on **Verify a Certificate** w
 
 ## Staging notes
 
-* On the staging site every certificate is labeled **Sample** and points to the staging verification address.
+* Certificates print without any sample marking. Until launch, their QR codes and verification address point to the current site address (set by `SITE_URL`).
 * Sample serials for testing verification: `ICS7KQ4M2XD9PRT` (valid, does not expire), `ICSE3VN8HC5WQ2A` (expired), `ICSR6TJ9BK4ZM7F` (revoked), `ICSP2GH5WN8DX3K` (replaced) and `ICSV9MC3QT6YB4J` (its corrected replacement).
 * Accreditation, continuing education credit or professional certification wording is not used anywhere on the site. Add it only after approved wording is supplied.

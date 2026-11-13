@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+"""Narrates The First Overnight Shift with the Kokoro "Heart" voice (af_heart), verbatim from the
+approved script, one file per scene. Scene 3 is split around the three second thinking pause.
+
+Writes first-overnight-shift/assets/voice/*.wav and narration.json (clip lengths), which
+build-scenes.py and build-captions.py use to time the film to the voice.
+Needs HYPERFRAMES_PYTHON pointing at a Python with kokoro-onnx and soundfile installed.
+"""
+import json
+import subprocess
+from pathlib import Path
+
+HERE = Path(__file__).parent
+PROJECT = HERE / 'first-overnight-shift'
+VOICE_DIR = PROJECT / 'assets' / 'voice'
+VOICE = 'af_heart'
+
+# Spoken form of the approved narration (numbers written as they should be said).
+NARRATION = {
+    's1': "It's nine at night. You're arriving for your first overnight shift, and the parents are ready to go to bed. Before you take over, you need a few details that will guide the rest of the night. In this lesson, you'll practice the arrival conversation, the safety checks, and the morning handoff.",
+    's2': "Start by asking when and how the baby last fed, how much they took if measured, and what the plan is for the next feed. Ask how the parents want to handle direct nursing, bottles, or both, and which instructions came from the baby's clinician. Ask when to wake a parent and how to reach them. Confirm the home's address and the pediatrician's after-hours number. Locate the sleep space, clean feeding supplies, and diaper supplies before you need them. If the baby has a clinician-directed plan, ask where it's written and clarify anything you can't confidently follow before accepting responsibility for that task.",
+    's3a': "One parent thinks the baby last fed at seven thirty. The other thinks it was closer to eight. What would you clarify before they head to bed?",
+    's3b': "Ask for their best estimate, then confirm what to do if the timing is uncertain. You could say, \"If we aren't sure about the last feed, when should I wake you, and what's the plan if the baby cues sooner?\" Record an estimate as an estimate. Read the plan back so everyone knows what you agreed to.",
+    's4': "The American Academy of Pediatrics recommends putting babies on their backs for every sleep. Use a separate, safety-approved crib, bassinet, portable crib, or play yard with a firm, flat, level surface and a fitted sheet. Keep pillows, loose blankets, toys, and positioners out. If a baby falls asleep in a swing or car seat, move them to an appropriate sleep surface on their back as soon as possible. If you're getting drowsy while holding the baby, put them in the safe sleep space. If the setup isn't safe, raise it with the parents and agree on a safe alternative before using it.",
+    's5': "Wash your hands before preparing or handling feeding supplies. Use clean equipment and follow the family's feeding plan. Know what's in the bottle and when it was prepared, warmed, or first offered. C D C guidance says prepared infant formula should be used within two hours of preparation and within one hour of starting the feed. If you won't use freshly prepared formula right away, refrigerate it promptly and use it within twenty-four hours. Throw out formula left in the bottle after a feed. Expressed breast milk follows different rules. Once warmed or brought to room temperature, use it within two hours. C D C also allows leftover breast milk to be used within two hours after the feeding ends. Respect any earlier storage limit, and if the timing is unclear, check with the parent before using it. Follow the baby's clinician's directions for any special feeding instructions.",
+    's6': "If the baby stops breathing, is unresponsive, is struggling severely to breathe, or has blue or gray lips or face, call nine one one immediately and follow the dispatcher's instructions. Notify the parents as soon as you can without delaying the call. Here's a different situation. A six-week-old has a rectal temperature of one hundred point four degrees Fahrenheit, or thirty-eight degrees Celsius. Wake the parent immediately and contact the pediatrician or after-hours service right away for urgent evaluation. Don't wait for the morning handoff or for the temperature to rise. Record the time, what you observed, whom you contacted, and what happened next. If a life-threatening sign develops, call nine one one.",
+    's7': "A useful note gives the next caregiver something they can act on. Log the time, the feeding method and measured amount if known, diaper changes, sleep, and any unusual observations. Use the family's agreed private log. For example: \"Eleven oh five p.m., formula, two ounces offered, one and a half taken. Wet diaper. Back in bassinet at eleven thirty.\" Those are observations for this scenario. The amounts are not feeding targets. In the morning, start with anything that needs attention. Then summarize the last feed and diaper, how the baby slept, and any agreed next steps. If there was a concern overnight, include who you contacted and when. Confirm that the parent has taken over before you leave.",
+    's8': "Before you leave this lesson, open the First Overnight Shift worksheet. Write one question you'd ask when the last feed time is unclear, then practice recording the sample feed and diaper. The worksheet also gives you a quick reference for safe sleep, feeding, and urgent concerns. When the lesson is complete, take the five-question quiz. Four correct answers earn your Certificate of Completion.",
+}
+
+VOICE_DIR.mkdir(parents=True, exist_ok=True)
+lengths = {}
+for key, text in NARRATION.items():
+    out = VOICE_DIR / f'{key}.wav'
+    res = subprocess.run(
+        ['npx', 'hyperframes', 'tts', text, '-v', VOICE, '-o', str(out), '--json'],
+        cwd=PROJECT, capture_output=True, text=True, check=True,
+    )
+    line = [l for l in res.stdout.splitlines() if l.startswith('{')][-1]
+    lengths[key] = round(json.loads(line)['durationSeconds'], 3)
+    print(key, lengths[key], 's')
+
+(PROJECT / 'narration.json').write_text(json.dumps({'voice': VOICE, 'lengths': lengths}, indent=2) + '\n')
+print('total voice', round(sum(lengths.values()), 1), 's')

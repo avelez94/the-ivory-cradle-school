@@ -78,7 +78,6 @@ export async function renderCertificatePdf(input: CertificateRender): Promise<Bu
   const serif = await pdf.embedFont(asset('fonts', 'NotoSerifDisplay-Regular.ttf'), { subset: false })
   const semibold = await pdf.embedFont(asset('fonts', 'OpenSans-SemiBold.ttf'), { subset: true })
   const sans = await pdf.embedFont(asset('fonts', 'OpenSans-Regular.ttf'), { subset: true })
-  const bold = await pdf.embedFont(asset('fonts', 'OpenSans-Bold.ttf'), { subset: true })
   const seal = await pdf.embedPng(asset('brand', 'seal.png'))
   const wordmark = await pdf.embedPng(asset('brand', 'wordmark.png'))
   const alante = input.alanteSignature ? await pdf.embedPng(input.alanteSignature) : null
@@ -141,15 +140,7 @@ export async function renderCertificatePdf(input: CertificateRender): Promise<Bu
   const host = input.verificationUrl.replace(/^https?:\/\//, '').replace(/\/v\/.*$/, '')
   centered(page, `Verify at ${host}/verify`, 37, sans, 6.5, C.espresso)
 
-  if (input.sample) {
-    const label = 'SAMPLE'
-    const lw = trackedWidth(label, bold, 10, 2.2)
-    for (const x of [44, 748 - lw - 12]) {
-      page.drawRectangle({ x, y: 553, width: lw + 12, height: 19, borderColor: C.terracotta, borderWidth: 0.9 })
-      tracked(page, label, x + 6, 559.5, bold, 10, 2.2, C.terracotta)
-    }
-    centered(page, 'Sample certificate', 563, sans, 6.5, C.terracotta, 396)
-  }
+  // No "Sample" marking: certificates print exactly as students will receive them.
 
   const bytes = await pdf.save({ useObjectStreams: false })
   return Buffer.from(bytes)
