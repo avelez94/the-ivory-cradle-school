@@ -154,7 +154,7 @@ export const FEEDING_SUPPORT = {
     worksheetLabel: 'Feeding Plan Field Guide & Workshop Practice',
     estimatedMinutes: 30,
     image: '/images/feeding-support-on-shift.jpg',
-    imageAlt: 'A parent opens the fridge and points to a bottle of milk while a caregiver in sage green scrubs listens in a softly lit kitchen.',
+    imageAlt: 'A mother in an orange top holds her baby close and supports the bottle while the baby feeds and looks up at her.',
     resources: [SRC.bottle, SRC.formula, SRC.milk, SRC.warning, SRC.ems],
     // Explanations are staff only grading notes. Students see their score, never the key.
     questions: [
