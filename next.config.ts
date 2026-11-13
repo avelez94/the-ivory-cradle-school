@@ -4,7 +4,11 @@ const nextConfig: NextConfig = {
   // Private course media, signatures and fonts are read from disk at run time.
   // They are never placed in /public, so they are only reachable through signed in routes.
   outputFileTracingIncludes: {
-    '/**': ['./private-assets/**/*', './assets/**/*', './docs/STAFF_GUIDE.md'],
+    // Lesson media, worksheets and certificate rendering (fonts, brand art, signatures).
+    '/api/**': ['./private-assets/**/*', './assets/**/*'],
+    // Staff pages render corrected certificates and read the staff guide.
+    '/admin/**': ['./assets/**/*', './private-assets/signatures/**/*', './docs/STAFF_GUIDE.md'],
+    '/sample-certificate.pdf': ['./assets/**/*', './private-assets/signatures/**/*'],
   },
   serverExternalPackages: ['pdf-lib', '@pdf-lib/fontkit', 'qrcode'],
   poweredByHeader: false,
