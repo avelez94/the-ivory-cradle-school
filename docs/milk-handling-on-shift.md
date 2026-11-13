@@ -1,6 +1,6 @@
 # Milk Handling on Shift: staging handoff
 
-Mini course 02, rebuilt from Feeding Support on Shift. $25. Status: in staging for clinical review and approval. Live payments stay off; testers enroll through staging enrollment. The old course link (/courses/feeding-support-on-shift) redirects here.
+Mini course 02, rebuilt from Feeding Support on Shift. $25. Status: clinical review signed off (2026-11-13). Live payments stay off until checkout and the database are connected. Live payments stay off; testers enroll through staging enrollment. The old course link (/courses/feeding-support-on-shift) redirects here.
 
 ## Files
 

@@ -1,6 +1,6 @@
 # Milk Handling on Shift · Instructor source table
 
-**Instructor only. Not for students.** Status: in staging for clinical review and approval.
+**Instructor only. Not for students.** Status: clinical review signed off (2026-11-13), with the items below accepted as written.
 
 Student download: `private-assets/course-media/milk-handling-on-shift/milk-handling-on-shift-reference.pdf` (supplied by ICS, used exactly as provided).
 
