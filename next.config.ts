@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
   // Next 16 only allows quality 75 by default; photos use 90 so they stay sharp on high density screens.
   images: { qualities: [75, 90] },
   poweredByHeader: false,
+  // Feeding Support on Shift was rebuilt as Milk Handling on Shift; keep shared links working.
+  async redirects() {
+    return [{ source: '/courses/feeding-support-on-shift', destination: '/courses/milk-handling-on-shift', permanent: true }]
+  },
   async headers() {
     return [
       {

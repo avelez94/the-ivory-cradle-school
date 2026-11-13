@@ -39,11 +39,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex')
 const shot = (page, name, full = true) => page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: full })
 
-// Which course to run against: COURSE=feeding-support-on-shift node tests/e2e/student-journey.mjs
+// Which course to run against: COURSE=milk-handling-on-shift node tests/e2e/student-journey.mjs
 // Answer keys live on the server only; the test needs them to choose right and wrong answers.
 const COURSES = {
   'the-first-overnight-shift': { title: 'The First Overnight Shift', key: [1, 3, 0, 2, 1] },
-  'feeding-support-on-shift': { title: 'Feeding Support on Shift', key: [1, 2, 0, 1, 3] },
+  'milk-handling-on-shift': { title: 'Milk Handling on Shift', key: [2, 1, 3, 0, 1] },
 }
 const SLUG = process.env.COURSE || 'the-first-overnight-shift'
 const COURSE = COURSES[SLUG]

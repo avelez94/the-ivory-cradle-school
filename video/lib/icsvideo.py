@@ -40,13 +40,17 @@ PHONEME_FIXES = [
 ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',
         'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
 TENS = {2: 'twenty', 3: 'thirty', 4: 'forty', 5: 'fifty'}
+TENS_ALL = {**TENS, 6: 'sixty', 7: 'seventy', 8: 'eighty', 9: 'ninety'}
 
 
 def _num(n: int) -> str:
     if n < 20:
         return ONES[n]
-    t, o = divmod(n, 10)
-    return TENS[t] + ('' if o == 0 else ' ' + ONES[o])
+    if n < 100:
+        t, o = divmod(n, 10)
+        return TENS_ALL[t] + ('' if o == 0 else ' ' + ONES[o])
+    h, rest = divmod(n, 100)
+    return ONES[h] + ' hundred' + ('' if rest == 0 else ' ' + _num(rest))
 
 
 def _time(m: re.Match) -> str:
@@ -65,6 +69,8 @@ def spoken(caption: str) -> str:
     s = re.sub(r'(a\.m\.|p\.m\.)(?=\s+[A-Z“"]|\s*$)', r'\1#', s)
     s = re.sub(r'\b(\d{1,2}):(\d{2})(?:\s*(a\.m\.|p\.m\.))?', _time, s)
     s = re.sub(r'\b(\d{1,2})\s*(a\.m\.|p\.m\.)', lambda m: _num(int(m.group(1))) + (' AM' if m.group(2)[0] == 'a' else ' PM'), s)
+    s = re.sub(r'(\d+)°F', lambda m: _num(int(m.group(1))) + ' degrees Fahrenheit', s)
+    s = re.sub(r'(\d+)°C', lambda m: _num(int(m.group(1))) + ' degrees Celsius', s)
     s = re.sub(r'\b1 oz\b', 'one ounce', s)
     s = re.sub(r'\b(\d+) oz\b', lambda m: _num(int(m.group(1))) + ' ounces', s)
     s = s.replace('#', '.').replace('911', 'nine one one').replace('CDC', 'C D C').replace('AAP', 'A A P')

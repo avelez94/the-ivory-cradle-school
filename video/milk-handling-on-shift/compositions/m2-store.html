@@ -1,0 +1,198 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.panel { position: absolute; inset: 0; opacity: 0; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.04; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 5px solid #8E3C2E; }
+.lbl { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #8E3C2E; }
+.body { font: 500 38px/1.35 'DM Sans'; color: #30241F; }
+.muted { color: #69554A; }
+.quote { font: 500 46px/1.3 'DM Sans'; }
+.who { font: 700 28px 'DM Sans'; letter-spacing: 0.12em; text-transform: uppercase; color: #69554A; margin-bottom: 12px; }
+.chip { display: inline-block; font: 700 34px 'DM Sans'; padding: 16px 28px; border: 3px solid #30241F; background: #FFFAF1; }
+.chip.on { background: #8E3C2E; border-color: #8E3C2E; color: #FFFAF1; }
+.pp { position: absolute; left: 96px; right: 96px; top: 792px; display: flex; align-items: center; gap: 28px; }
+.pp-label { font: 700 30px 'DM Sans'; letter-spacing: 0.1em; text-transform: uppercase; color: #8E3C2E; white-space: nowrap; }
+.pp-bar { flex: 1; height: 14px; background: #EDDFCB; position: relative; overflow: hidden; }
+.pp-bar span { position: absolute; inset: 0; background: #8E3C2E; transform-origin: left center; }
+.pp-sec { font: 700 30px 'DM Sans'; color: #30241F; white-space: nowrap; }
+
+.photo { position: absolute; object-fit: cover; box-shadow: 0 20px 50px rgba(48,36,31,.18); }
+.stack { position: absolute; display: flex; flex-direction: column; gap: 26px; }
+.bub { background: #FFFAF1; border: 2px solid #D6C4B4; border-left: 8px solid #8E3C2E; padding: 24px 34px 28px; }
+.bub.parent { border-left-color: #30241F; }
+.bub .t { font: 500 40px/1.32 'DM Sans'; }
+.field { padding: 14px 0 16px; border-bottom: 2px solid #E4D6C6; }
+.field:last-child { border-bottom: 0; }
+.field .k { font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; color: #8E3C2E; }
+.field .v { font: 500 31px/1.3 'DM Sans'; margin-top: 6px; }
+.item { display: flex; gap: 24px; align-items: baseline; font: 500 36px/1.3 'DM Sans'; padding: 16px 20px; border-bottom: 2px solid #E4D6C6; }
+.item b { font: 800 34px 'Bricolage Grotesque'; color: #8E3C2E; width: 44px; flex: none; }
+.note { font: 500 34px/1.35 'DM Sans'; color: #69554A; }
+.big { font: 500 50px/1.3 'DM Sans'; }
+.tag { display: inline-block; font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; padding: 10px 18px; background: #8E3C2E; color: #FFFAF1; }
+.tl { position: absolute; left: 140px; right: 140px; height: 6px; background: #30241F; }
+.stop { position: absolute; width: 380px; text-align: center; }
+.stop .dot { width: 34px; height: 34px; border-radius: 50%; background: #FFFAF1; border: 6px solid #30241F; margin: 0 auto 18px; }
+.stop .time { font: 800 64px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.stop .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.ask { position: absolute; left: 96px; right: 96px; text-align: center; font: 800 64px/1.1 'Bricolage Grotesque'; letter-spacing: -0.03em; color: #8E3C2E; }
+.answer { position: absolute; left: 96px; right: 96px; padding: 28px 40px; font: 700 50px/1.2 'DM Sans'; text-align: center; background: #8E3C2E; color: #FFFAF1; }
+.grid2 { position: absolute; left: 96px; right: 96px; display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; row-gap: 34px; }
+.cell { background: #FFFAF1; border: 3px solid #30241F; padding: 26px 34px; }
+.cell .time { font: 800 66px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.cell .ev { font: 500 34px 'DM Sans'; color: #69554A; margin-top: 10px; }
+.arrow { font: 800 70px 'Bricolage Grotesque'; color: #8E3C2E; text-align: center; }
+.rule { font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border-left: 6px solid #D6C4B4; }
+.rule b { font-weight: 700; }
+.col { position: absolute; top: 200px; width: 540px; }
+.col .lbl { margin-bottom: 14px; }
+.strike { position: relative; display: inline-block; }
+.strike i { position: absolute; left: -10px; right: -10px; top: 52%; height: 8px; background: #8E3C2E; transform-origin: left center; }
+.task { display: flex; gap: 24px; align-items: baseline; font: 500 38px/1.3 'DM Sans'; padding: 20px 26px; border: 3px solid transparent; }
+.task b { font: 800 36px 'Bricolage Grotesque'; color: #8E3C2E; flex: none; width: 40px; }
+
+.zone { position: absolute; top: 250px; width: 540px; height: 520px; background: #FFFAF1; border: 2px solid #D6C4B4; padding: 30px 34px; }
+.zone .zt { font: 800 46px/1.05 'Bricolage Grotesque'; letter-spacing: -0.03em; }
+.zone .temp { font: 700 34px 'DM Sans'; color: #8E3C2E; margin-top: 12px; }
+.zone .time { font: 800 64px/1 'Bricolage Grotesque'; letter-spacing: -0.03em; margin-top: 26px; }
+.zone .cond { font: 500 32px/1.3 'DM Sans'; color: #69554A; margin-top: 14px; }
+.lab { background: #FFFFFF; border: 3px solid #30241F; padding: 22px 28px; font: 600 34px/1.35 'DM Sans'; }
+.lab .lk { font: 700 28px 'DM Sans'; letter-spacing: .1em; text-transform: uppercase; color: #69554A; }
+.pill { display: inline-block; font: 700 32px 'DM Sans'; padding: 12px 22px; background: #30241F; color: #FFFAF1; }
+.pill.t { background: #8E3C2E; }
+.say { font: 500 40px/1.35 'DM Sans'; }
+.ans { font: 700 34px 'DM Sans'; padding: 10px 18px; display: inline-block; }
+.ans.use { background: #3F5A3A; color: #FFFAF1; }
+.ans.dis { background: #8E3C2E; color: #FFFAF1; }
+.ans.set { background: #30241F; color: #FFFAF1; }
+.src { position: absolute; left: 96px; top: 790px; font: 500 28px 'DM Sans'; color: #69554A; }
+
+  </style>
+  <div id="root" data-composition-id="m2-store" data-width="1920" data-height="1080">
+    <div class="wrap" id="m2-store-wrap" data-hold>
+      <img class="mark" src="assets/wordmark.png" alt="">
+      <div class="kicker" id="m2-store-kicker">Part 2 · Label and store fresh milk</div>
+
+      <div class="panel" id="m2-clean">
+        <div style="position:absolute;left:120px;top:200px"><svg id="m2-bag0" width="300" height="450" viewBox="0 0 200 300" aria-hidden="true">
+  <clipPath id="m2-bag0-c"><path d="M18 40 H182 V270 Q182 296 156 296 H44 Q18 296 18 270 Z"/></clipPath>
+  <path d="M18 40 H182 V270 Q182 296 156 296 H44 Q18 296 18 270 Z" fill="#FFFFFF" stroke="#30241F" stroke-width="5"/>
+  <rect x="18" y="300" width="164" height="300" fill="#F3E7CF" clip-path="url(#m2-bag0-c)"/>
+  
+  <rect x="10" y="12" width="180" height="26" rx="6" fill="#8E3C2E"/>
+  <rect x="28" y="62" width="144" height="82" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/>
+  <text x="100" y="98" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F">Breast milk</text><text x="100" y="128" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F">storage bag</text>
+</svg></div>
+        <div style="position:absolute;left:560px;top:200px;width:1264px">
+          <div class="item" id="m2-k1"><span>Wash hands with soap and water, or use sanitizer with at least 60 percent alcohol</span></div>
+<div class="item" id="m2-k2"><span>Breast milk storage bags, or clean food grade glass or plastic with tight lids</span></div>
+<div class="item" id="m2-k3"><span>Never disposable bottle liners or bags not made for breast milk</span></div>
+        </div>
+      </div>
+      <div class="panel" id="m2-label">
+        <div id="m2-bagq" style="position:absolute;left:120px;top:170px"><svg id="m2-bagq-svg" width="330" height="495" viewBox="0 0 200 300" aria-hidden="true">
+  <clipPath id="m2-bagq-svg-c"><path d="M18 40 H182 V270 Q182 296 156 296 H44 Q18 296 18 270 Z"/></clipPath>
+  <path d="M18 40 H182 V270 Q182 296 156 296 H44 Q18 296 18 270 Z" fill="#FFFFFF" stroke="#30241F" stroke-width="5"/>
+  <rect x="18" y="214" width="164" height="300" fill="#F3E7CF" clip-path="url(#m2-bagq-svg-c)"/>
+  
+  <rect x="10" y="12" width="180" height="26" rx="6" fill="#8E3C2E"/>
+  <rect x="28" y="62" width="144" height="112" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/>
+  <text x="100" y="98" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F"></text><text x="100" y="128" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F"></text><text x="100" y="158" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F"></text>
+</svg></div>
+        <div id="m2-bagw" style="position:absolute;left:120px;top:170px"><svg id="m2-bag1" width="330" height="495" viewBox="0 0 200 300" aria-hidden="true">
+  <clipPath id="m2-bag1-c"><path d="M18 40 H182 V270 Q182 296 156 296 H44 Q18 296 18 270 Z"/></clipPath>
+  <path d="M18 40 H182 V270 Q182 296 156 296 H44 Q18 296 18 270 Z" fill="#FFFFFF" stroke="#30241F" stroke-width="5"/>
+  <rect x="18" y="214" width="164" height="300" fill="#F3E7CF" clip-path="url(#m2-bag1-c)"/>
+  
+  <rect x="10" y="12" width="180" height="26" rx="6" fill="#8E3C2E"/>
+  <rect x="28" y="62" width="144" height="112" fill="#FFFAF1" stroke="#30241F" stroke-width="3"/>
+  <text x="100" y="98" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F">Expressed</text><text x="100" y="128" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F">Sun 9:15 p.m.</text><text x="100" y="158" text-anchor="middle" font-family="DM Sans" font-weight="700" font-size="22" fill="#30241F">Maya</text>
+</svg></div>
+        <div style="position:absolute;left:600px;top:190px;width:1224px">
+          <div class="lab" id="m2-l1"><div class="lk">Required</div>Date expressed</div>
+          <div class="lab" id="m2-l2" style="margin-top:22px"><div class="lk">When milk goes to childcare</div>Child’s name</div>
+          <div class="lab" id="m2-l3" style="margin-top:22px;border-style:dashed"><div class="lk">ICS workflow</div>Time expressed and later events, such as moved to thaw</div>
+        </div>
+      </div>
+      <div class="panel" id="m2-chart">
+        <div class="h" style="position:absolute;left:96px;top:150px;font-size:66px">Freshly expressed milk</div>
+        <div class="zone" id="m2-z1" style="left:96px"><div class="zt">Room temperature</div><div class="temp">77°F or colder</div><div class="time">Up to 4 hours</div><div class="cond">Fresh milk on the counter</div></div>
+        <div class="zone" id="m2-z2" style="left:690px"><div class="zt">Refrigerator</div><div class="temp">40°F or colder</div><div class="time">Up to 4 days</div><div class="cond">Back of the fridge, not the door</div></div>
+        <div class="zone" id="m2-z3" style="left:1284px"><div class="zt">Freezer</div><div class="temp">0°F or colder</div><div class="time">About 6 months best</div><div class="cond">Up to 12 months acceptable</div></div>
+        <div class="src" id="m2-src">Source: CDC Breast Milk Storage and Preparation; CDC Breast Milk Storage FAQ</div>
+      </div>
+      <div class="panel" id="m2-back">
+        <div style="position:absolute;left:150px;top:160px"><svg id="m2-fr" width="460" height="598" viewBox="0 0 300 390" aria-hidden="true">
+  <rect x="10" y="10" width="200" height="370" rx="14" fill="#FFFAF1" stroke="#30241F" stroke-width="5"/>
+  <line x1="10" y1="120" x2="210" y2="120" stroke="#30241F" stroke-width="5"/>
+  <rect x="30" y="28" width="160" height="76" fill="#EEF3F6"/>
+  <rect x="30" y="138" width="160" height="226" fill="#F8F1E6"/>
+  <line x1="30" y1="215" x2="190" y2="215" stroke="#D6C4B4" stroke-width="4"/>
+  <line x1="30" y1="290" x2="190" y2="290" stroke="#D6C4B4" stroke-width="4"/>
+  <rect id="m2-fr-back1" x="36" y="40" width="70" height="56" fill="#8E3C2E" opacity="0.85"/>
+  <rect id="m2-fr-back2" x="36" y="150" width="70" height="58" fill="#8E3C2E" opacity="0.85"/>
+  <path d="M210 10 L288 40 V350 L210 380" fill="#FFFAF1" stroke="#30241F" stroke-width="5"/>
+  <line x1="214" y1="150" x2="284" y2="168" stroke="#D6C4B4" stroke-width="4"/>
+  <line x1="214" y1="240" x2="284" y2="252" stroke="#D6C4B4" stroke-width="4"/>
+  <path id="m2-fr-x" d="M226 180 L272 230 M272 180 L226 230" stroke="#8E3C2E" stroke-width="8" stroke-linecap="round"/>
+</svg></div>
+        <div style="position:absolute;left:760px;top:200px;width:1064px">
+          <div class="item" id="m2-b1"><span>Back of the fridge or freezer, not the door</span></div>
+<div class="item" id="m2-b2"><span>Not used within 4 days? Freeze it right away</span></div>
+<div class="item" id="m2-b3"><span>Oldest first: first in, first out</span></div>
+          <div class="card" id="m2-aap" style="position:relative;margin-top:30px;padding:24px 30px"><div class="note" style="color:#30241F">AAP materials list some different times. This course teaches the CDC times. A pediatrician’s instructions for the family come first.</div></div>
+        </div>
+      </div><div class="pp" id="m2-cd"><div class="pp-label">Pause and write</div><div class="pp-bar"><span id="m2-cd-fill"></span></div><div class="pp-sec">20 seconds</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#m2-store-wrap', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0);
+    tl.fromTo('#m2-clean', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.2);
+    tl.to('#m2-clean', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 33.92);
+    tl.fromTo('#m2-k1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 0.8);
+    tl.fromTo('#m2-k2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 18.27);
+    tl.fromTo('#m2-k3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 27.29);
+    tl.fromTo('#m2-label', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 34.12);
+    tl.to('#m2-label', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 99.03);
+    tl.set(['#m2-l1', '#m2-l2', '#m2-l3', '#m2-bagw'], { opacity: 0 }, 0);
+    tl.to('#m2-bagq', { opacity: 0, duration: 0.2, ease: 'power2.in' }, 89.58);
+    tl.fromTo('#m2-l1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 34.32);
+    tl.fromTo('#m2-l2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 38.89);
+    tl.fromTo('#m2-l3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 46.48);
+    tl.fromTo('#m2-cd', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 69.88);
+    tl.fromTo('#m2-cd-fill', { scaleX: 1 }, { scaleX: 0, duration: 20, ease: 'none' }, 69.88);
+    tl.to('#m2-cd', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 89.88);
+    tl.fromTo('#m2-bagw', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 89.68);
+    tl.fromTo('#m2-l1', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 89.88);
+    tl.to('#m2-l1', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 92.85);
+    tl.fromTo('#m2-l2', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 92.85);
+    tl.to('#m2-l2', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 96.52);
+    tl.fromTo('#m2-l3', { backgroundColor: 'rgba(240,223,201,0)' }, { backgroundColor: 'rgba(240,223,201,1)', duration: 0.4, ease: 'power2.out' }, 96.52);
+    tl.to('#m2-l3', { backgroundColor: 'rgba(240,223,201,0)', duration: 0.4, ease: 'power2.in' }, 99.43);
+    tl.fromTo('#m2-chart', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 99.23);
+    tl.to('#m2-chart', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 126.6);
+    tl.fromTo('#m2-z1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 102.99);
+    tl.fromTo('#m2-z2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 111.4);
+    tl.fromTo('#m2-z3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 118.37);
+    tl.fromTo('#m2-src', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 119.37);
+    tl.fromTo('#m2-back', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 126.8);
+    tl.to('#m2-back', { opacity: 0, duration: 0.4, ease: 'power2.in' }, 169.72);
+    tl.fromTo('#m2-b1', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 127.0);
+    tl.fromTo('#m2-b2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 138.7);
+    tl.fromTo('#m2-b3', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 144.64);
+    tl.fromTo('#m2-aap', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 150.15);
+    tl.to('#m2-store-wrap', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 169.62);
+    window.__timelines['m2-store'] = tl;
+  </script>
+</template>

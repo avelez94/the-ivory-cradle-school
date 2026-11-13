@@ -112,106 +112,115 @@ export const FIRST_OVERNIGHT_SHIFT = {
 }
 
 const SRC = {
-  bottle: { label: 'CDC: About Feeding From a Bottle', url: 'https://www.cdc.gov/infant-toddler-nutrition/bottle-feeding/' },
-  formula: { label: 'CDC: Infant Formula Preparation and Storage', url: 'https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/preparation-and-storage.html' },
-  milk: { label: 'CDC: Breast Milk Storage and Preparation', url: 'https://www.cdc.gov/breastfeeding/breast-milk-preparation-and-storage/handling-breastmilk.html' },
-  warning: { label: 'American Academy of Pediatrics: Warning Signs of Breastfeeding Problems', url: 'https://www.healthychildren.org/English/ages-stages/baby/breastfeeding/Pages/Warning-Signs-of-Breastfeeding-Problems.aspx' },
-  ems: { label: 'American Academy of Pediatrics: When to Call Emergency Medical Services', url: 'https://www.healthychildren.org/english/health-issues/injuries-emergencies/pages/when-to-call-emergency-medical-services-ems.aspx' },
+  cdcMilk: { label: 'CDC: Breast Milk Storage and Preparation', url: 'https://www.cdc.gov/breastfeeding/breast-milk-preparation-and-storage/handling-breastmilk.html' },
+  cdcFaq: { label: 'CDC: Breast Milk Storage Questions and Answers', url: 'https://www.cdc.gov/breastfeeding/php/guidelines-recommendations/faqs.html' },
+  cdcFormula: { label: 'CDC: Infant Formula Preparation and Storage', url: 'https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/preparation-and-storage.html' },
+  aapStorage: { label: 'American Academy of Pediatrics: Milk Storage Guidelines', url: 'https://www.aap.org/en/patient-care/breastfeeding/milk-storage-guidelines/' },
+  hcStorage: { label: 'AAP HealthyChildren.org: Tips for Freezing & Refrigerating Breast Milk', url: 'https://www.healthychildren.org/English/ages-stages/baby/breastfeeding/Pages/Storing-and-Preparing-Expressed-Breast-Milk.aspx' },
+  hcFormula: { label: 'AAP HealthyChildren.org: How to Safely Prepare Baby Formula With Water', url: 'https://www.healthychildren.org/English/ages-stages/baby/formula-feeding/Pages/How-to-Safely-Prepare-Formula-with-Water.aspx' },
 }
 
-export const FEEDING_SUPPORT = {
-  slug: 'feeding-support-on-shift',
+// Rebuilt from Feeding Support on Shift. Storage times follow CDC; AAP is the clinical foundation.
+// Every clinical claim is traced in docs/milk-handling-source-table.md (instructor only).
+export const MILK_HANDLING = {
+  slug: 'milk-handling-on-shift',
   status: 'published',
   sortOrder: 20,
   priceCents: 2500,
-  media: 'course-media/feeding-support-on-shift',
-  worksheetFile: 'feeding-support-on-shift-worksheet.pdf',
+  media: 'course-media/milk-handling-on-shift',
+  worksheetFile: 'milk-handling-decision-sheet.pdf',
   draft: {
-    title: 'Feeding Support on Shift',
+    title: 'Milk Handling on Shift',
     category: 'Feeding & Lactation',
     summary:
-      'Practice clarifying a family’s feeding plan, responding to a baby’s bottle feeding cues, applying formula and expressed breast milk handling guidance, and communicating when a feed goes differently than planned.',
+      'Decide whether a bottle is safe to offer based on what it contains, how it was handled, and which deadline applies. Practice storing, thawing, warming, and combining breast milk, preparing formula safely, and making a 2 a.m. bottle decision.',
     description:
-      'You arrive for an overnight shift and the parent says, “There’s a bottle in the fridge if you need it.” This workshop follows that shift from arrival to morning handoff: making the feeding plan explicit, a responsive bottle feeding demonstration, two milk clocks that look alike but follow different rules, and a clear update when a feed goes differently than planned. Plan on about 18 minutes of video practice, with pauses to write on your worksheet, and an untimed five question quiz.',
+      'You arrive for an overnight shift and the parent says, “There’s a bottle in the fridge if you need it.” This workshop teaches you to read that bottle: which baby it is for, what it contains, and what has happened to it. You will label and store fresh milk, freeze, thaw, and transport it, swirl, combine, and warm it, prepare formula safely, and compare the two milk clocks before a 2 a.m. decision with three containers. Plan on about 20 minutes of video and guided practice, a printable decision sheet, and an untimed five question quiz.',
     scope:
-      'Examples concern routine support for healthy, full term newborns during nonmedical, in home shifts. For a baby with special feeding needs, follow the clinician directed plan and work within your role and training.',
+      'Routine care of healthy babies at home in the United States. Storage times follow CDC, with clinical guidance from the American Academy of Pediatrics. For a premature, hospitalized, or medically vulnerable baby, follow the care team’s plan, and always follow the directions on formula products. Cases are fictional teaching examples.',
     audience: [
       'Newborn Care Specialists providing nonmedical support during in home shifts',
       'Postpartum doulas supporting families at home in the United States',
     ],
     objectives: [
-      'Read back an actionable feeding plan before you take over',
-      'Recognize responsive bottle feeding: holding the baby close, pausing, and stopping at fullness cues',
-      'Apply the correct milk handling deadline for prepared formula and expressed breast milk',
-      'Report observed changes and know when to involve a parent, the pediatrician, or emergency services',
+      'Verify which baby a bottle is for, what it contains, and its handling history before offering it',
+      'Label, store, freeze, thaw, and transport expressed breast milk using CDC storage times',
+      'Swirl, combine, and warm milk safely, and know which date sets the storage limit',
+      'Prepare formula exactly as directed, including extra precautions for higher risk infants',
+      'Apply the right deadline and choose use, discard, or set aside and verify',
     ],
     included: [
-      'A video workshop of about 18 minutes with captions',
-      'A printable one page field guide and practice worksheet',
+      'A video workshop of about 20 minutes with captions and guided practice',
+      'A printable one page Milk Handling Decision Sheet with clickable sources',
       'An untimed five question quiz',
       'A Certificate of Completion when you score at least 4 out of 5',
     ],
-    worksheetLabel: 'Feeding Plan Field Guide & Workshop Practice',
-    estimatedMinutes: 30,
+    worksheetLabel: 'Milk Handling Decision Sheet',
+    estimatedMinutes: 35,
     image: '/images/feeding-support-on-shift.jpg',
     imageAlt: 'A mother in an orange top holds her baby close and supports the bottle while the baby feeds and looks up at her.',
-    resources: [SRC.bottle, SRC.formula, SRC.milk, SRC.warning, SRC.ems],
-    // Explanations are staff only grading notes. Students see their score, never the key.
+    resources: [SRC.cdcMilk, SRC.cdcFaq, SRC.cdcFormula, SRC.aapStorage, SRC.hcStorage, SRC.hcFormula],
+    // Explanations are staff only grading notes with the supporting source. Students see their score, never the key.
     questions: [
       {
         id: 'q1',
-        prompt: 'Which read back gives you enough information to act on “There’s a bottle if you need it”?',
+        prompt: 'The family has twins. Two bags of milk in the fridge are labeled only with a date. The parent says, “There’s a bottle in the fridge if you need it.” What should you verify before offering one?',
         options: [
-          '“I’ll use the bottle at the next feed.”',
-          '“I’ll bring baby to you to nurse first, use the confirmed backup only if you ask, and knock if a feed is smaller than usual. Is that right?”',
-          '“I’ll handle feeding the way I usually do.”',
-          '“I’ll make a note and ask you in the morning.”',
+          'Nothing more, because the parent said to use it.',
+          'Only the date, because dated milk is always safe to offer.',
+          'Which baby each bag is for, what it contains, and its handling history.',
+          'Whether the milk looks and smells normal.',
         ],
-        correctIndex: 1,
-        explanation: 'The read back confirms the next action, bottle use, and when and how to involve the parent. ICS handoff practice.',
+        correctIndex: 2,
+        explanation: 'Before offering a bottle, confirm the baby, the contents, and the handling history (ICS verification workflow). CDC and AAP say to label milk with the date expressed and, for childcare, the child’s name. CDC Breast Milk Storage and Preparation; AAP HealthyChildren, Tips for Freezing & Refrigerating Breast Milk.',
       },
       {
         id: 'q2',
-        prompt: 'After a pause, baby turns away again and keeps their mouth closed during a routine bottle feed. What is the best response?',
+        prompt: 'A frozen bag was moved to the refrigerator Monday at 8:00 p.m. It was completely thawed Tuesday at 6:00 a.m. Using the CDC standard taught in this course, when should it be used by?',
         options: [
-          'Tip the bottle more vertically.',
-          'Keep offering the bottle until the planned amount is gone.',
-          'Stop and document the observed cues and measured intake.',
-          'Set up the bottle so baby can finish independently.',
+          'Tuesday at 8:00 p.m.',
+          'Wednesday at 6:00 a.m.',
+          'Wednesday at 8:00 p.m.',
+          'Thursday at 6:00 a.m.',
         ],
-        correctIndex: 2,
-        explanation: 'Respond to fullness cues and record the observation. Source: CDC Bottle Feeding.',
+        correctIndex: 1,
+        explanation: 'CDC: if you thaw breast milk in the refrigerator, use it within 24 hours, and start counting when it is completely thawed, not when it left the freezer. CDC Breast Milk Storage and Preparation, Safe thawing of breast milk.',
       },
       {
         id: 'q3',
-        prompt: 'Formula was prepared at 10:00 p.m. Feeding started at 10:30 and ended at 10:45. What should you do with the formula left in the bottle?',
+        prompt: 'The parent expresses milk Monday at 7:00 p.m. and asks you to add it to milk expressed and chilled Monday at 7:00 a.m. What does CDC advise?',
         options: [
-          'Discard it when the feed ends.',
-          'Refrigerate it for use by 10:00 p.m. tomorrow.',
-          'Save it until 11:30 because that is one hour after feeding began.',
-          'Save it until midnight because that is two hours after preparation.',
+          'Pour the fresh milk in right away. The newer time sets the limit.',
+          'Warm both in the microwave, then combine them.',
+          'Combine them only while the fresh milk is still warm.',
+          'Cool the fresh milk first, then combine. The 7:00 a.m. milk sets the storage limit.',
         ],
-        correctIndex: 0,
-        explanation: 'Discard formula remaining after the feed ends. The other time limits do not make a used bottle safe for later. Source: CDC Formula Preparation and Storage.',
+        correctIndex: 3,
+        explanation: 'CDC advises cooling freshly expressed milk before combining it with older cooled milk, and basing storage time on when the older milk was first stored. CDC Breast Milk Storage Questions and Answers, Can I mix fresh breast milk with older breast milk?',
       },
       {
         id: 'q4',
-        prompt: 'Expressed breast milk was warmed at 11:20 p.m. and the feed ended at midnight. Assuming no other earlier limit applies, which deadline governs the leftover milk?',
-        options: ['2:00 a.m.', '1:20 a.m.', '12:20 a.m.', '11:20 a.m.'],
-        correctIndex: 1,
-        explanation: 'The warming deadline is 1:20 a.m. and the leftover deadline is 2:00 a.m. The earlier deadline governs. Source: CDC Breast Milk Storage and Preparation.',
+        prompt: 'You are preparing powdered formula for a 6 week old baby. The family has no special plan from the baby’s clinician. Which preparation follows CDC’s extra precautions?',
+        options: [
+          'Boil the water, wait about 5 minutes, mix in the powder, let it cool, and test a few drops on your wrist.',
+          'Mix the powder with cold tap water and feed right away.',
+          'Add extra water so the formula is easier to digest.',
+          'Mix as usual, then warm the bottle in the microwave.',
+        ],
+        correctIndex: 0,
+        explanation: 'For babies younger than 2 months, born prematurely, or with weakened immune systems, CDC says to boil the water, wait about 5 minutes, then mix (very hot water, around 158°F, kills germs such as Cronobacter), cool, and test on the wrist. CDC Infant Formula Preparation and Storage; AAP HealthyChildren, How to Safely Prepare Baby Formula With Water.',
       },
       {
         id: 'q5',
-        prompt: 'At 12:10 a.m. a baby takes 1 oz of 2 oz expressed milk offered, turns away twice, and stops feeding. This is less than usual, and the parent asked to be woken. What should you do?',
+        prompt: 'It is 2:00 a.m. Wednesday. The family’s plan is to offer labeled expressed milk from the fridge. Which container can you offer?',
         options: [
-          'Tell the parent in the morning that baby is a poor feeder.',
-          'Change the overnight plan without consulting the parent.',
-          'Keep trying until the baby finishes the bottle.',
-          'Log the time, measured intake, and cues. Wake the parent as agreed and report what happened.',
+          'A bottle warmed at 11:20 p.m. that the baby fed from until 11:45 p.m.',
+          'A bag labeled “completely thawed Tuesday 4:00 p.m.,” kept in the fridge.',
+          'An unlabeled bottle of milk from the fridge door.',
+          'Any of them, as long as you warm it first.',
         ],
-        correctIndex: 3,
-        explanation: 'Document observations and follow the agreed notification plan. ICS shift documentation practice.',
+        correctIndex: 1,
+        explanation: 'Thawed milk in the refrigerator can be used within 24 hours of complete thaw (until Wednesday 4:00 p.m.). The warmed bottle passed its 2 hour limits at 1:20 a.m. and 1:45 a.m. The unlabeled bottle is set aside and verified. CDC Breast Milk Storage and Preparation; CDC Breast Milk Storage Questions and Answers.',
       },
     ],
   },
@@ -238,4 +247,4 @@ export const PREVIEW_COURSES = [
   },
 ]
 
-export const COURSES = [FIRST_OVERNIGHT_SHIFT, FEEDING_SUPPORT, ...PREVIEW_COURSES]
+export const COURSES = [FIRST_OVERNIGHT_SHIFT, MILK_HANDLING, ...PREVIEW_COURSES]

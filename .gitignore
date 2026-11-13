@@ -37,3 +37,7 @@ next-env.d.ts
 /video/render-opening.log
 /video/first-overnight-opening/deliver/
 /video/render-fos-v2.log
+/video/milk-handling-on-shift/.hyperframes
+/video/milk-handling-on-shift/assets/voice/lines/
+/video/render-milk.log
+__pycache__/
