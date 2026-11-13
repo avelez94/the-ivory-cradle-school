@@ -117,9 +117,10 @@ export default async function CoursePage({ params, searchParams }: Props) {
                 <Image
                   src="/samples/lesson-preview.jpg"
                   alt={`A slide from the ${c.title} lesson`}
-                  width={1280}
-                  height={720}
+                  width={1920}
+                  height={1080}
                   quality={90}
+                  sizes="(max-width: 1000px) 100vw, 760px"
                   style={{ border: '1px solid var(--border)' }}
                 />
                 <figcaption className="muted small" style={{ marginTop: 8 }}>
