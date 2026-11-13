@@ -14,16 +14,17 @@ OUT = Path(__file__).parent / 'first-overnight-shift'
 # Script edit targets (seconds). The film is retimed to the recorded narration in narration.json.
 TARGET = {'s1-open': 25, 's2-ask': 55, 's3-unclear': 45, 's4-sleep': 54, 's5-feeding': 66, 's6-escalate': 57, 's7-log': 66, 's8-wrap': 38}
 LEAD, TAIL, THINK = 0.8, 1.6, 3.0  # silence before each scene's voice, after it, and the scene 3 thinking beat
+INTRO, OUTRO = 3.5, 5.0  # music on its own before the first line and after the last one
 _n = json.loads((OUT / 'narration.json').read_text())['lengths']
 DUR = {
-    's1-open': LEAD + _n['s1'] + TAIL,
+    's1-open': INTRO + _n['s1'] + TAIL,
     's2-ask': LEAD + _n['s2'] + TAIL,
     's3-unclear': LEAD + _n['s3a'] + THINK + _n['s3b'] + TAIL,
     's4-sleep': LEAD + _n['s4'] + TAIL,
     's5-feeding': LEAD + _n['s5'] + TAIL,
     's6-escalate': LEAD + _n['s6'] + TAIL,
     's7-log': LEAD + _n['s7'] + TAIL,
-    's8-wrap': LEAD + _n['s8'] + TAIL,
+    's8-wrap': LEAD + _n['s8'] + OUTRO,
 }
 DUR = {k: round(v, 2) for k, v in DUR.items()}
 SCENES, _t = [], 0.0
@@ -315,11 +316,23 @@ for sid, body in files.items():
 voice, clips = [], {}
 for sid, start, dur in SCENES:
     keys = ['s3a', 's3b'] if sid == 's3-unclear' else [sid.split('-')[0]]
-    at = start + LEAD
+    at = start + (INTRO if sid == 's1-open' else LEAD)
     for key in keys:
         clips[key] = [round(at, 3), _n[key]]
         voice.append(f'      <audio id="vo-{key}" class="clip" src="assets/voice/{key}.wav" data-start="{round(at, 2)}" data-duration="{_n[key]}" data-volume="1" data-track-index="2"></audio>')
         at += _n[key] + THINK
+# Music: the same calm piano track opens and closes the lesson. It plays on its own, then sits
+# under the voice (about 18 dB down) and fades; at the end it rises again after the last line.
+BED, SOLO = 0.12, 0.5
+s1 = next(x for x in SCENES if x[0] == 's1-open')
+s8 = next(x for x in SCENES if x[0] == 's8-wrap')
+intro_lane = {"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": SOLO}, {"t": INTRO - 0.6, "v": SOLO}, {"t": INTRO, "v": BED}]}]}
+voice_end = LEAD + _n['s8']
+outro_lane = {"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": BED}, {"t": voice_end, "v": BED}, {"t": voice_end + 1.0, "v": SOLO}]}]}
+music = [
+    f"""      <audio id="music-intro" class="clip" src="assets/bgm/track.mp3" data-start="0" data-duration="{s1[2]}" data-volume="1" data-fade-in="0.6" data-fade-out="3" data-track-index="3" data-automation='{json.dumps(intro_lane)}'></audio>""",
+    f"""      <audio id="music-outro" class="clip" src="assets/bgm/track.mp3" data-start="{s8[1]}" data-duration="{s8[2]}" data-volume="1" data-fade-in="2" data-fade-out="3.5" data-track-index="3" data-automation='{json.dumps(outro_lane)}'></audio>""",
+]
 hosts = "\n".join(
     f'      <div id="{sid}" data-composition-id="{sid}" data-composition-src="compositions/{sid}.html" data-start="{start}" data-duration="{dur}" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>'
     for sid, start, dur in SCENES
@@ -344,6 +357,7 @@ hosts = "\n".join(
       <div id="ground"></div>
 {hosts}
 {chr(10).join(voice)}
+{chr(10).join(music)}
     </div>
     <script>
       window.__timelines = window.__timelines || {{}};
