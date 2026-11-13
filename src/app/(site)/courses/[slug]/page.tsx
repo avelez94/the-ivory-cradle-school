@@ -130,8 +130,8 @@ export default async function CoursePage({ params, searchParams }: Props) {
             <ol className="steps">
               <li>
                 <div>
-                  <b>Enroll and download the worksheet.</b>
-                  <p className="muted">The one page {c.worksheetLabel.toLowerCase()} is available as soon as you enroll.</p>
+                  <b>Enroll and download the course PDF.</b>
+                  <p className="muted">The one page {c.worksheetLabel} is available as soon as you enroll.</p>
                 </div>
               </li>
               <li>
