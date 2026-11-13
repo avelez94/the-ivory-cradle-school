@@ -64,7 +64,7 @@ const media = 'course-media/first-overnight-shift'
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'private-assets', media, 'manifest.json'), 'utf8'))
 const videoId = await bundledFile('video', `${media}/lesson.mp4`, 'video/mp4')
 const captionsId = await bundledFile('captions', `${media}/lesson.en.vtt`, 'text/vtt')
-const worksheetId = await bundledFile('worksheet', `${media}/first-shift-checklist.pdf`, 'application/pdf')
+const worksheetId = await bundledFile('worksheet', `${media}/first-overnight-shift-worksheet.pdf`, 'application/pdf')
 
 async function upsertCourse(c, files) {
   const [existing] = await sql`select id, published_version_id from courses where slug = ${c.slug}`

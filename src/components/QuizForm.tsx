@@ -62,9 +62,9 @@ export function QuizForm(props: { enrollmentId: string; submissionKey: string; q
                 Download certificate
               </a>
             )}
-            <button className="btn outline" type="button" onClick={() => router.refresh()}>
-              Review your answers
-            </button>
+            <Link className="btn outline" href="/dashboard">
+              Go to my dashboard
+            </Link>
           </div>
         </div>
       )

@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation'
 import { requireUser } from '@/lib/auth'
 import { getOwnEnrollmentState } from '@/lib/progress'
 import { studentQuestions } from '@/lib/courses'
-import { reviewForPassedAttempt } from '@/lib/quiz'
 import { db } from '@/lib/db'
 import { duration } from '@/lib/format'
 import { QuizForm } from '@/components/QuizForm'
@@ -25,8 +24,7 @@ export default async function QuizPage({ params, searchParams }: Props) {
 
   let body: React.ReactNode
   if (s.status === 'completed') {
-    const [attempt] = await db()`select answers, score from quiz_attempts where id = (select passed_attempt_id from enrollments where id = ${enrollmentId})`
-    const review = attempt ? reviewForPassedAttempt(c, attempt.answers) : []
+    const [attempt] = await db()`select score from quiz_attempts where id = (select passed_attempt_id from enrollments where id = ${enrollmentId})`
     body = (
       <>
         <div className="notice ok" role="status">
@@ -42,23 +40,9 @@ export default async function QuizPage({ params, searchParams }: Props) {
             Back to dashboard
           </Link>
         </div>
-        <h2 className="h-card" style={{ marginTop: 40 }}>Review</h2>
-        <table className="review-table">
-          <tbody>
-            {review.map((r, i) => (
-              <tr key={r.id}>
-                <td style={{ width: 36 }}>{i + 1}.</td>
-                <td>
-                  <b>{r.prompt}</b>
-                  <p className="muted small" style={{ marginTop: 6 }}>
-                    Your answer: {r.chosen} {r.correct ? '(correct)' : `(the best answer is: ${r.correctAnswer})`}
-                  </p>
-                  {r.explanation && <p className="small" style={{ marginTop: 6 }}>{r.explanation}</p>}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <p className="muted" style={{ marginTop: 24 }}>
+          The lesson and worksheet stay available in your account, so you can return to them anytime.
+        </p>
       </>
     )
   } else if (s.cycle.status === 'watching') {

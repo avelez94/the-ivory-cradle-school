@@ -17,4 +17,10 @@ next-env.d.ts
 /private-assets/signatures/
 /private-assets/reference/
 /docs/samples/*.pdf
-!/docs/samples/sample-worksheet-first-shift-checklist.pdf
+!/docs/samples/first-overnight-shift-worksheet.pdf
+
+# HyperFrames working files
+/video/node_modules
+/video/render
+/video/render.log
+/video/first-overnight-shift/.hyperframes

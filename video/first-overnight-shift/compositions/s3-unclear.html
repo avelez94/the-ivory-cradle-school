@@ -1,0 +1,55 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 4px solid #8E3C2E; }
+.row { font: 500 38px/1.25 'DM Sans'; padding: 22px 0; border-bottom: 2px solid #D6C4B4; display: flex; gap: 26px; align-items: baseline; }
+.row b { font: 700 28px 'Bricolage Grotesque'; color: #8E3C2E; width: 52px; flex: none; }
+.src { position: absolute; left: 96px; top: 792px; font: 500 28px 'DM Sans'; color: #69554A; letter-spacing: 0.02em; }
+
+  </style>
+  <div id="root" data-composition-id="s3-unclear" data-width="1920" data-height="1080">
+    <div class="wrap" id="s3-unclear-wrap" data-hold>
+      <img class="mark" src="assets/wordmark.png" alt="">
+      <div class="kicker">Practice: an unclear handoff</div>
+      <div class="card s3-note" style="left:150px;top:220px;width:760px;padding:44px 52px;transform:rotate(-2deg)">
+        <div style="font:700 28px 'DM Sans';letter-spacing:.13em;text-transform:uppercase;color:#69554A">Parent one</div>
+        <div class="h" style="font-size:84px;margin-top:14px;white-space:nowrap">Last feed: 7:30?</div>
+      </div>
+      <div class="card s3-note" style="left:1010px;top:260px;width:760px;padding:44px 52px;transform:rotate(2deg)">
+        <div style="font:700 28px 'DM Sans';letter-spacing:.13em;text-transform:uppercase;color:#69554A">Parent two</div>
+        <div class="h" style="font-size:84px;margin-top:14px;white-space:nowrap">Maybe 8:00?</div>
+      </div>
+      <div id="s3-ask" class="h" style="position:absolute;left:96px;right:96px;top:560px;text-align:center;font-size:84px;color:#8E3C2E">What would you clarify first?</div>
+      <div id="s3-beat" style="position:absolute;left:0;right:0;top:690px;text-align:center;font:500 30px 'DM Sans';color:#69554A">Pause and think</div>
+      <div id="s3-answer" style="position:absolute;left:96px;right:96px;top:560px;text-align:center">
+        <div class="h" style="font-size:76px">Confirm the best estimate</div>
+        <div class="h" style="font-size:76px;color:#8E3C2E">and agree on the next step.</div>
+      </div>
+      <div id="s3-readback" style="position:absolute;left:0;right:0;top:780px;text-align:center;font:500 34px 'DM Sans';color:#69554A">Record an estimate as an estimate. Read the plan back.</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#s3-unclear-wrap', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
+    tl.fromTo('.s3-note', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 2.2 }, 1);
+    tl.fromTo('#s3-ask', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 9);
+    tl.fromTo('#s3-beat', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 12);
+    tl.to('#s3-beat', { opacity: 0, duration: 0.25, ease: 'power2.in' }, 15);
+    tl.to('#s3-ask', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 15.2);
+    tl.set('#s3-answer', { opacity: 0 }, 0);
+    tl.fromTo('#s3-answer', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 15.6);
+    tl.fromTo('#s3-readback', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 33);
+    tl.to('#s3-unclear-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 44.4);
+    window.__timelines['s3-unclear'] = tl;
+  </script>
+</template>

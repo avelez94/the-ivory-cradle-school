@@ -53,10 +53,26 @@ export default async function CoursePage({ params, searchParams }: Props) {
       <section className="band tight">
         <div className="wrap course-layout">
           <div>
+            {c.image && (
+              <Image
+                src={c.image}
+                alt={c.imageAlt ?? ''}
+                width={1672}
+                height={941}
+                priority
+                sizes="(max-width: 1000px) 100vw, 760px"
+                style={{ width: '100%', height: 'auto', marginBottom: 36 }}
+              />
+            )}
             <h2>About this course</h2>
             <p className="prose" style={{ marginTop: 14 }}>
               {c.description}
             </p>
+            {c.scope && (
+              <p className="notice" style={{ marginTop: 18 }}>
+                <b>Scope.</b> {c.scope}
+              </p>
+            )}
 
             <h2>Who it’s for</h2>
             <ul className="check-list">
@@ -78,6 +94,21 @@ export default async function CoursePage({ params, searchParams }: Props) {
                 <li key={o}>{o}</li>
               ))}
             </ul>
+
+            {c.resources && c.resources.length > 0 && (
+              <>
+                <h2>Sources</h2>
+                <ul className="check-list">
+                  {c.resources.map((r) => (
+                    <li key={r.url}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer">
+                        {r.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
 
             <h2 id="lesson-preview">How the course works</h2>
             {course.status === 'published' && (

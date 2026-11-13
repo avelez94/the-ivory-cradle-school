@@ -162,7 +162,7 @@ export default async function CourseEditor({ params, searchParams }: { params: P
                 <input type="text" name={`q${i}_opt${n}`} defaultValue={q.options[n] ?? ''} placeholder={`Answer ${n + 1}${n > 1 ? ' (optional)' : ''}`} aria-label={`Question ${i + 1} answer ${n + 1}`} />
               </div>
             ))}
-            <div className="field" style={{ marginTop: 10 }}><label htmlFor={`q${i}e`}>Explanation (optional, shown after a student passes)</label><input id={`q${i}e`} name={`q${i}_expl`} type="text" defaultValue={q.explanation ?? ''} /></div>
+            <div className="field" style={{ marginTop: 10 }}><label htmlFor={`q${i}e`}>Explanation (optional, staff only grading note)</label><input id={`q${i}e`} name={`q${i}_expl`} type="text" defaultValue={q.explanation ?? ''} /></div>
           </fieldset>
         ))}
         <p className="muted small">Select the radio button next to the correct answer. Answer keys stay on the server and are never sent to students.</p>

@@ -1,0 +1,63 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 4px solid #8E3C2E; }
+.row { font: 500 38px/1.25 'DM Sans'; padding: 22px 0; border-bottom: 2px solid #D6C4B4; display: flex; gap: 26px; align-items: baseline; }
+.row b { font: 700 28px 'Bricolage Grotesque'; color: #8E3C2E; width: 52px; flex: none; }
+.src { position: absolute; left: 96px; top: 792px; font: 500 28px 'DM Sans'; color: #69554A; letter-spacing: 0.02em; }
+
+  </style>
+  <div id="root" data-composition-id="s1-open" data-width="1920" data-height="1080">
+    <div class="wrap" id="s1-open-wrap" data-hold>
+
+      <img id="s1-logo" src="assets/wordmark.png" alt="The Ivory Cradle School" style="position:absolute;left:660px;top:330px;width:600px">
+      <div id="s1-clock" style="position:absolute;left:0;right:0;top:250px;text-align:center">
+        <svg width="380" height="380" viewBox="0 0 200 200" aria-label="A clock at nine o'clock">
+          <circle cx="100" cy="100" r="92" fill="#FFFAF1" stroke="#30241F" stroke-width="6"/>
+          <g stroke="#8E3C2E" stroke-width="4" stroke-linecap="round">
+            <line x1="100" y1="16" x2="100" y2="30"/><line x1="184" y1="100" x2="170" y2="100"/><line x1="100" y1="184" x2="100" y2="170"/><line x1="16" y1="100" x2="30" y2="100"/>
+          </g>
+          <g id="s1-hour"><line x1="100" y1="100" x2="100" y2="54" stroke="#30241F" stroke-width="9" stroke-linecap="round"/></g>
+          <g id="s1-min"><line x1="100" y1="100" x2="100" y2="30" stroke="#30241F" stroke-width="5" stroke-linecap="round"/></g>
+          <circle cx="100" cy="100" r="7" fill="#8E3C2E"/>
+        </svg>
+        <div class="h" style="font-size:96px;margin-top:20px">9:00 p.m.</div>
+      </div>
+      <div id="s1-title" style="position:absolute;left:96px;right:96px;top:230px;text-align:center">
+        <div style="font:700 28px 'DM Sans';letter-spacing:.13em;text-transform:uppercase;color:#8E3C2E">The Ivory Cradle School · Mini course</div>
+        <h1 class="h" style="font-size:150px;margin-top:28px">The First Overnight Shift</h1>
+        <div id="s1-steps" style="display:flex;justify-content:center;gap:22px;margin-top:64px">
+          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#30241F;color:#FFFAF1">Arrive</span>
+          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#8E3C2E;color:#FFFAF1">Care</span>
+          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#79533F;color:#FFFAF1">Document</span>
+          <span class="s1-step" style="font:700 40px 'DM Sans';padding:18px 34px;background:#49362E;color:#FFFAF1">Hand off</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#s1-open-wrap', { opacity: 1 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
+    tl.to('#s1-logo', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 3.6);
+    tl.set('#s1-clock', { opacity: 0 }, 0);
+    tl.fromTo('#s1-clock', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, 4.1);
+    tl.fromTo('#s1-min', { rotation: -30, svgOrigin: '100 100' }, { rotation: 0, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 4.3);
+    tl.fromTo('#s1-hour', { rotation: -92.5, svgOrigin: '100 100' }, { rotation: -90, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 4.3);
+    tl.to('#s1-clock', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 12);
+    tl.set('#s1-title', { opacity: 0 }, 0);
+    tl.fromTo('#s1-title', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 12.5);
+    tl.fromTo('.s1-step', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', stagger: 0.9 }, 15.5);
+    tl.to('#s1-open-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 24.4);
+    window.__timelines['s1-open'] = tl;
+  </script>
+</template>

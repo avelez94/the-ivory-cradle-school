@@ -74,6 +74,23 @@ export default async function LessonPage({ params }: Props) {
                 About this lesson
               </h2>
               <p style={{ marginTop: 10 }}>{c.description}</p>
+              {c.scope && <p className="small" style={{ marginTop: 14 }}><b>Scope.</b> {c.scope}</p>}
+              {c.resources && c.resources.length > 0 && (
+                <>
+                  <h3 className="h-card" style={{ color: 'var(--espresso)', marginTop: 24, fontSize: '1.2rem' }}>
+                    Sources
+                  </h3>
+                  <ul style={{ marginTop: 8, paddingLeft: 18 }}>
+                    {c.resources.map((r) => (
+                      <li key={r.url} style={{ marginTop: 4 }}>
+                        <a href={r.url} target="_blank" rel="noopener noreferrer">
+                          {r.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
               <p className="small" style={{ marginTop: 14 }}>
                 Keyboard: Space or K plays and pauses, Left and Right arrows move 10 seconds, C turns captions on or off,
                 M mutes.
@@ -134,7 +151,7 @@ export default async function LessonPage({ params }: Props) {
                     Download certificate
                   </a>
                   <Link className="btn outline small" style={{ marginTop: 10, width: '100%' }} href={`/learn/${s.enrollmentId}/quiz`}>
-                    Review your quiz
+                    Quiz result
                   </Link>
                 </>
               )}

@@ -14,6 +14,10 @@ export type CourseContent = {
   included: string[]
   worksheetLabel: string
   estimatedMinutes?: number
+  scope?: string
+  image?: string
+  imageAlt?: string
+  resources?: { label: string; url: string }[]
   questions: Question[]
   videoFileId?: string | null
   videoDurationSeconds?: number | null

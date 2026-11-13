@@ -39,7 +39,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex')
 const shot = (page, name, full = true) => page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: full })
 
-const CORRECT = [1, 1, 0, 2, 1] // answer key for The First Overnight Shift (server side only)
+const CORRECT = [1, 3, 0, 2, 1] // answer key for The First Overnight Shift (server side only)
 
 async function register(page, name, email) {
   await page.goto(`${BASE}/register`)
@@ -84,7 +84,7 @@ async function pause(page) {
 }
 async function watchToEnd(page) {
   await play(page)
-  await page.getByText('Lesson complete. The quiz is unlocked.').waitFor({ timeout: 180000 })
+  await page.getByText('Lesson complete. The quiz is unlocked.').waitFor({ timeout: 600000 })
 }
 
 async function confirmName(page, enrollmentId, name) {
@@ -231,7 +231,7 @@ async function studentA() {
   await check('A3 quiz page never contains the answer key or explanations', async () => {
     const html = await p1.content()
     assert.ok(!html.includes('correctIndex'))
-    assert.ok(!html.includes('The arrival conversation should cover'))
+    assert.ok(!html.includes('Clarify the plan while the parents are available'))
   })
   await shot(p1, 'student-quiz-desktop')
   const picks = [...CORRECT]
@@ -299,7 +299,7 @@ async function studentB() {
   await watchToEnd(p1)
   await confirmName(p1, B.enrollment, B.name)
 
-  const wrong = CORRECT.map((v) => (v + 1) % 3)
+  const wrong = CORRECT.map((v) => (v + 1) % 4)
   let t = await answerQuiz(p1, wrong)
   await check('B4 failed attempt 1 shows the score and "You have 2 attempts left"', async () => {
     assert.match(t, /You scored [0-3] out of 5/)

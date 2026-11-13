@@ -117,15 +117,3 @@ export async function submitQuiz(userId: string, enrollmentId: string, submissio
   }
   return result
 }
-
-/** Results with explanations are only revealed once the student has passed. */
-export function reviewForPassedAttempt(content: CourseContent, answers: Record<string, number>) {
-  return content.questions.slice(0, QUIZ.questionsPerAttempt).map((q) => ({
-    id: q.id,
-    prompt: q.prompt,
-    chosen: q.options[answers[q.id]] ?? '',
-    correct: answers[q.id] === q.correctIndex,
-    correctAnswer: q.options[q.correctIndex],
-    explanation: q.explanation ?? '',
-  }))
-}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>The First Overnight Shift · The Ivory Cradle School</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F8F1E6; }
+      #ground { position: absolute; inset: 0; background: #F8F1E6; }
+    </style>
+  </head>
+  <body>
+    <!-- The First Overnight Shift: eight scenes timed to the approved script (6:46).
+         Narration is not recorded yet: add it as an <audio id="narration"> clip and resync the scene starts. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="406" data-width="1920" data-height="1080" data-fps="30">
+      <div id="ground"></div>
+      <div id="s1-open" data-composition-id="s1-open" data-composition-src="compositions/s1-open.html" data-start="0" data-duration="25" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s2-ask" data-composition-id="s2-ask" data-composition-src="compositions/s2-ask.html" data-start="25" data-duration="55" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s3-unclear" data-composition-id="s3-unclear" data-composition-src="compositions/s3-unclear.html" data-start="80" data-duration="45" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s4-sleep" data-composition-id="s4-sleep" data-composition-src="compositions/s4-sleep.html" data-start="125" data-duration="54" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s5-feeding" data-composition-id="s5-feeding" data-composition-src="compositions/s5-feeding.html" data-start="179" data-duration="66" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s6-escalate" data-composition-id="s6-escalate" data-composition-src="compositions/s6-escalate.html" data-start="245" data-duration="57" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s7-log" data-composition-id="s7-log" data-composition-src="compositions/s7-log.html" data-start="302" data-duration="66" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="s8-wrap" data-composition-id="s8-wrap" data-composition-src="compositions/s8-wrap.html" data-start="368" data-duration="38" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

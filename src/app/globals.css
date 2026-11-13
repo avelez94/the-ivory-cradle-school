@@ -142,8 +142,8 @@ p { margin: 0; }
 .card .status-tag { display: inline-block; margin-top: 10px; font-size: 0.73rem; font-weight: 750; letter-spacing: 0.13em; text-transform: uppercase; color: var(--terracotta); }
 .card .spacer { margin-top: 18px; }
 
-.cert-frame { background: var(--ivory); border: 1px solid var(--border); padding: 18px; }
-.cert-frame img { width: 100%; height: auto; }
+.cert-frame { box-shadow: 0 18px 40px rgba(48, 36, 31, 0.16); }
+.cert-frame img { width: 100%; height: auto; display: block; }
 .center-link { text-align: center; margin-top: 16px; }
 
 /* Footer */

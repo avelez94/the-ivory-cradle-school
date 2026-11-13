@@ -29,7 +29,7 @@ A short guide for The Ivory Cradle School team: uploading lesson videos, publish
 
 1. Under **Course details and quiz**, update the title, category, catalog summary, description, who it is for, learning objectives, and what is included. Put one item per line in the list boxes.
 2. The quiz always has exactly five questions worth one point each. A score of 4 out of 5 passes.
-3. For each question, enter two to four answers and select the radio button next to the correct one. Explanations are optional and are only shown to a student after they pass.
+3. For each question, enter two to four answers and select the radio button next to the correct one. Explanations are optional staff notes. Students only ever see their score, never the answer key or explanations.
 4. Choose **Save draft**. Students keep seeing the published version until you publish.
 
 ## Publish a course

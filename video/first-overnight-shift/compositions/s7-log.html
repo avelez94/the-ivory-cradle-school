@@ -1,0 +1,58 @@
+<template>
+  <style>
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; src: url('assets/fonts/BricolageGrotesque-700.ttf'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; src: url('assets/fonts/BricolageGrotesque-800.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; src: url('assets/fonts/DMSans-400.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; src: url('assets/fonts/DMSans-500.ttf'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; src: url('assets/fonts/DMSans-700.ttf'); }
+#root { position: absolute; inset: 0; background: #F8F1E6; color: #30241F; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+.wrap { position: absolute; inset: 0; }
+.kicker { position: absolute; left: 96px; top: 84px; font: 700 28px/1 'DM Sans'; letter-spacing: 0.13em; text-transform: uppercase; color: #8E3C2E; }
+.mark { position: absolute; right: 96px; top: 64px; width: 150px; }
+.h { font-family: 'Bricolage Grotesque'; font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; color: #30241F; margin: 0; }
+.card { position: absolute; background: #FFFAF1; border: 2px solid #D6C4B4; }
+.rule { border-top: 4px solid #8E3C2E; }
+.row { font: 500 38px/1.25 'DM Sans'; padding: 22px 0; border-bottom: 2px solid #D6C4B4; display: flex; gap: 26px; align-items: baseline; }
+.row b { font: 700 28px 'Bricolage Grotesque'; color: #8E3C2E; width: 52px; flex: none; }
+.src { position: absolute; left: 96px; top: 792px; font: 500 28px 'DM Sans'; color: #69554A; letter-spacing: 0.02em; }
+
+  </style>
+  <div id="root" data-composition-id="s7-log" data-width="1920" data-height="1080">
+    <div class="wrap" id="s7-log-wrap" data-hold>
+      <img class="mark" src="assets/wordmark.png" alt="">
+      <div class="kicker">Log facts. Hand off clearly.</div>
+      <div class="card" id="s7-table" style="left:96px;top:170px;width:1728px;padding:0">
+        <div style="display:grid;grid-template-columns:260px 600px 380px 1fr;font:700 28px 'DM Sans';letter-spacing:.12em;text-transform:uppercase;background:#30241F;color:#FFFAF1">
+          <div class="s7-h" style="padding:20px 28px">Time</div><div class="s7-h" style="padding:20px 28px">Care</div><div class="s7-h" style="padding:20px 28px">Observation</div><div class="s7-h" style="padding:20px 28px">Action</div>
+        </div>
+        <div style="display:grid;grid-template-columns:260px 600px 380px 1fr;font:500 34px/1.35 'DM Sans'">
+          <div class="s7-c" style="padding:26px 28px">11:05 p.m.</div><div class="s7-c" style="padding:26px 28px">Formula: 2 oz offered, 1.5 oz taken</div><div class="s7-c" style="padding:26px 28px">Wet diaper</div><div class="s7-c" style="padding:26px 28px">Back in bassinet at 11:30 p.m.</div>
+        </div>
+      </div>
+      <div id="s7-note" style="position:absolute;left:96px;top:420px;font:500 28px 'DM Sans';color:#69554A">Observations for this scenario. The amounts are not feeding targets.</div>
+      <div class="card rule" id="s7-handoff" style="left:96px;top:500px;width:1728px;padding:30px 44px">
+        <div class="h" style="font-size:52px">Morning handoff</div>
+        <div style="display:flex;gap:18px;margin-top:22px;flex-wrap:wrap">
+          <span class="s7-item" style="font:700 32px 'DM Sans';padding:14px 26px;background:#8E3C2E;color:#FFFAF1">Concerns first</span>
+          <span class="s7-item" style="font:700 32px 'DM Sans';padding:14px 26px;border:2px solid #30241F">Last feed</span>
+          <span class="s7-item" style="font:700 32px 'DM Sans';padding:14px 26px;border:2px solid #30241F">Last diaper</span>
+          <span class="s7-item" style="font:700 32px 'DM Sans';padding:14px 26px;border:2px solid #30241F">Sleep</span>
+          <span class="s7-item" style="font:700 32px 'DM Sans';padding:14px 26px;border:2px solid #30241F">Follow up</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#s7-log-wrap', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
+    tl.fromTo('#s7-table', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 0.6);
+    tl.fromTo('.s7-c', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', stagger: 2.2 }, 12);
+    tl.fromTo('.s7-h', { backgroundColor: 'rgba(214,171,104,0)' }, { backgroundColor: 'rgba(214,171,104,0.35)', duration: 0.4, stagger: 2.2 }, 12);
+    tl.to('.s7-h', { backgroundColor: 'rgba(214,171,104,0)', duration: 0.4 }, 22);
+    tl.fromTo('#s7-note', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 22);
+    tl.fromTo('#s7-handoff', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 34);
+    tl.fromTo('.s7-item', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', stagger: 2.4 }, 36);
+    tl.to('#s7-log-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 65.4);
+    window.__timelines['s7-log'] = tl;
+  </script>
+</template>
