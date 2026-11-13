@@ -22,6 +22,9 @@ function create(): Root {
   })
 }
 
+/** False until a database is connected (DATABASE_URL). Public pages fall back to built in content. */
+export const hasDatabase = () => Boolean(process.env.DATABASE_URL)
+
 export function db(): Root {
   globalForDb.__schoolSql ??= create()
   return globalForDb.__schoolSql

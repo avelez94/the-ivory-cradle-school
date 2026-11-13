@@ -1,5 +1,6 @@
 import 'server-only'
-import { db } from './db'
+import { db, hasDatabase } from './db'
+import { FIRST_OVERNIGHT_SHIFT, PREVIEW_COURSES } from '../../db/seed/courses.mjs'
 
 export type Question = { id: string; prompt: string; options: string[]; correctIndex: number; explanation?: string }
 
@@ -48,8 +49,22 @@ function toCatalog(row: Record<string, unknown>): CatalogCourse {
   }
 }
 
+/** Built in catalog used before a database is connected, so the public pages still render. */
+function fallbackCatalog(): CatalogCourse[] {
+  return [FIRST_OVERNIGHT_SHIFT, ...PREVIEW_COURSES].map((c) => ({
+    id: c.slug,
+    slug: c.slug,
+    status: c.status as CatalogCourse['status'],
+    sortOrder: c.sortOrder,
+    priceCents: null,
+    content: c.draft as CourseContent,
+    publishedVersionId: null,
+  }))
+}
+
 /** Courses shown publicly: published (enrollable) and preview (catalog only). */
 export async function listCatalog(): Promise<CatalogCourse[]> {
+  if (!hasDatabase()) return fallbackCatalog()
   const rows = await db()`
     select c.*, v.content as version_content
     from courses c left join course_versions v on v.id = c.published_version_id
@@ -59,6 +74,7 @@ export async function listCatalog(): Promise<CatalogCourse[]> {
 }
 
 export async function getCourseBySlug(slug: string, opts: { includeDraft?: boolean } = {}): Promise<CatalogCourse | null> {
+  if (!hasDatabase()) return fallbackCatalog().find((c) => c.slug === slug) ?? null
   const rows = await db()`
     select c.*, v.content as version_content
     from courses c left join course_versions v on v.id = c.published_version_id
@@ -73,11 +89,13 @@ export async function getCourseBySlug(slug: string, opts: { includeDraft?: boole
 }
 
 export async function getSetting<T>(key: string, fallback: T): Promise<T> {
+  if (!hasDatabase()) return fallback
   const rows = await db()`select value from settings where key = ${key}`
   return rows[0] ? (rows[0].value as T) : fallback
 }
 
 export async function enrollmentOpen(course: CatalogCourse) {
+  if (!hasDatabase()) return { open: false, reason: 'database_pending' as const }
   if (course.status !== 'published' || !course.publishedVersionId) return { open: false, reason: 'not_published' as const }
   const free = !course.priceCents
   // Staging enrollment lets testers enroll without payment. Live payments arrive in a later phase.

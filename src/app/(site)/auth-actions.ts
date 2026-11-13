@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { db } from '@/lib/db'
+import { db, hasDatabase } from '@/lib/db'
 import {
   burnPasswordCheck, createSession, destroySession, getCurrentUser, hashPassword, normalizeEmail, verifyPassword,
 } from '@/lib/auth'
@@ -22,6 +22,7 @@ export async function registerAction(_prev: AuthState, formData: FormData): Prom
   const email = String(formData.get('email') || '').trim()
   const password = String(formData.get('password') || '')
   const values = { fullName, email }
+  if (!hasDatabase()) return { error: 'Student accounts open once the staging database is connected.', values }
   if (fullName.length < 2 || fullName.length > 120) return { error: 'Enter your full name.', values }
   if (!EMAIL.test(email) || email.length > 200) return { error: 'Enter a valid email address.', values }
   if (password.length < 10) return { error: 'Use a password with at least 10 characters.', values }
@@ -41,6 +42,7 @@ export async function signInAction(_prev: AuthState, formData: FormData): Promis
   const email = String(formData.get('email') || '').trim()
   const password = String(formData.get('password') || '')
   const values = { email }
+  if (!hasDatabase()) return { error: 'Student accounts open once the staging database is connected.', values }
   const ip = await clientIpHash()
   const okIp = await rateLimit(`signin-ip:${ip}`, 30, 900)
   const okAcct = await rateLimit(`signin-acct:${normalizeEmail(email)}`, 10, 900)

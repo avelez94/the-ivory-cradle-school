@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { verifySerial, type VerificationResult } from '@/lib/certificates'
 import { clientIpHash, rateLimit } from '@/lib/security'
 import { longDate } from '@/lib/format'
+import { hasDatabase } from '@/lib/db'
 
 export const metadata: Metadata = {
   title: 'Verify a Certificate',
@@ -65,7 +66,8 @@ export default async function VerifyPage({ searchParams }: Props) {
   const input = typeof raw === 'string' ? raw.slice(0, 64) : ''
   let result: VerificationResult | null = null
   let limited = false
-  if (input.trim()) {
+  const pending = !hasDatabase()
+  if (input.trim() && !pending) {
     if (await rateLimit(`verify:${await clientIpHash()}`, 30, 600)) result = await verifySerial(input)
     else limited = true
   }
@@ -101,6 +103,11 @@ export default async function VerifyPage({ searchParams }: Props) {
             Verify certificate
           </button>
         </form>
+        {pending && (
+          <p className="notice warn" role="status" style={{ marginTop: 24 }}>
+            Certificate verification opens once the staging database is connected.
+          </p>
+        )}
         {limited && (
           <p className="notice warn" role="alert" style={{ marginTop: 24 }}>
             Too many checks from this connection. Wait a few minutes and try again.

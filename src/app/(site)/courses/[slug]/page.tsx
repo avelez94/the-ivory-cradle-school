@@ -165,7 +165,11 @@ export default async function CoursePage({ params, searchParams }: Props) {
                       </button>
                     </form>
                   ) : (
-                    <p className="notice">Enrollment for this course opens soon.</p>
+                    <p className="notice">
+                      {gate.reason === 'database_pending'
+                        ? 'Student accounts and enrollment open once the staging database is connected.'
+                        : 'Enrollment for this course opens soon.'}
+                    </p>
                   )}
                 </div>
                 <p className="muted small" style={{ marginTop: 14 }}>
