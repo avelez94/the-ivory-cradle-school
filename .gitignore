@@ -30,3 +30,5 @@ next-env.d.ts
 /video/feeding-support-on-shift/assets/voice/lines/
 /video/render-feeding.log
 /video/lib/__pycache__/
+/video/feeding-conversation-test/.hyperframes
+/video/feeding-conversation-test/assets/voice/
