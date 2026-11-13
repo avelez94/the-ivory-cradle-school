@@ -36,7 +36,8 @@ export default async function HomePage() {
             width={1536}
             height={1024}
             priority
-            sizes="(max-width: 760px) 100vw, 54vw"
+            quality={90}
+            sizes="(max-width: 760px) 100vw, 680px"
           />
         </div>
       </section>
@@ -101,7 +102,8 @@ export default async function HomePage() {
                 alt="Sample Certificate of Completion awarded to Jordan Taylor for The First Overnight Shift, signed by Alante Velez and Justine Akinlami, labeled Sample."
                 width={1584}
                 height={1224}
-                sizes="(max-width: 760px) 100vw, 50vw"
+                unoptimized
+                sizes="(max-width: 760px) 100vw, 600px"
               />
             </div>
             <p className="center-link">

@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
     '/sample-certificate.pdf': ['./assets/**/*', './private-assets/signatures/**/*'],
   },
   serverExternalPackages: ['pdf-lib', '@pdf-lib/fontkit', 'qrcode'],
+  // Next 16 only allows quality 75 by default; photos use 90 so they stay sharp on high density screens.
+  images: { qualities: [75, 90] },
   poweredByHeader: false,
   async headers() {
     return [

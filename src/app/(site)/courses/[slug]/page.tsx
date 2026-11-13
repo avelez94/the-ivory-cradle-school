@@ -60,6 +60,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
                 width={1672}
                 height={941}
                 priority
+                quality={90}
                 sizes="(max-width: 1000px) 100vw, 760px"
                 style={{ width: '100%', height: 'auto', marginBottom: 36 }}
               />
@@ -118,6 +119,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
                   alt={`A slide from the ${c.title} lesson`}
                   width={1280}
                   height={720}
+                  quality={90}
                   style={{ border: '1px solid var(--border)' }}
                 />
                 <figcaption className="muted small" style={{ marginTop: 8 }}>
