@@ -45,14 +45,14 @@
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo('#s7-log-wrap', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
-    tl.fromTo('#s7-table', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 0.6);
-    tl.fromTo('.s7-c', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', stagger: 2.2 }, 12);
-    tl.fromTo('.s7-h', { backgroundColor: 'rgba(214,171,104,0)' }, { backgroundColor: 'rgba(214,171,104,0.35)', duration: 0.4, stagger: 2.2 }, 12);
-    tl.to('.s7-h', { backgroundColor: 'rgba(214,171,104,0)', duration: 0.4 }, 22);
-    tl.fromTo('#s7-note', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 22);
-    tl.fromTo('#s7-handoff', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 34);
-    tl.fromTo('.s7-item', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', stagger: 2.4 }, 36);
-    tl.to('#s7-log-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 65.4);
+    tl.fromTo('#s7-table', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 0.42);
+    tl.fromTo('.s7-c', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', stagger: 1.54 }, 8.39);
+    tl.fromTo('.s7-h', { backgroundColor: 'rgba(214,171,104,0)' }, { backgroundColor: 'rgba(214,171,104,0.35)', duration: 0.4, stagger: 1.54 }, 8.39);
+    tl.to('.s7-h', { backgroundColor: 'rgba(214,171,104,0)', duration: 0.4 }, 15.38);
+    tl.fromTo('#s7-note', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 15.38);
+    tl.fromTo('#s7-handoff', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 23.77);
+    tl.fromTo('.s7-item', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', stagger: 1.68 }, 25.17);
+    tl.to('#s7-log-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 45.55);
     window.__timelines['s7-log'] = tl;
   </script>
 </template>

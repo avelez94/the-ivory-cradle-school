@@ -41,13 +41,13 @@
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo('#s8-wrap-wrap', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
-    tl.fromTo('#s8-sheet', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, 0.6);
-    tl.fromTo('.s8-take', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out', stagger: 2 }, 3);
-    tl.fromTo('#s8-quiz', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 13);
-    tl.to(['.s8-take', '#s8-quiz'], { opacity: 0, duration: 0.35, ease: 'power2.in' }, 22);
-    tl.set('#s8-sources', { opacity: 0 }, 0);
-    tl.fromTo('#s8-sources', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 22.6);
-    tl.to('#s8-wrap-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 37.4);
+    tl.fromTo('#s8-sheet', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, 0.39);
+    tl.fromTo('.s8-take', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out', stagger: 1.31 }, 1.97);
+    tl.fromTo('#s8-quiz', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 8.54);
+    tl.to(['.s8-take', '#s8-quiz'], { opacity: 0, duration: 0.35, ease: 'power2.in' }, 14.46);
+    tl.set('#s8-sources', { opacity: 0 }, 0.0);
+    tl.fromTo('#s8-sources', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 14.85);
+    tl.to('#s8-wrap-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 24.369999999999997);
     window.__timelines['s8-wrap'] = tl;
   </script>
 </template>

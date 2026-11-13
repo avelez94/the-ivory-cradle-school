@@ -42,14 +42,14 @@
     const tl = gsap.timeline({ paused: true });
     tl.fromTo('#s3-unclear-wrap', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
     tl.fromTo('.s3-note', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 2.2 }, 1);
-    tl.fromTo('#s3-ask', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 9);
-    tl.fromTo('#s3-beat', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 12);
-    tl.to('#s3-beat', { opacity: 0, duration: 0.25, ease: 'power2.in' }, 15);
-    tl.to('#s3-ask', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 15.2);
+    tl.fromTo('#s3-ask', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 5.41);
+    tl.fromTo('#s3-beat', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, 8.61);
+    tl.to('#s3-beat', { opacity: 0, duration: 0.25, ease: 'power2.in' }, 11.61);
+    tl.to('#s3-ask', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 11.81);
     tl.set('#s3-answer', { opacity: 0 }, 0);
-    tl.fromTo('#s3-answer', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 15.6);
-    tl.fromTo('#s3-readback', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 33);
-    tl.to('#s3-unclear-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 44.4);
+    tl.fromTo('#s3-answer', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 12.21);
+    tl.fromTo('#s3-readback', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 23.93);
+    tl.to('#s3-unclear-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 29.72);
     window.__timelines['s3-unclear'] = tl;
   </script>
 </template>

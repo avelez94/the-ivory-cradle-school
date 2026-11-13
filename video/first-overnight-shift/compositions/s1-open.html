@@ -48,16 +48,16 @@
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo('#s1-open-wrap', { opacity: 1 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
-    tl.to('#s1-logo', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 3.6);
-    tl.set('#s1-clock', { opacity: 0 }, 0);
-    tl.fromTo('#s1-clock', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, 4.1);
-    tl.fromTo('#s1-min', { rotation: -30, svgOrigin: '100 100' }, { rotation: 0, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 4.3);
-    tl.fromTo('#s1-hour', { rotation: -92.5, svgOrigin: '100 100' }, { rotation: -90, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 4.3);
-    tl.to('#s1-clock', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 12);
-    tl.set('#s1-title', { opacity: 0 }, 0);
-    tl.fromTo('#s1-title', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 12.5);
-    tl.fromTo('.s1-step', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', stagger: 0.9 }, 15.5);
-    tl.to('#s1-open-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 24.4);
+    tl.to('#s1-logo', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 2.69);
+    tl.set('#s1-clock', { opacity: 0 }, 0.0);
+    tl.fromTo('#s1-clock', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, 3.06);
+    tl.fromTo('#s1-min', { rotation: -30, svgOrigin: '100 100' }, { rotation: 0, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 3.21);
+    tl.fromTo('#s1-hour', { rotation: -92.5, svgOrigin: '100 100' }, { rotation: -90, svgOrigin: '100 100', duration: 5, ease: 'power2.inOut' }, 3.21);
+    tl.to('#s1-clock', { opacity: 0, duration: 0.35, ease: 'power2.in' }, 8.97);
+    tl.set('#s1-title', { opacity: 0 }, 0.0);
+    tl.fromTo('#s1-title', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 9.34);
+    tl.fromTo('.s1-step', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', stagger: 0.67 }, 11.58);
+    tl.to('#s1-open-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 18.08);
     window.__timelines['s1-open'] = tl;
   </script>
 </template>

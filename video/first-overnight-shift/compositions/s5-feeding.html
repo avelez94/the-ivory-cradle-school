@@ -56,11 +56,11 @@
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo('#s5-feeding-wrap', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0);
-    tl.fromTo('#s5-basics', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 0.6);
-    tl.fromTo('#s5-formula', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 13);
-    tl.fromTo('#s5-milk', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 35);
-    tl.fromTo('#s5-src', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 13);
-    tl.to('#s5-feeding-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 65.4);
+    tl.fromTo('#s5-basics', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' }, 0.49);
+    tl.fromTo('#s5-formula', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 10.67);
+    tl.fromTo('#s5-milk', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 28.73);
+    tl.fromTo('#s5-src', { opacity: 0, y: 0 }, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, 10.67);
+    tl.to('#s5-feeding-wrap', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 53.57);
     window.__timelines['s5-feeding'] = tl;
   </script>
 </template>

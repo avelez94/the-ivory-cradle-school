@@ -9,7 +9,7 @@ This is the first staging version: professional development mini courses with a 
 * **Public site:** homepage, mini course catalog, course pages, Newborn Care Specialist Training (Coming Soon, with an update list), About the Founders, FAQ, Contact, student registration and sign in, Verify a Certificate.
 * **Student portal:** dashboard with My Courses and My Certificates, lesson player with server enforced required viewing, one page worksheet download, five question quiz with three attempts per viewing and rewatch cycles, certificate name confirmation, automatic Certificate of Completion with serial number and QR code.
 * **Administration:** course editor with draft, preview and versioned publishing; video upload or linking, captions and worksheet replacement; enrollments, viewing history, quiz attempts and completions; certificate correction, revocation and reissue with an audit trail; founder signature versions; expiration policies by credential type; enrollment and payment switches; staff roles; contact messages.
-* **Staging course:** The First Overnight Shift, with the approved lesson content and quiz, the HyperFrames lesson video built from the approved script (narration still to be recorded) with captions, the approved one page worksheet, and sample certificates for every verification state.
+* **Staging course:** The First Overnight Shift, with the approved lesson content and quiz, the narrated HyperFrames lesson video built from the approved script (Kokoro Heart voice) with captions, the approved one page worksheet, and sample certificates for every verification state.
 
 See [docs/STAFF_GUIDE.md](docs/STAFF_GUIDE.md) for the staff guide (also in the staff area at `/admin/guide`).
 
@@ -61,7 +61,13 @@ For production, set `SCHOOL_ENVIRONMENT=production` and `VERIFY_BASE_URL` to the
 
 `video/first-overnight-shift/` is the editable HyperFrames composition for The First Overnight Shift: one scene file per section of the approved script in `compositions/`, timed to the edit targets (6:46), in the school palette and fonts. `video/build-scenes.py` and `video/build-captions.py` regenerate the scenes and the WebVTT captions from the script.
 
-The narration has not been recorded yet, so the current cut is silent and the captions carry the narration. To finish it: record the narration (or use an approved voice), add it to `index.html` as `<audio id="narration">`, retime the scene starts to the audio, regenerate the captions from the final narration, and render:
+The narration is the Kokoro "Heart" voice (`af_heart`), read verbatim from the script and generated locally by `video/build-narration.py`. Scenes and captions are timed to the voice clips (`timeline.json`). To change a line: edit it in `build-narration.py` (and `build-captions.py`), then run, in order:
+
+```bash
+cd video && HYPERFRAMES_PYTHON=/path/to/python-with-kokoro-onnx python3 build-narration.py && python3 build-scenes.py && python3 build-captions.py
+```
+
+Then check and render:
 
 ```bash
 cd video/first-overnight-shift && npx hyperframes check && npx hyperframes render -o ../render/first-overnight-shift.mp4 -f 30 --keyframe-interval 2
